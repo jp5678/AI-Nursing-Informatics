@@ -2,24 +2,24 @@
    AI융합 간호정보학 학습 플랫폼 — 스타일
    ========================================================= */
 :root {
-  --primary: #0d7377;
-  --primary-dark: #0a5a5e;
-  --primary-light: #e0f4f4;
-  --accent: #6c5ce7;
-  --accent-light: #efedfd;
-  --bg: #f4f7f8;
+  --primary: #d6336c;
+  --primary-dark: #a61e4d;
+  --primary-light: #fdeaf1;
+  --accent: #ae3ec9;
+  --accent-light: #f9edfc;
+  --bg: #fdf6f9;
   --surface: #ffffff;
-  --text: #1f2d3d;
-  --text-sub: #5b6b7b;
-  --border: #e3e9ee;
+  --text: #3d2230;
+  --text-sub: #8a6276;
+  --border: #f3dde7;
   --ok: #14946a;
   --ok-bg: #e7f7f0;
   --warn: #c2452f;
   --warn-bg: #fdeeea;
-  --info-bg: #eaf3fb;
-  --info: #2c6fad;
+  --info-bg: #fcecf3;
+  --info: #b03a66;
   --radius: 14px;
-  --shadow: 0 2px 10px rgba(15, 40, 60, 0.07);
+  --shadow: 0 2px 10px rgba(150, 50, 90, 0.08);
   --sidebar-w: 290px;
 }
 
@@ -116,7 +116,7 @@ button { font-family: inherit; cursor: pointer; }
 
 /* ---------- 홈 ---------- */
 .hero {
-  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 55%, #14a085 100%);
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 55%, #f06595 100%);
   color: #fff; border-radius: 20px;
   padding: 38px 34px;
   box-shadow: var(--shadow);
@@ -139,11 +139,11 @@ button { font-family: inherit; cursor: pointer; }
 .progress-card .bar-wrap { flex: 1 1 240px; }
 .progress-card .bar-label { font-size: 13px; color: var(--text-sub); margin-bottom: 6px; display: flex; justify-content: space-between; }
 .progress-card .bar {
-  height: 12px; background: #e8eef2; border-radius: 999px; overflow: hidden;
+  height: 12px; background: #f7e4ec; border-radius: 999px; overflow: hidden;
 }
 .progress-card .bar > div {
   height: 100%; border-radius: 999px;
-  background: linear-gradient(90deg, var(--primary), #14a085);
+  background: linear-gradient(90deg, var(--primary), #f06595);
   transition: width .4s ease;
 }
 .progress-card .reset-btn {
@@ -180,7 +180,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 .chapter-card.special .num { background: var(--accent-light); color: var(--accent); }
 .chapter-card .status { margin-left: auto; font-size: 12px; font-weight: 700; color: var(--ok); }
-.chapter-card .status.todo { color: #b8c4cf; }
+.chapter-card .status.todo { color: #d4b3c2; }
 .chapter-card h3 { font-size: 15px; line-height: 1.4; }
 .chapter-card .en { font-size: 11.5px; color: var(--text-sub); font-style: italic; }
 .chapter-card .meta { font-size: 12px; color: var(--text-sub); display: flex; gap: 12px; margin-top: auto; padding-top: 6px; }
@@ -257,7 +257,7 @@ button { font-family: inherit; cursor: pointer; }
   border-radius: 12px; padding: 14px 16px; margin: 12px 0;
   font-size: 13.8px; border: 1px solid transparent;
 }
-.callout.info { background: var(--info-bg); border-color: #cfe3f5; }
+.callout.info { background: var(--info-bg); border-color: #f6d2e2; }
 .callout.ok { background: var(--ok-bg); border-color: #c6ebd9; }
 .callout.warn { background: var(--warn-bg); border-color: #f6d3ca; }
 .callout ul, .callout ol { margin: 6px 0 0; }
@@ -294,7 +294,7 @@ button { font-family: inherit; cursor: pointer; }
   text-align: center; box-shadow: var(--shadow);
 }
 .flashcard .front {
-  background: linear-gradient(135deg, var(--primary), #14a085);
+  background: linear-gradient(135deg, var(--primary), #f06595);
   color: #fff; font-size: 17px; font-weight: 800;
 }
 .flashcard .front small { font-size: 11px; font-weight: 500; opacity: .8; margin-top: 8px; }
@@ -327,7 +327,7 @@ button { font-family: inherit; cursor: pointer; }
 .choices.ox { flex-direction: row; }
 .choice-btn {
   text-align: left; border: 1.5px solid var(--border);
-  background: #fbfdfe; border-radius: 11px;
+  background: #fffafc; border-radius: 11px;
   padding: 11px 14px; font-size: 13.8px; color: var(--text);
   transition: border-color .12s ease, background .12s ease;
 }
