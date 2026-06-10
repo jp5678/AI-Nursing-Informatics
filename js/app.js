@@ -57,7 +57,7 @@
             onerror="this.parentElement.classList.add('fallback'); this.remove();" /></span>
           <span class="brand-text">
             <b>${esc(COURSE.title)}</b>
-            <span>${esc(COURSE.school)} · ${esc(COURSE.semester)}</span>
+            <span>${esc(COURSE.school)}</span>
           </span>
         </a>
         <div class="spacer"></div>
@@ -133,7 +133,6 @@
     $("#main").innerHTML = `
       <section class="hero">
         <div class="badge-row">
-          <span class="badge">${esc(COURSE.semester)}</span>
           <span class="badge">${esc(COURSE.target)}</span>
           <span class="badge">${esc(COURSE.school)}</span>
         </div>
@@ -422,7 +421,7 @@
   }
 
   function footer() {
-    return `<div class="footer">${esc(COURSE.school)} · ${esc(COURSE.title)} · ${esc(COURSE.semester)} · ${esc(COURSE.professor)}</div>`;
+    return `<div class="footer">${esc(COURSE.school)} · ${esc(COURSE.title)} · ${esc(COURSE.professor)}</div>`;
   }
 
   /* ---------- 라우터 ---------- */
