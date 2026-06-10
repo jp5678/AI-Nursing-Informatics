@@ -123,7 +123,7 @@
             <div class="meta">
               <span>📋 목표 ${c.objectives.length}</span>
               <span>🃏 용어 ${c.terms.length}</span>
-              <span>✍️ 퀴즈 ${quizCount}${best != null ? ` · 최고 ${best}%` : ""}</span>
+              <span>✍️ 퀴즈 ${quizCount}${best != null ? ` · 최고 ${best}점` : ""}</span>
             </div>
           </a>`;
         })
@@ -364,7 +364,8 @@
     panel.innerHTML = `
       <div class="quiz-status">
         <span class="best">📊 진행: <b id="quizCount">0 / ${questions.length}</b></span>
-        <span class="best">🏆 이 장 최고 점수: <b>${best != null ? best + "%" : "기록 없음"}</b></span>
+        <span class="best">🏆 이 장 최고 점수: <b id="quizBestLabel">${best != null ? best + "점" : "기록 없음"}</b></span>
+        <span class="best">🎓 수료 기준: <b>90점 이상</b></span>
       </div>
       ${items}
       <div class="card quiz-result" id="quizResult" style="display:none"></div>
@@ -415,6 +416,8 @@
     function showResult() {
       const pct = Math.round((correct / questions.length) * 100);
       setQuizBest(c.id, pct);
+      const bestLabel = $("#quizBestLabel");
+      if (bestLabel) bestLabel.textContent = quizBest(c.id) + "점";
       const result = $("#quizResult");
       result.style.display = "block";
       result.innerHTML = `
@@ -553,7 +556,7 @@
   function badgeSVG(cert) {
     const year = cert.year || new Date().getFullYear();
     return `
-    <svg id="badgeSvg" viewBox="0 0 480 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="수료 디지털 배지">
+    <svg id="badgeSvg" width="480" height="620" viewBox="0 0 480 620" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" aria-label="수료 디지털 배지">
       <defs>
         <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stop-color="#a61e4d"/><stop offset=".55" stop-color="#d6336c"/><stop offset="1" stop-color="#f06595"/>
@@ -571,10 +574,10 @@
       <circle cx="240" cy="240" r="141" fill="none" stroke="url(#goldGrad)" stroke-width="6"/>
       <circle cx="240" cy="240" r="118" fill="#fffdf8"/>
       <text font-size="22" font-weight="800" fill="#ffffff" font-family="sans-serif" letter-spacing="2">
-        <textPath href="#arcTop" startOffset="50%" text-anchor="middle">AI융합 간호정보학</textPath>
+        <textPath href="#arcTop" xlink:href="#arcTop" startOffset="50%" text-anchor="middle">AI융합 간호정보학</textPath>
       </text>
       <text font-size="12" font-weight="700" fill="rgba(255,255,255,.9)" font-family="sans-serif" letter-spacing="3">
-        <textPath href="#arcBottom" startOffset="50%" text-anchor="middle">CHEONGAM UNIVERSITY · NURSING</textPath>
+        <textPath href="#arcBottom" xlink:href="#arcBottom" startOffset="50%" text-anchor="middle">CHEONGAM UNIVERSITY · NURSING</textPath>
       </text>
       <text x="240" y="84" font-size="24" text-anchor="middle" fill="#f9d976" font-family="sans-serif">★</text>
       <rect x="225" y="158" width="30" height="92" rx="8" fill="url(#bgGrad)"/>
