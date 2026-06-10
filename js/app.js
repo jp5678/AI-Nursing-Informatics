@@ -88,6 +88,7 @@
       <div class="nav-group">
         <div class="group-label">마무리</div>
         ${navItem("#/closing", "💌", "맺음말: 미래 간호사들에게", activeRoute === "closing")}
+        ${navItem("#/certificate", "🎓", "수료증 · 디지털 배지", activeRoute === "certificate", !!store.cert)}
       </div>
     `;
     $("#topProgress").textContent = `학습 진도 ${progressPct()}%`;
@@ -159,6 +160,14 @@
           <div class="top"><span class="num">💌</span></div>
           <h3>맺음말 — 미래 간호사들에게 드리는 편지</h3>
           <div class="en">A Letter to Future Nurses</div>
+        </a>
+        <a class="chapter-card special" href="#/certificate">
+          <div class="top"><span class="num">🎓</span>
+            <span class="status ${store.cert ? "" : "todo"}">${store.cert ? "✓ 발급 완료" : certEligible() ? "지금 발급 가능!" : "조건 미충족"}</span>
+          </div>
+          <h3>수료증 · 디지털 배지 발급</h3>
+          <div class="en">Certificate & Digital Badge</div>
+          <div class="meta"><span>발급 기준: 전 장 학습 완료 + 장별 퀴즈 90점 이상</span></div>
         </a>
       </div>
 
@@ -420,6 +429,232 @@
     }
   }
 
+  /* ---------- 수료증 · 디지털 배지 ---------- */
+  const QUIZ_PASS = 90; // 장별 복습 퀴즈 통과 기준(최고 점수)
+
+  function chapterPassed(c) {
+    return isDone(c.id) && (quizBest(c.id) ?? -1) >= QUIZ_PASS;
+  }
+  function certEligible() {
+    return CHAPTERS.every(chapterPassed);
+  }
+  function todayKorean() {
+    const d = new Date();
+    return `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일`;
+  }
+
+  function renderCertificate(forceForm) {
+    const cert = store.cert;
+    let body;
+    if (cert && !forceForm) body = certView(cert);
+    else if (certEligible()) body = certFormView(cert);
+    else body = certLockedView();
+
+    $("#main").innerHTML = `
+      <div class="ch-header">
+        <div class="crumb"><a href="#/">홈</a> › 수료증 · 디지털 배지</div>
+        <h1>🎓 수료증 · 디지털 배지 발급</h1>
+        <div class="en">Certificate of Completion & Digital Badge</div>
+      </div>
+      ${body}
+      ${footer()}
+    `;
+    bindCertEvents(cert, forceForm);
+  }
+
+  function certLockedView() {
+    const rows = CHAPTERS.map((c) => {
+      const done = isDone(c.id);
+      const best = quizBest(c.id);
+      const quizOk = (best ?? -1) >= QUIZ_PASS;
+      return `<li class="${done && quizOk ? "pass" : ""}">
+        <a href="#/ch/${c.id}">${c.id}장. ${esc(c.title)}</a>
+        <span class="req ${done ? "ok" : ""}">${done ? "✓ 학습 완료" : "학습 미완료"}</span>
+        <span class="req ${quizOk ? "ok" : ""}">${best != null ? `퀴즈 ${best}점` : "퀴즈 미응시"}${quizOk ? " ✓" : ` (${QUIZ_PASS}점 이상 필요)`}</span>
+      </li>`;
+    }).join("");
+    const passed = CHAPTERS.filter(chapterPassed).length;
+    const pct = Math.round((passed / CHAPTERS.length) * 100);
+    return `
+      <div class="card">
+        <h2>🔒 발급 기준을 아직 충족하지 못했습니다</h2>
+        <p>수료증과 디지털 배지는 <b>13개 전 장의 학습을 완료</b>하고, <b>장별 복습 퀴즈에서 ${QUIZ_PASS}점 이상</b>(최고 점수 기준)을 획득하면 발급할 수 있습니다.</p>
+        <div class="bar-label" style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-sub);margin:14px 0 6px">
+          <span>기준 충족 현황</span><b>${passed} / ${CHAPTERS.length}장 (${pct}%)</b>
+        </div>
+        <div class="bar" style="height:12px;background:#f7e4ec;border-radius:999px;overflow:hidden">
+          <div style="height:100%;width:${pct}%;border-radius:999px;background:linear-gradient(90deg,var(--primary),#f06595)"></div>
+        </div>
+        <ul class="cert-req-list">${rows}</ul>
+      </div>`;
+  }
+
+  function certFormView(prev) {
+    const v = prev || {};
+    const gradeOpts = [1, 2, 3, 4]
+      .map((g) => `<option value="${g}" ${String(v.grade || 3) == String(g) ? "selected" : ""}>${g}학년</option>`)
+      .join("");
+    return `
+      <div class="card">
+        <h2>🎉 축하합니다! 발급 기준을 모두 충족했습니다</h2>
+        <p>13개 전 장 학습 완료 + 장별 복습 퀴즈 ${QUIZ_PASS}점 이상을 달성했습니다.
+        아래 정보를 입력하면 수료증과 디지털 배지가 발급됩니다.
+        입력한 정보는 이 브라우저에만 저장되며 외부로 전송되지 않습니다.</p>
+        <form id="certForm" class="cert-form">
+          <label>학과 <input name="dept" value="${esc(v.dept || "간호학과")}" required maxlength="20"></label>
+          <label>학년 <select name="grade">${gradeOpts}</select></label>
+          <label>반 <input name="classNo" value="${esc(v.classNo || "")}" placeholder="예: A반" required maxlength="10"></label>
+          <label>학번 <input name="sid" value="${esc(v.sid || "")}" placeholder="예: 20241234" required maxlength="15"></label>
+          <label class="full">성명 <input name="name" value="${esc(v.name || "")}" placeholder="예: 홍길동" required maxlength="20"></label>
+          <div class="full" style="text-align:center;margin-top:6px">
+            <button class="btn-primary" type="submit">🎓 수료증 · 디지털 배지 발급</button>
+            ${prev ? '<button class="btn-ghost" type="button" id="cancelEdit">취소</button>' : ""}
+          </div>
+        </form>
+      </div>`;
+  }
+
+  function certView(cert) {
+    return `
+      <div class="cert-actions">
+        <button class="btn-primary" id="printCert">🖨️ 수료증 인쇄 / PDF 저장</button>
+        <button class="btn-primary" id="downloadBadge">⬇️ 디지털 배지 PNG 다운로드</button>
+        <button class="btn-ghost" id="editCert">정보 수정 후 재발급</button>
+        <button class="btn-ghost" id="deleteCert">발급 기록 삭제</button>
+      </div>
+      <div class="cert-grid">
+        <div class="cert-sheet" id="certSheet">
+          <div class="cert-border">
+            <div class="cert-no">제 ${esc(cert.certNo)} 호</div>
+            <div class="cert-logo"><img src="assets/logo.png" alt="" onerror="this.parentElement.style.display='none'"></div>
+            <h2 class="cert-title">수료증</h2>
+            <div class="cert-sub">CERTIFICATE OF COMPLETION</div>
+            <table class="cert-info">
+              <tr><th>학&nbsp;&nbsp;과</th><td>${esc(cert.dept)}</td></tr>
+              <tr><th>학년 / 반</th><td>${esc(String(cert.grade))}학년 ${esc(cert.classNo)}</td></tr>
+              <tr><th>학&nbsp;&nbsp;번</th><td>${esc(cert.sid)}</td></tr>
+              <tr><th>성&nbsp;&nbsp;명</th><td>${esc(cert.name)}</td></tr>
+            </table>
+            <p class="cert-body">위 학생은 청암대학교 간호학과 「AI융합 간호정보학」 교과목의
+            전 과정(13개 장)을 성실히 이수하고 장별 복습 퀴즈에서 ${QUIZ_PASS}점 이상을
+            취득하였으므로 이 증서를 수여합니다.</p>
+            <div class="cert-date">${esc(cert.date)}</div>
+            <div class="cert-issuer">청암대학교 간호학과 <b>제프리 교수</b> <span class="seal">제프리<br>印</span></div>
+          </div>
+        </div>
+        <div class="card badge-card">
+          <h2>🏅 디지털 배지</h2>
+          <div class="badge-wrap">${badgeSVG(cert)}</div>
+          <p class="flash-hint">PNG로 다운로드하여 SNS 프로필·포트폴리오·이력서에 활용하세요.</p>
+        </div>
+      </div>`;
+  }
+
+  function badgeSVG(cert) {
+    const year = cert.year || new Date().getFullYear();
+    return `
+    <svg id="badgeSvg" viewBox="0 0 480 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="수료 디지털 배지">
+      <defs>
+        <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#a61e4d"/><stop offset=".55" stop-color="#d6336c"/><stop offset="1" stop-color="#f06595"/>
+        </linearGradient>
+        <linearGradient id="goldGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#f9d976"/><stop offset="1" stop-color="#d9a92f"/>
+        </linearGradient>
+        <path id="arcTop" d="M 96 240 A 144 144 0 0 1 384 240"/>
+        <path id="arcBottom" d="M 110 240 A 130 130 0 0 0 370 240"/>
+      </defs>
+      <polygon points="178,418 246,458 198,592 152,506" fill="#a61e4d"/>
+      <polygon points="302,418 234,458 282,592 328,506" fill="#d6336c"/>
+      <circle cx="240" cy="240" r="170" fill="url(#bgGrad)"/>
+      <circle cx="240" cy="240" r="157" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="2" stroke-dasharray="2 7"/>
+      <circle cx="240" cy="240" r="141" fill="none" stroke="url(#goldGrad)" stroke-width="6"/>
+      <circle cx="240" cy="240" r="118" fill="#fffdf8"/>
+      <text font-size="22" font-weight="800" fill="#ffffff" font-family="sans-serif" letter-spacing="2">
+        <textPath href="#arcTop" startOffset="50%" text-anchor="middle">AI융합 간호정보학</textPath>
+      </text>
+      <text font-size="12" font-weight="700" fill="rgba(255,255,255,.9)" font-family="sans-serif" letter-spacing="3">
+        <textPath href="#arcBottom" startOffset="50%" text-anchor="middle">CHEONGAM UNIVERSITY · NURSING</textPath>
+      </text>
+      <text x="240" y="84" font-size="24" text-anchor="middle" fill="#f9d976" font-family="sans-serif">★</text>
+      <rect x="225" y="158" width="30" height="92" rx="8" fill="url(#bgGrad)"/>
+      <rect x="194" y="189" width="92" height="30" rx="8" fill="url(#bgGrad)"/>
+      <text x="240" y="211" font-size="19" font-weight="900" text-anchor="middle" fill="#ffffff" font-family="sans-serif">AI</text>
+      <polyline points="152,282 196,282 211,256 229,304 245,266 257,282 328,282"
+        fill="none" stroke="#d6336c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="240" y="328" font-size="27" font-weight="900" text-anchor="middle" fill="#3d2230" font-family="sans-serif">수료</text>
+      <text x="240" y="349" font-size="10.5" font-weight="700" text-anchor="middle" fill="#8a6276" font-family="sans-serif" letter-spacing="4">CERTIFIED · ${year}</text>
+      <rect x="118" y="468" width="244" height="56" rx="13" fill="url(#goldGrad)" stroke="#b98a1d" stroke-width="2"/>
+      <text x="240" y="494" font-size="21" font-weight="900" text-anchor="middle" fill="#5b3d0d" font-family="sans-serif">${esc(cert.name)}</text>
+      <text x="240" y="513" font-size="11" font-weight="700" text-anchor="middle" fill="#7a5a1a" font-family="sans-serif">${esc(cert.dept)} · ${esc(cert.sid)}</text>
+      <text x="240" y="560" font-size="12" font-weight="700" text-anchor="middle" fill="#a85c7d" font-family="sans-serif">청암대학교 간호학과 · 제프리 교수</text>
+    </svg>`;
+  }
+
+  function downloadBadgePNG(cert) {
+    const svg = $("#badgeSvg");
+    const xml = new XMLSerializer().serializeToString(svg);
+    const blob = new Blob([xml], { type: "image/svg+xml;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const img = new Image();
+    img.onload = () => {
+      const c = document.createElement("canvas");
+      c.width = 960; c.height = 1240;
+      c.getContext("2d").drawImage(img, 0, 0, 960, 1240);
+      URL.revokeObjectURL(url);
+      const a = document.createElement("a");
+      a.download = `AI간호정보학_수료배지_${cert.name}.png`;
+      a.href = c.toDataURL("image/png");
+      a.click();
+    };
+    img.src = url;
+  }
+
+  function bindCertEvents(cert, forceForm) {
+    const form = $("#certForm");
+    if (form) {
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const fd = new FormData(form);
+        const data = {
+          dept: (fd.get("dept") || "").trim(),
+          grade: (fd.get("grade") || "").trim(),
+          classNo: (fd.get("classNo") || "").trim(),
+          sid: (fd.get("sid") || "").trim(),
+          name: (fd.get("name") || "").trim(),
+        };
+        if (!data.dept || !data.grade || !data.classNo || !data.sid || !data.name) {
+          alert("모든 항목(학과·학년·반·학번·성명)을 입력해 주세요.");
+          return;
+        }
+        const now = new Date();
+        data.date = todayKorean();
+        data.year = now.getFullYear();
+        data.certNo = `AINI-${now.getFullYear()}-${data.sid}`;
+        store.cert = data;
+        saveStore(store);
+        renderSidebar("certificate");
+        renderCertificate();
+        window.scrollTo({ top: 0 });
+      });
+      const cancel = $("#cancelEdit");
+      if (cancel) cancel.addEventListener("click", () => renderCertificate());
+    }
+    if (cert && !forceForm) {
+      $("#printCert")?.addEventListener("click", () => window.print());
+      $("#downloadBadge")?.addEventListener("click", () => downloadBadgePNG(cert));
+      $("#editCert")?.addEventListener("click", () => renderCertificate(true));
+      $("#deleteCert")?.addEventListener("click", () => {
+        if (confirm("발급 기록을 삭제할까요? 기준을 충족하는 한 다시 발급할 수 있습니다.")) {
+          delete store.cert;
+          saveStore(store);
+          renderSidebar("certificate");
+          renderCertificate();
+        }
+      });
+    }
+  }
+
   function footer() {
     return `<div class="footer">${esc(COURSE.school)} · ${esc(COURSE.title)} · ${esc(COURSE.professor)}</div>`;
   }
@@ -433,6 +668,9 @@
     if (hash === "preface") {
       renderSidebar("preface");
       renderProse(PREFACE, true);
+    } else if (hash === "certificate") {
+      renderSidebar("certificate");
+      renderCertificate();
     } else if (hash === "closing") {
       renderSidebar("closing");
       renderProse(CLOSING, false);

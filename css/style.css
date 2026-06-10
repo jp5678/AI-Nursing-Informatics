@@ -413,6 +413,97 @@ button { font-family: inherit; cursor: pointer; }
 .prose-card p { font-size: 14.6px; margin-bottom: 14px; white-space: pre-line; }
 .prose-card .sign { text-align: right; color: var(--text-sub); font-size: 13px; margin-top: 22px; }
 
+/* ---------- 수료증 · 디지털 배지 ---------- */
+.cert-req-list { list-style: none; padding: 0 !important; margin-top: 16px; }
+.cert-req-list li {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 9px 4px; border-bottom: 1px dashed var(--border); font-size: 13.5px;
+}
+.cert-req-list li a { color: var(--text); text-decoration: none; flex: 1; min-width: 180px; }
+.cert-req-list li a:hover { color: var(--primary); }
+.cert-req-list li.pass a { color: var(--text-sub); }
+.cert-req-list .req {
+  font-size: 11.5px; font-weight: 700; border-radius: 999px; padding: 3px 10px;
+  background: var(--warn-bg); color: var(--warn);
+}
+.cert-req-list .req.ok { background: var(--ok-bg); color: var(--ok); }
+
+.cert-form { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.cert-form label { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 700; color: var(--text-sub); }
+.cert-form input, .cert-form select {
+  border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 12px;
+  font-size: 14.5px; font-family: inherit; background: #fffafc; color: var(--text);
+}
+.cert-form input:focus, .cert-form select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
+.cert-form .full { grid-column: 1 / -1; }
+
+.cert-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 18px; }
+.cert-actions .btn-ghost { margin-left: 0; }
+
+.cert-grid { display: grid; grid-template-columns: 1.55fr 1fr; gap: 16px; align-items: start; }
+
+.cert-sheet { background: #fffdf6; border-radius: 8px; box-shadow: var(--shadow); padding: 13px; }
+.cert-border {
+  border: 3px double #c9a227; padding: 36px 30px 30px; text-align: center; position: relative;
+  background:
+    radial-gradient(circle at top left, rgba(214, 51, 108, .05), transparent 42%),
+    radial-gradient(circle at bottom right, rgba(201, 162, 39, .09), transparent 42%);
+}
+.cert-no { position: absolute; top: 13px; left: 17px; font-size: 11.5px; color: #8a6276; }
+.cert-logo {
+  width: 64px; height: 64px; border-radius: 50%; overflow: hidden;
+  margin: 0 auto 10px; border: 2px solid #c9a227; background: #fff;
+}
+.cert-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cert-title {
+  font-family: "Nanum Myeongjo", "Batang", "AppleMyungjo", serif;
+  font-size: 34px; letter-spacing: 16px; text-indent: 16px; color: #3d2230; margin: 4px 0 2px;
+}
+.cert-sub { font-size: 11.5px; color: #8a6276; letter-spacing: 2.5px; margin-bottom: 20px; }
+.cert-info { margin: 0 auto 20px; border-collapse: collapse; font-size: 14.5px; }
+.cert-info th { text-align: right; color: #8a6276; font-weight: 600; padding: 5px 16px 5px 0; white-space: nowrap; }
+.cert-info td { text-align: left; font-weight: 800; color: #3d2230; padding: 5px 0; min-width: 140px; }
+.cert-body { max-width: 520px; margin: 0 auto 24px; font-size: 14.8px; line-height: 1.9; color: #3d2230; text-align: center; }
+.cert-date { font-size: 14.5px; margin-bottom: 18px; color: #3d2230; }
+.cert-issuer { display: flex; align-items: center; justify-content: center; gap: 14px; font-size: 15.5px; color: #3d2230; }
+.cert-issuer b { font-size: 18px; }
+.seal {
+  width: 62px; height: 62px; flex: 0 0 auto;
+  border: 3px solid rgba(214, 51, 108, .85); border-radius: 50%;
+  color: rgba(214, 51, 108, .9);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 13px; line-height: 1.25; text-align: center;
+  transform: rotate(-12deg); letter-spacing: 1px;
+}
+
+.badge-card { text-align: center; }
+.badge-wrap { padding: 8px 0 2px; }
+.badge-wrap svg {
+  width: min(300px, 86%); height: auto;
+  filter: drop-shadow(0 10px 18px rgba(166, 30, 77, .25));
+  animation: badgeFloat 3.4s ease-in-out infinite;
+}
+@keyframes badgeFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@media (max-width: 920px) {
+  .cert-grid { grid-template-columns: 1fr; }
+  .cert-form { grid-template-columns: 1fr; }
+  .cert-title { letter-spacing: 9px; text-indent: 9px; font-size: 28px; }
+}
+
+@media print {
+  body * { visibility: hidden; }
+  .cert-sheet, .cert-sheet * { visibility: visible; }
+  .cert-sheet {
+    position: fixed; left: 0; top: 0; width: 100%;
+    margin: 0; box-shadow: none; border-radius: 0; background: #fffdf6;
+  }
+  @page { size: A4 landscape; margin: 10mm; }
+}
+
 /* ---------- 푸터 ---------- */
 .footer {
   margin-top: 40px; text-align: center;
