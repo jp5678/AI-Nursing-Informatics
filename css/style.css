@@ -54,11 +54,22 @@ button { font-family: inherit; cursor: pointer; }
   display: none; align-items: center; justify-content: center;
 }
 .topbar .brand {
-  display: flex; flex-direction: column; line-height: 1.2;
+  display: flex; align-items: center; gap: 11px;
   text-decoration: none; color: #fff; min-width: 0;
 }
-.topbar .brand b { font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.topbar .brand span { font-size: 11px; opacity: .85; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.topbar .logo {
+  flex: 0 0 auto; width: 40px; height: 40px; border-radius: 50%;
+  overflow: hidden; background: #fff;
+  border: 2px solid rgba(255, 255, 255, .75);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, .18);
+  display: flex; align-items: center; justify-content: center;
+}
+.topbar .logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.topbar .logo.fallback { background: var(--primary-light); }
+.topbar .logo.fallback::after { content: "🩺"; font-size: 21px; line-height: 1; }
+.topbar .brand-text { display: flex; flex-direction: column; line-height: 1.2; min-width: 0; }
+.topbar .brand-text b { font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.topbar .brand-text span { font-size: 11px; opacity: .85; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .topbar .spacer { flex: 1; }
 .topbar .progress-pill {
   background: rgba(255,255,255,.18);

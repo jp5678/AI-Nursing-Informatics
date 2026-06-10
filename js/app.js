@@ -53,8 +53,12 @@
       <header class="topbar">
         <button class="menu-btn" id="menuBtn" aria-label="메뉴 열기">☰</button>
         <a class="brand" href="#/">
-          <b>${esc(COURSE.title)}</b>
-          <span>${esc(COURSE.school)} · ${esc(COURSE.semester)}</span>
+          <span class="logo"><img src="assets/logo.png" alt="${esc(COURSE.title)} 로고"
+            onerror="this.parentElement.classList.add('fallback'); this.remove();" /></span>
+          <span class="brand-text">
+            <b>${esc(COURSE.title)}</b>
+            <span>${esc(COURSE.school)} · ${esc(COURSE.semester)}</span>
+          </span>
         </a>
         <div class="spacer"></div>
         <div class="progress-pill" id="topProgress"></div>
