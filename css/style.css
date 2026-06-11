@@ -515,6 +515,54 @@ button { font-family: inherit; cursor: pointer; }
   @page { size: A4 landscape; margin: 10mm; }
 }
 
+/* ---------- Google 로그인 ---------- */
+.login-overlay {
+  position: fixed; inset: 0; z-index: 100;
+  background: linear-gradient(135deg, #a61e4d 0%, #d6336c 55%, #f06595 100%);
+  display: flex; align-items: center; justify-content: center; padding: 20px;
+}
+.login-card {
+  background: #fff; border-radius: 22px; padding: 38px 34px;
+  max-width: 400px; width: 100%; text-align: center;
+  box-shadow: 0 18px 50px rgba(80, 10, 40, .35);
+}
+.login-logo {
+  width: 84px; height: 84px; border-radius: 50%; overflow: hidden;
+  margin: 0 auto 16px; border: 3px solid var(--primary-light);
+  display: flex; align-items: center; justify-content: center; background: var(--primary-light);
+}
+.login-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.login-logo.fallback::after { content: "🩺"; font-size: 38px; }
+.login-card h2 { color: var(--primary-dark); font-size: 22px; margin-bottom: 4px; }
+.login-sub { color: var(--text-sub); font-size: 13px; margin-bottom: 16px; }
+.login-desc { font-size: 14px; color: var(--text); margin-bottom: 20px; line-height: 1.7; }
+.g-btn-wrap { display: flex; justify-content: center; min-height: 44px; }
+.login-note { font-size: 11.5px; color: var(--text-sub); margin-top: 18px; line-height: 1.6; }
+
+.user-area { display: flex; align-items: center; gap: 8px; }
+.user-chip {
+  display: flex; align-items: center; gap: 7px;
+  background: rgba(255, 255, 255, .18); border-radius: 999px;
+  padding: 4px 12px 4px 5px; font-size: 12.5px; font-weight: 600; color: #fff;
+  max-width: 180px;
+}
+.user-chip img { width: 26px; height: 26px; border-radius: 50%; display: block; }
+.user-chip .user-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.logout-btn {
+  background: rgba(255, 255, 255, .15); border: 1px solid rgba(255, 255, 255, .4);
+  color: #fff; border-radius: 999px; padding: 5px 12px; font-size: 11.5px; font-weight: 600;
+}
+.logout-btn:hover { background: rgba(255, 255, 255, .28); }
+@media (max-width: 920px) {
+  .user-chip .user-name { display: none; }
+  .user-chip { padding: 4px 5px; }
+}
+
+.cert-auth {
+  margin-top: 16px; font-size: 11.5px; color: #8a6276;
+  border-top: 1px dashed #d8bcc9; padding-top: 10px;
+}
+
 /* ---------- 푸터 ---------- */
 .footer {
   margin-top: 40px; text-align: center;
