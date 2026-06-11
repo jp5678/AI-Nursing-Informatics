@@ -8,7 +8,7 @@ const APP_CONFIG = {
      → '승인된 자바스크립트 원본'에 https://jp5678.github.io 추가
      → 발급된 클라이언트 ID를 아래에 입력 (예: "1234...apps.googleusercontent.com")
      비워 두면 로그인 없이 사용 가능(수료증에 인증 표시 없음) */
-  googleClientId: "",
+  googleClientId: "496719164952-jssfbs4jc5a1r3gll42pfeogasuld3ae.apps.googleusercontent.com",
 
   /* 수료증 발급 메일 자동 발송 (Google Apps Script):
      docs/apps-script.gs 파일의 안내대로 배포한 뒤 웹 앱 URL을 아래에 입력

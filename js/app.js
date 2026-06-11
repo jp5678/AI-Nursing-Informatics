@@ -717,7 +717,7 @@
           <stop offset="0" stop-color="#f9d976"/><stop offset="1" stop-color="#d9a92f"/>
         </linearGradient>
         <path id="arcTop" d="M 96 240 A 144 144 0 0 1 384 240"/>
-        <path id="arcBottom" d="M 110 240 A 130 130 0 0 0 370 240"/>
+        <path id="arcBottom" d="M 104 240 A 136 136 0 0 0 376 240"/>
       </defs>
       <polygon points="178,418 246,458 198,592 152,506" fill="#a61e4d"/>
       <polygon points="302,418 234,458 282,592 328,506" fill="#d6336c"/>
@@ -728,17 +728,16 @@
       <text font-size="22" font-weight="800" fill="#ffffff" font-family="sans-serif" letter-spacing="2">
         <textPath href="#arcTop" xlink:href="#arcTop" startOffset="50%" text-anchor="middle">AI융합 간호정보학</textPath>
       </text>
-      <text font-size="12" font-weight="700" fill="rgba(255,255,255,.9)" font-family="sans-serif" letter-spacing="3">
+      <text font-size="11" font-weight="700" fill="rgba(255,255,255,.9)" font-family="sans-serif" letter-spacing="2">
         <textPath href="#arcBottom" xlink:href="#arcBottom" startOffset="50%" text-anchor="middle">CHEONGAM UNIVERSITY · NURSING</textPath>
       </text>
-      <text x="240" y="84" font-size="24" text-anchor="middle" fill="#f9d976" font-family="sans-serif">★</text>
-      <rect x="225" y="158" width="30" height="92" rx="8" fill="url(#bgGrad)"/>
-      <rect x="194" y="189" width="92" height="30" rx="8" fill="url(#bgGrad)"/>
-      <text x="240" y="211" font-size="19" font-weight="900" text-anchor="middle" fill="#ffffff" font-family="sans-serif">AI</text>
-      <polyline points="152,282 196,282 211,256 229,304 245,266 257,282 328,282"
+      <rect x="227" y="152" width="26" height="80" rx="7" fill="url(#bgGrad)"/>
+      <rect x="200" y="179" width="80" height="26" rx="7" fill="url(#bgGrad)"/>
+      <text x="240" y="199" font-size="17" font-weight="900" text-anchor="middle" fill="#ffffff" font-family="sans-serif">AI</text>
+      <polyline points="158,262 198,262 212,240 228,284 243,248 254,262 322,262"
         fill="none" stroke="#d6336c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-      <text x="240" y="328" font-size="27" font-weight="900" text-anchor="middle" fill="#3d2230" font-family="sans-serif">수료</text>
-      <text x="240" y="349" font-size="10.5" font-weight="700" text-anchor="middle" fill="#8a6276" font-family="sans-serif" letter-spacing="4">CERTIFIED · ${year}</text>
+      <text x="240" y="308" font-size="26" font-weight="900" text-anchor="middle" fill="#3d2230" font-family="sans-serif">수료</text>
+      <text x="240" y="330" font-size="10" font-weight="700" text-anchor="middle" fill="#8a6276" font-family="sans-serif" letter-spacing="3">CERTIFIED · ${year}</text>
       <rect x="118" y="468" width="244" height="56" rx="13" fill="url(#goldGrad)" stroke="#b98a1d" stroke-width="2"/>
       <text x="240" y="494" font-size="21" font-weight="900" text-anchor="middle" fill="#5b3d0d" font-family="sans-serif">${esc(cert.name)}</text>
       <text x="240" y="513" font-size="11" font-weight="700" text-anchor="middle" fill="#7a5a1a" font-family="sans-serif">${esc(cert.dept)} · ${esc(cert.sid)}</text>
