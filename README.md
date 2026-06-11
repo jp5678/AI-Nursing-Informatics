@@ -19,6 +19,21 @@
   - 디지털 배지: SVG 메달 디자인, PNG 다운로드
 - **반응형 디자인**: 데스크톱 사이드바 ↔ 모바일 햄버거 메뉴 자동 전환
 
+## Google 로그인 · 발급 메일 통지 설정 (교수자용)
+
+`js/config.js`의 두 값을 채우면 기능이 활성화됩니다. (비워 두면 해당 기능 없이 동작)
+
+1. **Google 로그인** (`googleClientId`)
+   - [Google Cloud Console](https://console.cloud.google.com) → API 및 서비스 → 사용자 인증 정보 → OAuth 클라이언트 ID(웹 애플리케이션) 생성
+   - '승인된 자바스크립트 원본'에 `https://jp5678.github.io` 추가
+   - 발급된 클라이언트 ID를 `googleClientId`에 입력
+   - 활성화 시: 첫 접속에 Google 로그인 화면 표시, 수료증 발급에 로그인 필수, 수료증에 인증 계정 표시(도용 방지), 성명-계정 이름 불일치 시 경고·기록
+2. **발급 메일 자동 발송** (`notifyEndpoint`)
+   - `docs/apps-script.gs`의 코드를 교수님 Google 계정의 [Apps Script](https://script.google.com)에 새 프로젝트로 붙여넣기
+   - 배포 → 새 배포 → 웹 앱 (실행: 나 / 액세스: 모든 사용자) → 웹 앱 URL을 `notifyEndpoint`에 입력
+   - 활성화 시: 수료증 발급 즉시 imjp5678@scjc.ac.kr 로 발급 내용 메일 자동 발송
+   - 미설정 시: 학생이 '교수님께 발급 메일 보내기' 버튼으로 직접 발송
+
 ## 실행 방법
 
 빌드 과정이 없는 정적 사이트입니다. 저장소를 받은 뒤 아무 정적 서버로 열면 됩니다.

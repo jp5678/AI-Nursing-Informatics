@@ -41,6 +41,84 @@
   const $ = (sel, el) => (el || document).querySelector(sel);
   const $$ = (sel, el) => Array.from((el || document).querySelectorAll(sel));
 
+  /* ---------- Google 로그인 ---------- */
+  const CFG = (typeof APP_CONFIG !== "undefined" && APP_CONFIG) || {};
+  function authEnabled() { return !!CFG.googleClientId; }
+  function currentUser() { return store.user || null; }
+
+  function decodeJwtPayload(token) {
+    const part = token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/");
+    const bin = atob(part);
+    const bytes = Uint8Array.from(bin, (c) => c.charCodeAt(0));
+    return JSON.parse(new TextDecoder("utf-8").decode(bytes));
+  }
+
+  function showLogin() {
+    if ($("#loginOverlay")) return;
+    const ov = document.createElement("div");
+    ov.className = "login-overlay";
+    ov.id = "loginOverlay";
+    ov.innerHTML = `
+      <div class="login-card">
+        <div class="login-logo"><img src="assets/logo.png" alt=""
+          onerror="this.parentElement.classList.add('fallback'); this.remove();" /></div>
+        <h2>${esc(COURSE.title)}</h2>
+        <p class="login-sub">${esc(COURSE.school)} · ${esc(COURSE.target)}</p>
+        <p class="login-desc">학습 기록 관리와 수료증 발급 시 본인 확인을 위해<br>학교 Google 계정으로 로그인해 주세요.</p>
+        <div id="gBtn" class="g-btn-wrap"></div>
+        <p class="login-note">로그인 정보(이름·이메일)는 이 브라우저에만 저장되며,<br>수료증 발급 시 본인 인증 표시에 사용됩니다.</p>
+      </div>`;
+    document.body.appendChild(ov);
+
+    const init = () => {
+      if (!(window.google && google.accounts && google.accounts.id)) { setTimeout(init, 250); return; }
+      google.accounts.id.initialize({
+        client_id: CFG.googleClientId,
+        callback: (res) => {
+          try {
+            const d = decodeJwtPayload(res.credential);
+            store.user = { name: d.name || "", email: d.email || "", picture: d.picture || "", ts: Date.now() };
+            saveStore(store);
+            ov.remove();
+            route();
+          } catch (e) {
+            alert("로그인 처리 중 오류가 발생했습니다. 다시 시도해 주세요.");
+          }
+        },
+      });
+      google.accounts.id.renderButton($("#gBtn"), { theme: "outline", size: "large", text: "signin_with", shape: "pill", width: 280 });
+    };
+    init();
+  }
+
+  function logout() {
+    delete store.user;
+    saveStore(store);
+    try { if (window.google?.accounts?.id) google.accounts.id.disableAutoSelect(); } catch (e) {}
+    route();
+    if (authEnabled()) showLogin();
+  }
+
+  function updateUserChip() {
+    const area = $("#userArea");
+    if (!area) return;
+    const u = currentUser();
+    if (u) {
+      area.innerHTML = `
+        <span class="user-chip" title="${esc(u.email)}">
+          ${u.picture ? `<img src="${esc(u.picture)}" alt="" referrerpolicy="no-referrer">` : "👤"}
+          <span class="user-name">${esc(u.name)}</span>
+        </span>
+        <button class="logout-btn" id="logoutBtn">로그아웃</button>`;
+      $("#logoutBtn").addEventListener("click", logout);
+    } else if (authEnabled()) {
+      area.innerHTML = `<button class="logout-btn" id="loginBtn">로그인</button>`;
+      $("#loginBtn").addEventListener("click", showLogin);
+    } else {
+      area.innerHTML = "";
+    }
+  }
+
   function esc(s) {
     return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   }
@@ -61,6 +139,7 @@
           </span>
         </a>
         <div class="spacer"></div>
+        <div class="user-area" id="userArea"></div>
         <div class="progress-pill" id="topProgress"></div>
       </header>
       <nav class="sidebar" id="sidebar"></nav>
@@ -92,6 +171,7 @@
       </div>
     `;
     $("#topProgress").textContent = `학습 진도 ${progressPct()}%`;
+    updateUserChip();
   }
 
   function navItem(href, num, title, active, done) {
@@ -449,7 +529,8 @@
   function renderCertificate(forceForm) {
     const cert = store.cert;
     let body;
-    if (cert && !forceForm) body = certView(cert);
+    if (authEnabled() && !currentUser()) body = certLoginRequiredView();
+    else if (cert && !forceForm) body = certView(cert);
     else if (certEligible()) body = certFormView(cert);
     else body = certLockedView();
 
@@ -492,8 +573,19 @@
       </div>`;
   }
 
+  function certLoginRequiredView() {
+    return `
+      <div class="card" style="text-align:center">
+        <h2 style="justify-content:center">🔐 Google 계정 로그인이 필요합니다</h2>
+        <p>수료증·디지털 배지는 본인 확인(도용 방지)을 위해 Google 계정 로그인 후 발급할 수 있습니다.<br>
+        발급된 수료증에는 인증된 Google 계정 정보가 표시되며, 담당 교수에게 발급 내용이 통지됩니다.</p>
+        <button class="btn-primary" id="certLoginBtn">Google 계정으로 로그인</button>
+      </div>`;
+  }
+
   function certFormView(prev) {
-    const v = prev || {};
+    const u = currentUser();
+    const v = prev || (u ? { name: u.name } : {});
     const gradeOpts = [1, 2, 3, 4]
       .map((g) => `<option value="${g}" ${String(v.grade || 3) == String(g) ? "selected" : ""}>${g}학년</option>`)
       .join("");
@@ -501,8 +593,8 @@
       <div class="card">
         <h2>🎉 축하합니다! 발급 기준을 모두 충족했습니다</h2>
         <p>13개 전 장 학습 완료 + 장별 복습 퀴즈 ${QUIZ_PASS}점 이상을 달성했습니다.
-        아래 정보를 입력하면 수료증과 디지털 배지가 발급됩니다.
-        입력한 정보는 이 브라우저에만 저장되며 외부로 전송되지 않습니다.</p>
+        아래 정보를 입력하면 수료증과 디지털 배지가 발급됩니다.</p>
+        ${currentUser() ? `<div class="callout ok" style="margin-top:0">🔐 <b>본인 인증됨</b>: ${esc(currentUser().name)} (${esc(currentUser().email)}) — 이 Google 계정 정보가 수료증에 인증 표시되고, 발급 내용이 ${esc(CFG.professorName || "담당 교수")}에게 통지됩니다.</div>` : `<div class="callout warn" style="margin-top:0">⚠️ Google 로그인이 설정되지 않아 인증 표시 없이 발급됩니다.</div>`}
         <form id="certForm" class="cert-form">
           <label>학과 <input name="dept" value="${esc(v.dept || "간호학과")}" required maxlength="20"></label>
           <label>학년 <select name="grade">${gradeOpts}</select></label>
@@ -519,9 +611,11 @@
 
   function certView(cert) {
     return `
+      ${certNotifyBanner(cert)}
       <div class="cert-actions">
         <button class="btn-primary" id="printCert">🖨️ 수료증 인쇄 / PDF 저장</button>
         <button class="btn-primary" id="downloadBadge">⬇️ 디지털 배지 PNG 다운로드</button>
+        <button class="btn-ghost" id="mailProfessor">📧 교수님께 발급 메일 보내기</button>
         <button class="btn-ghost" id="editCert">정보 수정 후 재발급</button>
         <button class="btn-ghost" id="deleteCert">발급 기록 삭제</button>
       </div>
@@ -543,6 +637,7 @@
             취득하였으므로 이 증서를 수여합니다.</p>
             <div class="cert-date">${esc(cert.date)}</div>
             <div class="cert-issuer">청암대학교 간호학과 <b>제프리 교수</b> <span class="seal">제프리<br>印</span></div>
+            ${cert.authEmail ? `<div class="cert-auth">🔐 본인 인증: Google 계정 ${esc(cert.authName || "")} &lt;${esc(cert.authEmail)}&gt;${cert.nameMatch === false ? " (성명-계정 이름 불일치)" : ""}</div>` : ""}
           </div>
         </div>
         <div class="card badge-card">
@@ -594,6 +689,61 @@
     </svg>`;
   }
 
+  /* ---------- 발급 통지 메일 ---------- */
+  function certNotifyBanner(cert) {
+    if (cert.notify === "sent") {
+      return `<div class="callout ok" style="text-align:center">📧 발급 내용이 ${esc(CFG.professorName || "담당 교수")}(${esc(CFG.professorEmail || "")})에게 자동 통지되었습니다.</div>`;
+    }
+    if (cert.notify === "failed") {
+      return `<div class="callout warn" style="text-align:center">⚠️ 자동 통지 전송에 실패했습니다. 아래 '📧 교수님께 발급 메일 보내기' 버튼으로 직접 발송해 주세요.</div>`;
+    }
+    return `<div class="callout info" style="text-align:center">📧 '교수님께 발급 메일 보내기' 버튼을 눌러 ${esc(CFG.professorName || "담당 교수")}(${esc(CFG.professorEmail || "")})에게 발급 내용을 발송해 주세요.</div>`;
+  }
+
+  function certPayload(cert) {
+    return {
+      issuedAt: cert.date,
+      certNo: cert.certNo,
+      dept: cert.dept,
+      grade: cert.grade,
+      classNo: cert.classNo,
+      sid: cert.sid,
+      name: cert.name,
+      authName: cert.authName || "",
+      authEmail: cert.authEmail || "",
+      nameMatch: cert.nameMatch !== false,
+    };
+  }
+
+  async function notifyProfessor(cert) {
+    if (!CFG.notifyEndpoint) return "manual";
+    try {
+      await fetch(CFG.notifyEndpoint, { method: "POST", mode: "no-cors", body: JSON.stringify(certPayload(cert)) });
+      return "sent";
+    } catch (e) {
+      return "failed";
+    }
+  }
+
+  function mailtoProfessor(cert) {
+    const p = certPayload(cert);
+    const subject = `[AI융합 간호정보학] 수료증 발급 통지 — ${p.name} (${p.sid})`;
+    const body = [
+      "수료증 발급 내용을 알려드립니다.",
+      "",
+      `발급 일시: ${p.issuedAt}`,
+      `증서 번호: ${p.certNo}`,
+      `학과: ${p.dept}`,
+      `학년/반: ${p.grade}학년 ${p.classNo}`,
+      `학번: ${p.sid}`,
+      `성명: ${p.name}`,
+      p.authEmail ? `Google 계정 인증: ${p.authName} <${p.authEmail}>${p.nameMatch ? "" : " (성명-계정 이름 불일치)"}` : "Google 계정 인증: (미인증 발급)",
+      "",
+      "발급 기준: 13개 전 장 학습 완료 + 장별 복습 퀴즈 90점 이상",
+    ].join("\n");
+    location.href = `mailto:${encodeURIComponent(CFG.professorEmail || "")}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  }
+
   function downloadBadgePNG(cert) {
     const svg = $("#badgeSvg");
     const xml = new XMLSerializer().serializeToString(svg);
@@ -630,22 +780,40 @@
           alert("모든 항목(학과·학년·반·학번·성명)을 입력해 주세요.");
           return;
         }
+        const u = currentUser();
+        if (u) {
+          data.authName = u.name;
+          data.authEmail = u.email;
+          const norm = (s) => String(s || "").replace(/\s+/g, "").toLowerCase();
+          data.nameMatch = norm(u.name) === norm(data.name) || norm(u.name).includes(norm(data.name)) || norm(data.name).includes(norm(u.name));
+          if (!data.nameMatch && !confirm(
+            `입력한 성명(${data.name})이 로그인한 Google 계정 이름(${u.name})과 다릅니다.\n` +
+            `본인 명의가 아닌 수료증 발급은 도용에 해당할 수 있으며, 불일치 사실이 수료증과 교수 통지 메일에 표시됩니다.\n계속할까요?`)) {
+            return;
+          }
+        }
         const now = new Date();
         data.date = todayKorean();
         data.year = now.getFullYear();
         data.certNo = `AINI-${now.getFullYear()}-${data.sid}`;
         store.cert = data;
         saveStore(store);
-        renderSidebar("certificate");
-        renderCertificate();
-        window.scrollTo({ top: 0 });
+        notifyProfessor(data).then((status) => {
+          store.cert.notify = status;
+          saveStore(store);
+          renderSidebar("certificate");
+          renderCertificate();
+          window.scrollTo({ top: 0 });
+        });
       });
       const cancel = $("#cancelEdit");
       if (cancel) cancel.addEventListener("click", () => renderCertificate());
     }
+    $("#certLoginBtn")?.addEventListener("click", showLogin);
     if (cert && !forceForm) {
       $("#printCert")?.addEventListener("click", () => window.print());
       $("#downloadBadge")?.addEventListener("click", () => downloadBadgePNG(cert));
+      $("#mailProfessor")?.addEventListener("click", () => mailtoProfessor(cert));
       $("#editCert")?.addEventListener("click", () => renderCertificate(true));
       $("#deleteCert")?.addEventListener("click", () => {
         if (confirm("발급 기록을 삭제할까요? 기준을 충족하는 한 다시 발급할 수 있습니다.")) {
@@ -690,4 +858,5 @@
   renderShell();
   window.addEventListener("hashchange", route);
   route();
+  if (authEnabled() && !currentUser()) showLogin();
 })();
