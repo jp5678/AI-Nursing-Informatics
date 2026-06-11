@@ -27,6 +27,7 @@ function doPost(e) {
       ["학년 / 반", d.grade + "학년 " + d.classNo],
       ["학번", d.sid],
       ["성명", d.name],
+      ["이메일", d.email || "-"],
       ["Google 계정 인증", d.authName ? (d.authName + " <" + d.authEmail + ">") : "(미인증 발급)"],
       ["성명-계정 일치", d.nameMatch === false ? "⚠️ 불일치 — 확인 필요" : "일치"],
     ];
