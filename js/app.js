@@ -101,6 +101,12 @@
   }
 
   /* ---------- 학습자 정보 (수료증 발급용 프로필) ---------- */
+  const CLASS_OPTIONS = ["A", "B", "C", "D", "E", "F", "전공심화"];
+  function fmtClass(c) {
+    c = String(c || "");
+    return !c || c === "전공심화" || c.endsWith("반") ? c : c + "반";
+  }
+
   function showProfileSetup(onDone) {
     if ($("#profileOverlay")) return;
     const u = currentUser();
@@ -111,15 +117,18 @@
     const gradeOpts = [1, 2, 3, 4]
       .map((g) => `<option value="${g}" ${String(p.grade || 3) == String(g) ? "selected" : ""}>${g}학년</option>`)
       .join("");
+    const curClass = String(p.classNo || "").replace(/반$/, "");
+    const classOpts = `<option value="" disabled ${curClass ? "" : "selected"}>선택하세요</option>` +
+      CLASS_OPTIONS.map((c) => `<option value="${c}" ${curClass === c ? "selected" : ""}>${c}</option>`).join("");
     ov.innerHTML = `
       <div class="login-card profile-card">
         <h2>👤 학습자 정보 ${store.profile ? "수정" : "등록"}</h2>
         <p class="login-desc">아래 정보는 수료증·디지털 배지 발급과 교수 통지 메일에 사용됩니다.<br>정확하게 입력해 주세요.</p>
         ${u ? `<div class="auth-line">🔐 <b>${esc(u.name)}</b> (${esc(u.email)}) 계정으로 인증됨</div>` : ""}
         <form id="profileForm" class="cert-form profile-form">
-          <label>학과 <input name="dept" value="${esc(p.dept || "간호학과")}" required maxlength="20"></label>
+          <label>학과 <input name="dept" value="간호학과" readonly class="readonly"></label>
           <label>학년 <select name="grade">${gradeOpts}</select></label>
-          <label>반 <input name="classNo" value="${esc(p.classNo || "")}" placeholder="예: A반" required maxlength="10"></label>
+          <label>반 <select name="classNo" required>${classOpts}</select></label>
           <label>학번 <input name="sid" value="${esc(p.sid || "")}" placeholder="예: 20241234" required maxlength="15"></label>
           <label>성명 <input name="name" value="${esc(p.name || (u ? u.name : ""))}" placeholder="예: 홍길동" required maxlength="20"></label>
           <label>이메일 <input name="email" type="email" value="${esc(p.email || (u ? u.email : ""))}" placeholder="예: id@scjc.ac.kr" required maxlength="60"></label>
@@ -136,14 +145,41 @@
       e.preventDefault();
       const fd = new FormData(e.target);
       const prof = {};
-      for (const k of ["dept", "grade", "classNo", "sid", "name", "email"]) prof[k] = String(fd.get(k) || "").trim();
-      if (Object.values(prof).some((v) => !v)) { alert("모든 항목(학과·학년·반·학번·성명·이메일)을 입력해 주세요."); return; }
+      for (const k of ["grade", "classNo", "sid", "name", "email"]) prof[k] = String(fd.get(k) || "").trim();
+      prof.dept = "간호학과";
+      if (Object.values(prof).some((v) => !v)) { alert("모든 항목(학년·반·학번·성명·이메일)을 입력해 주세요."); return; }
       store.profile = prof;
       saveStore(store);
       ov.remove();
       updateUserChip();
       if (onDone) onDone(); else route();
     });
+  }
+
+  function showProfileView() {
+    if ($("#profileViewOverlay")) return;
+    const p = store.profile;
+    if (!p) { showProfileSetup(); return; }
+    const u = currentUser();
+    const ov = document.createElement("div");
+    ov.className = "login-overlay";
+    ov.id = "profileViewOverlay";
+    ov.innerHTML = `
+      <div class="login-card profile-card">
+        <h2>👤 내 정보</h2>
+        ${u ? `<div class="auth-line">🔐 <b>${esc(u.name)}</b> (${esc(u.email)}) 계정으로 인증됨</div>` : ""}
+        <table class="cert-info" style="margin:14px auto">
+          <tr><th>학과</th><td>${esc(p.dept)}</td></tr>
+          <tr><th>학년 / 반</th><td>${esc(String(p.grade))}학년 ${esc(fmtClass(p.classNo))}</td></tr>
+          <tr><th>학번</th><td>${esc(p.sid)}</td></tr>
+          <tr><th>성명</th><td>${esc(p.name)}</td></tr>
+          <tr><th>이메일</th><td>${esc(p.email)}</td></tr>
+        </table>
+        <p class="login-note">이 화면에서는 정보를 확인만 할 수 있습니다.</p>
+        <button class="btn-primary" id="profileViewClose">닫기</button>
+      </div>`;
+    document.body.appendChild(ov);
+    $("#profileViewClose").addEventListener("click", () => ov.remove());
   }
 
   function updateUserChip() {
@@ -154,14 +190,14 @@
     if (u || p) {
       const display = (p && p.name) || (u && u.name) || "";
       area.innerHTML = `
-        <span class="user-chip" id="profileChip" title="내 정보 수정 — ${esc((p && p.email) || (u && u.email) || "")}">
+        <span class="user-chip" id="profileChip" title="내 정보 확인 — ${esc((p && p.email) || (u && u.email) || "")}">
           ${u && u.picture ? `<img src="${esc(u.picture)}" alt="" referrerpolicy="no-referrer">` : "👤"}
           <span class="user-name">${esc(display)}</span>
         </span>
         ${u ? `<button class="logout-btn" id="logoutBtn">로그아웃</button>` : `<button class="logout-btn" id="profileEditBtn">내 정보</button>`}`;
-      $("#profileChip").addEventListener("click", () => showProfileSetup());
+      $("#profileChip").addEventListener("click", () => showProfileView());
       $("#logoutBtn")?.addEventListener("click", logout);
-      $("#profileEditBtn")?.addEventListener("click", () => showProfileSetup());
+      $("#profileEditBtn")?.addEventListener("click", () => showProfileView());
     } else if (authEnabled()) {
       area.innerHTML = `<button class="logout-btn" id="loginBtn">로그인</button>`;
       $("#loginBtn").addEventListener("click", showLogin);
@@ -653,7 +689,7 @@
         ${u ? `<div class="callout ok" style="margin-top:0">🔐 <b>본인 인증됨</b>: ${esc(u.name)} (${esc(u.email)}) — 이 Google 계정 정보가 수료증에 인증 표시되고, 발급 내용이 ${esc(CFG.professorName || "담당 교수")}에게 통지됩니다.</div>` : `<div class="callout warn" style="margin-top:0">⚠️ Google 로그인이 설정되지 않아 인증 표시 없이 발급됩니다.</div>`}
         <table class="cert-info" style="margin:16px auto">
           <tr><th>학과</th><td>${esc(p.dept)}</td></tr>
-          <tr><th>학년 / 반</th><td>${esc(String(p.grade))}학년 ${esc(p.classNo)}</td></tr>
+          <tr><th>학년 / 반</th><td>${esc(String(p.grade))}학년 ${esc(fmtClass(p.classNo))}</td></tr>
           <tr><th>학번</th><td>${esc(p.sid)}</td></tr>
           <tr><th>성명</th><td>${esc(p.name)}</td></tr>
           <tr><th>이메일</th><td>${esc(p.email)}</td></tr>
@@ -684,7 +720,7 @@
             <div class="cert-sub">CERTIFICATE OF COMPLETION</div>
             <table class="cert-info">
               <tr><th>학&nbsp;&nbsp;과</th><td>${esc(cert.dept)}</td></tr>
-              <tr><th>학년 / 반</th><td>${esc(String(cert.grade))}학년 ${esc(cert.classNo)}</td></tr>
+              <tr><th>학년 / 반</th><td>${esc(String(cert.grade))}학년 ${esc(fmtClass(cert.classNo))}</td></tr>
               <tr><th>학&nbsp;&nbsp;번</th><td>${esc(cert.sid)}</td></tr>
               <tr><th>성&nbsp;&nbsp;명</th><td>${esc(cert.name)}</td></tr>
               ${cert.email ? `<tr><th>이메일</th><td>${esc(cert.email)}</td></tr>` : ""}
@@ -693,7 +729,10 @@
             전 과정(13개 장)을 성실히 이수하고 장별 복습 퀴즈에서 ${QUIZ_PASS}점 이상을
             취득하였으므로 이 증서를 수여합니다.</p>
             <div class="cert-date">${esc(cert.date)}</div>
-            <div class="cert-issuer">청암대학교 간호학과 <b>제프리 교수</b> <span class="seal">제프리<br>印</span></div>
+            <div class="cert-issuer">청암대학교 간호학과 <b>제프리 교수</b>
+              <span class="seal-wrap"><img class="seal-img" src="assets/seal.png" alt="직인"
+                onerror="this.parentElement.classList.add('seal'); this.parentElement.innerHTML='제프리&lt;br&gt;印';"></span>
+            </div>
             ${cert.authEmail ? `<div class="cert-auth">🔐 본인 인증: Google 계정 ${esc(cert.authName || "")} &lt;${esc(cert.authEmail)}&gt;${cert.nameMatch === false ? " (성명-계정 이름 불일치)" : ""}</div>` : ""}
           </div>
         </div>
@@ -762,7 +801,7 @@
       certNo: cert.certNo,
       dept: cert.dept,
       grade: cert.grade,
-      classNo: cert.classNo,
+      classNo: fmtClass(cert.classNo),
       sid: cert.sid,
       name: cert.name,
       email: cert.email || "",
