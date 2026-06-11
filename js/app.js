@@ -81,6 +81,7 @@
             saveStore(store);
             ov.remove();
             route();
+            if (!store.profile) showProfileSetup();
           } catch (e) {
             alert("로그인 처리 중 오류가 발생했습니다. 다시 시도해 주세요.");
           }
@@ -99,18 +100,68 @@
     if (authEnabled()) showLogin();
   }
 
+  /* ---------- 학습자 정보 (수료증 발급용 프로필) ---------- */
+  function showProfileSetup(onDone) {
+    if ($("#profileOverlay")) return;
+    const u = currentUser();
+    const p = store.profile || {};
+    const ov = document.createElement("div");
+    ov.className = "login-overlay";
+    ov.id = "profileOverlay";
+    const gradeOpts = [1, 2, 3, 4]
+      .map((g) => `<option value="${g}" ${String(p.grade || 3) == String(g) ? "selected" : ""}>${g}학년</option>`)
+      .join("");
+    ov.innerHTML = `
+      <div class="login-card profile-card">
+        <h2>👤 학습자 정보 ${store.profile ? "수정" : "등록"}</h2>
+        <p class="login-desc">아래 정보는 수료증·디지털 배지 발급과 교수 통지 메일에 사용됩니다.<br>정확하게 입력해 주세요.</p>
+        ${u ? `<div class="auth-line">🔐 <b>${esc(u.name)}</b> (${esc(u.email)}) 계정으로 인증됨</div>` : ""}
+        <form id="profileForm" class="cert-form profile-form">
+          <label>학과 <input name="dept" value="${esc(p.dept || "간호학과")}" required maxlength="20"></label>
+          <label>학년 <select name="grade">${gradeOpts}</select></label>
+          <label>반 <input name="classNo" value="${esc(p.classNo || "")}" placeholder="예: A반" required maxlength="10"></label>
+          <label>학번 <input name="sid" value="${esc(p.sid || "")}" placeholder="예: 20241234" required maxlength="15"></label>
+          <label>성명 <input name="name" value="${esc(p.name || (u ? u.name : ""))}" placeholder="예: 홍길동" required maxlength="20"></label>
+          <label>이메일 <input name="email" type="email" value="${esc(p.email || (u ? u.email : ""))}" placeholder="예: id@scjc.ac.kr" required maxlength="60"></label>
+          <div class="full" style="text-align:center;margin-top:4px">
+            <button class="btn-primary" type="submit">저장</button>
+            ${store.profile ? '<button class="btn-ghost" type="button" id="profileCancel">취소</button>' : ""}
+          </div>
+        </form>
+      </div>`;
+    document.body.appendChild(ov);
+    const cancel = $("#profileCancel");
+    if (cancel) cancel.addEventListener("click", () => ov.remove());
+    $("#profileForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const prof = {};
+      for (const k of ["dept", "grade", "classNo", "sid", "name", "email"]) prof[k] = String(fd.get(k) || "").trim();
+      if (Object.values(prof).some((v) => !v)) { alert("모든 항목(학과·학년·반·학번·성명·이메일)을 입력해 주세요."); return; }
+      store.profile = prof;
+      saveStore(store);
+      ov.remove();
+      updateUserChip();
+      if (onDone) onDone(); else route();
+    });
+  }
+
   function updateUserChip() {
     const area = $("#userArea");
     if (!area) return;
     const u = currentUser();
-    if (u) {
+    const p = store.profile;
+    if (u || p) {
+      const display = (p && p.name) || (u && u.name) || "";
       area.innerHTML = `
-        <span class="user-chip" title="${esc(u.email)}">
-          ${u.picture ? `<img src="${esc(u.picture)}" alt="" referrerpolicy="no-referrer">` : "👤"}
-          <span class="user-name">${esc(u.name)}</span>
+        <span class="user-chip" id="profileChip" title="내 정보 수정 — ${esc((p && p.email) || (u && u.email) || "")}">
+          ${u && u.picture ? `<img src="${esc(u.picture)}" alt="" referrerpolicy="no-referrer">` : "👤"}
+          <span class="user-name">${esc(display)}</span>
         </span>
-        <button class="logout-btn" id="logoutBtn">로그아웃</button>`;
-      $("#logoutBtn").addEventListener("click", logout);
+        ${u ? `<button class="logout-btn" id="logoutBtn">로그아웃</button>` : `<button class="logout-btn" id="profileEditBtn">내 정보</button>`}`;
+      $("#profileChip").addEventListener("click", () => showProfileSetup());
+      $("#logoutBtn")?.addEventListener("click", logout);
+      $("#profileEditBtn")?.addEventListener("click", () => showProfileSetup());
     } else if (authEnabled()) {
       area.innerHTML = `<button class="logout-btn" id="loginBtn">로그인</button>`;
       $("#loginBtn").addEventListener("click", showLogin);
@@ -583,29 +634,34 @@
       </div>`;
   }
 
-  function certFormView(prev) {
+  function certFormView() {
+    const p = store.profile;
     const u = currentUser();
-    const v = prev || (u ? { name: u.name } : {});
-    const gradeOpts = [1, 2, 3, 4]
-      .map((g) => `<option value="${g}" ${String(v.grade || 3) == String(g) ? "selected" : ""}>${g}학년</option>`)
-      .join("");
+    if (!p) {
+      return `
+        <div class="card" style="text-align:center">
+          <h2 style="justify-content:center">👤 학습자 정보가 필요합니다</h2>
+          <p>수료증 발급에는 학과·학년·반·학번·성명·이메일 정보가 필요합니다.<br>학습자 정보를 먼저 등록해 주세요.</p>
+          <button class="btn-primary" id="certProfileBtn">학습자 정보 등록</button>
+        </div>`;
+    }
     return `
       <div class="card">
         <h2>🎉 축하합니다! 발급 기준을 모두 충족했습니다</h2>
         <p>13개 전 장 학습 완료 + 장별 복습 퀴즈 ${QUIZ_PASS}점 이상을 달성했습니다.
-        아래 정보를 입력하면 수료증과 디지털 배지가 발급됩니다.</p>
-        ${currentUser() ? `<div class="callout ok" style="margin-top:0">🔐 <b>본인 인증됨</b>: ${esc(currentUser().name)} (${esc(currentUser().email)}) — 이 Google 계정 정보가 수료증에 인증 표시되고, 발급 내용이 ${esc(CFG.professorName || "담당 교수")}에게 통지됩니다.</div>` : `<div class="callout warn" style="margin-top:0">⚠️ Google 로그인이 설정되지 않아 인증 표시 없이 발급됩니다.</div>`}
-        <form id="certForm" class="cert-form">
-          <label>학과 <input name="dept" value="${esc(v.dept || "간호학과")}" required maxlength="20"></label>
-          <label>학년 <select name="grade">${gradeOpts}</select></label>
-          <label>반 <input name="classNo" value="${esc(v.classNo || "")}" placeholder="예: A반" required maxlength="10"></label>
-          <label>학번 <input name="sid" value="${esc(v.sid || "")}" placeholder="예: 20241234" required maxlength="15"></label>
-          <label class="full">성명 <input name="name" value="${esc(v.name || "")}" placeholder="예: 홍길동" required maxlength="20"></label>
-          <div class="full" style="text-align:center;margin-top:6px">
-            <button class="btn-primary" type="submit">🎓 수료증 · 디지털 배지 발급</button>
-            ${prev ? '<button class="btn-ghost" type="button" id="cancelEdit">취소</button>' : ""}
-          </div>
-        </form>
+        아래 학습자 정보로 수료증과 디지털 배지가 발급됩니다.</p>
+        ${u ? `<div class="callout ok" style="margin-top:0">🔐 <b>본인 인증됨</b>: ${esc(u.name)} (${esc(u.email)}) — 이 Google 계정 정보가 수료증에 인증 표시되고, 발급 내용이 ${esc(CFG.professorName || "담당 교수")}에게 통지됩니다.</div>` : `<div class="callout warn" style="margin-top:0">⚠️ Google 로그인이 설정되지 않아 인증 표시 없이 발급됩니다.</div>`}
+        <table class="cert-info" style="margin:16px auto">
+          <tr><th>학과</th><td>${esc(p.dept)}</td></tr>
+          <tr><th>학년 / 반</th><td>${esc(String(p.grade))}학년 ${esc(p.classNo)}</td></tr>
+          <tr><th>학번</th><td>${esc(p.sid)}</td></tr>
+          <tr><th>성명</th><td>${esc(p.name)}</td></tr>
+          <tr><th>이메일</th><td>${esc(p.email)}</td></tr>
+        </table>
+        <div style="text-align:center">
+          <button class="btn-primary" id="issueCert">🎓 수료증 · 디지털 배지 발급</button>
+          <button class="btn-ghost" id="certProfileBtn">내 정보 수정</button>
+        </div>
       </div>`;
   }
 
@@ -631,6 +687,7 @@
               <tr><th>학년 / 반</th><td>${esc(String(cert.grade))}학년 ${esc(cert.classNo)}</td></tr>
               <tr><th>학&nbsp;&nbsp;번</th><td>${esc(cert.sid)}</td></tr>
               <tr><th>성&nbsp;&nbsp;명</th><td>${esc(cert.name)}</td></tr>
+              ${cert.email ? `<tr><th>이메일</th><td>${esc(cert.email)}</td></tr>` : ""}
             </table>
             <p class="cert-body">위 학생은 청암대학교 간호학과 「AI융합 간호정보학」 교과목의
             전 과정(13개 장)을 성실히 이수하고 장별 복습 퀴즈에서 ${QUIZ_PASS}점 이상을
@@ -709,6 +766,7 @@
       classNo: cert.classNo,
       sid: cert.sid,
       name: cert.name,
+      email: cert.email || "",
       authName: cert.authName || "",
       authEmail: cert.authEmail || "",
       nameMatch: cert.nameMatch !== false,
@@ -737,6 +795,7 @@
       `학년/반: ${p.grade}학년 ${p.classNo}`,
       `학번: ${p.sid}`,
       `성명: ${p.name}`,
+      `이메일: ${p.email}`,
       p.authEmail ? `Google 계정 인증: ${p.authName} <${p.authEmail}>${p.nameMatch ? "" : " (성명-계정 이름 불일치)"}` : "Google 계정 인증: (미인증 발급)",
       "",
       "발급 기준: 13개 전 장 학습 완료 + 장별 복습 퀴즈 90점 이상",
@@ -763,58 +822,53 @@
     img.src = url;
   }
 
-  function bindCertEvents(cert, forceForm) {
-    const form = $("#certForm");
-    if (form) {
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const fd = new FormData(form);
-        const data = {
-          dept: (fd.get("dept") || "").trim(),
-          grade: (fd.get("grade") || "").trim(),
-          classNo: (fd.get("classNo") || "").trim(),
-          sid: (fd.get("sid") || "").trim(),
-          name: (fd.get("name") || "").trim(),
-        };
-        if (!data.dept || !data.grade || !data.classNo || !data.sid || !data.name) {
-          alert("모든 항목(학과·학년·반·학번·성명)을 입력해 주세요.");
-          return;
-        }
-        const u = currentUser();
-        if (u) {
-          data.authName = u.name;
-          data.authEmail = u.email;
-          const norm = (s) => String(s || "").replace(/\s+/g, "").toLowerCase();
-          data.nameMatch = norm(u.name) === norm(data.name) || norm(u.name).includes(norm(data.name)) || norm(data.name).includes(norm(u.name));
-          if (!data.nameMatch && !confirm(
-            `입력한 성명(${data.name})이 로그인한 Google 계정 이름(${u.name})과 다릅니다.\n` +
-            `본인 명의가 아닌 수료증 발급은 도용에 해당할 수 있으며, 불일치 사실이 수료증과 교수 통지 메일에 표시됩니다.\n계속할까요?`)) {
-            return;
-          }
-        }
-        const now = new Date();
-        data.date = todayKorean();
-        data.year = now.getFullYear();
-        data.certNo = `AINI-${now.getFullYear()}-${data.sid}`;
-        store.cert = data;
-        saveStore(store);
-        notifyProfessor(data).then((status) => {
-          store.cert.notify = status;
-          saveStore(store);
-          renderSidebar("certificate");
-          renderCertificate();
-          window.scrollTo({ top: 0 });
-        });
-      });
-      const cancel = $("#cancelEdit");
-      if (cancel) cancel.addEventListener("click", () => renderCertificate());
+  function issueCert() {
+    const p = store.profile;
+    if (!p) { showProfileSetup(() => renderCertificate()); return; }
+    const data = { ...p };
+    const u = currentUser();
+    if (u) {
+      data.authName = u.name;
+      data.authEmail = u.email;
+      const norm = (s) => String(s || "").replace(/\s+/g, "").toLowerCase();
+      data.nameMatch = norm(u.name) === norm(data.name) || norm(u.name).includes(norm(data.name)) || norm(data.name).includes(norm(u.name));
+      if (!data.nameMatch && !confirm(
+        `등록된 성명(${data.name})이 로그인한 Google 계정 이름(${u.name})과 다릅니다.\n` +
+        `본인 명의가 아닌 수료증 발급은 도용에 해당할 수 있으며, 불일치 사실이 수료증과 교수 통지 메일에 표시됩니다.\n계속할까요?`)) {
+        return;
+      }
     }
+    const now = new Date();
+    data.date = todayKorean();
+    data.year = now.getFullYear();
+    data.certNo = `AINI-${now.getFullYear()}-${data.sid}`;
+    store.cert = data;
+    saveStore(store);
+    notifyProfessor(data).then((status) => {
+      store.cert.notify = status;
+      saveStore(store);
+      renderSidebar("certificate");
+      renderCertificate();
+      window.scrollTo({ top: 0 });
+    });
+  }
+
+  function bindCertEvents(cert, forceForm) {
+    $("#issueCert")?.addEventListener("click", issueCert);
+    $("#certProfileBtn")?.addEventListener("click", () => showProfileSetup(() => renderCertificate(forceForm)));
     $("#certLoginBtn")?.addEventListener("click", showLogin);
     if (cert && !forceForm) {
       $("#printCert")?.addEventListener("click", () => window.print());
       $("#downloadBadge")?.addEventListener("click", () => downloadBadgePNG(cert));
       $("#mailProfessor")?.addEventListener("click", () => mailtoProfessor(cert));
-      $("#editCert")?.addEventListener("click", () => renderCertificate(true));
+      $("#editCert")?.addEventListener("click", () => showProfileSetup(() => {
+        if (store.cert && store.profile) {
+          Object.assign(store.cert, store.profile);
+          store.cert.certNo = `AINI-${store.cert.year}-${store.cert.sid}`;
+          saveStore(store);
+        }
+        renderCertificate();
+      }));
       $("#deleteCert")?.addEventListener("click", () => {
         if (confirm("발급 기록을 삭제할까요? 기준을 충족하는 한 다시 발급할 수 있습니다.")) {
           delete store.cert;
@@ -859,4 +913,5 @@
   window.addEventListener("hashchange", route);
   route();
   if (authEnabled() && !currentUser()) showLogin();
+  else if (!store.profile) showProfileSetup();
 })();

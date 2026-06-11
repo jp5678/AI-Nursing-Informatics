@@ -539,7 +539,19 @@ button { font-family: inherit; cursor: pointer; }
 .g-btn-wrap { display: flex; justify-content: center; min-height: 44px; }
 .login-note { font-size: 11.5px; color: var(--text-sub); margin-top: 18px; line-height: 1.6; }
 
+.profile-card { max-width: 470px; }
+.profile-card h2 { justify-content: center; }
+.profile-form { text-align: left; margin-top: 12px; }
+.auth-line {
+  font-size: 12.5px; background: var(--ok-bg); color: var(--ok);
+  border: 1px solid #c6ebd9; border-radius: 9px; padding: 8px 11px; margin: 4px 0 2px;
+}
+@media (max-width: 520px) {
+  .profile-form { grid-template-columns: 1fr; }
+}
+
 .user-area { display: flex; align-items: center; gap: 8px; }
+.user-chip { cursor: pointer; }
 .user-chip {
   display: flex; align-items: center; gap: 7px;
   background: rgba(255, 255, 255, .18); border-radius: 999px;
