@@ -2,6 +2,7 @@
    AI융합 간호정보학 — 학습 데이터
    청암대학교 간호학과 3학년
    ※ 1~13장 학습 내용·용어·복습 퀴즈·Q&A는 교재 원고(ch01~ch13)에서 추출
+   ※ 14장(Special)은 바이브 코딩 입문 원고(ch14)에서 추출
    ========================================================= */
 
 const COURSE = {
@@ -41,7 +42,7 @@ const CLOSING = {
   ]
 };
 
-/* part: 교재 4부 구성 */
+/* part: 교재 4부 + 특별장 구성 */
 const PARTS = [
   {
     "range": [
@@ -70,6 +71,14 @@ const PARTS = [
       13
     ],
     "label": "13장 · 통합 비전 (Vision)"
+  },
+  {
+    "range": [
+      14,
+      14
+    ],
+    "label": "특별장 · 바이브 코딩 (Special)",
+    "special": true
   }
 ];
 
@@ -3255,6 +3264,78 @@ const CHAPTERS = [
     "sources": [
       "Dornan M. (2025). Every nurse an AI nurse. DIGITAL HEALTH. DOI: 10.1177/20552076251377939",
       "Wolters Kluwer. (2026). 2025 Future Ready Survey"
+    ]
+  },
+  {
+    "id": 14,
+    "special": true,
+    "title": "바이브 코딩 입문",
+    "titleEn": "Introduction to Vibe Coding",
+    "objectives": [
+      "바이브 코딩(Vibe Coding)의 정의와 탄생 배경을 설명하고, 전통적 프로그래밍과의 차이를 비교할 수 있다. (이해·분석)",
+      "좋은 프롬프트 작성 5원칙을 적용하여 AI에게 명확한 지시문을 작성할 수 있다. (적용)",
+      "Google Antigravity, Claude Code, OpenAI Codex 세 가지 도구를 각각 설치하고 기본적인 앱을 생성할 수 있다. (적용·창조)",
+      "학업·업무 생산성 향상을 위한 바이브 코딩 활용 사례를 자신의 맥락에 맞게 응용할 수 있다. (적용·종합)",
+      "바이브 코딩의 보안·윤리적 한계를 설명하고, 의료 환경에서의 안전한 활용 원칙을 적용할 수 있다. (분석·평가)"
+    ],
+    "sections": [
+      {
+        "icon": "🎯",
+        "title": "왜 간호정보학에 바이브 코딩인가",
+        "html": "<p>이 교재의 1~13장은 간호사가 AI를 '비판적으로 활용하는 주체'가 되어야 한다는 점을 일관되게 강조해왔습니다. TRACE 프레임워크로 AI 출력을 검증하고, Human-in-the-Loop 원칙으로 최종 판단의 책임을 지며, AI 윤리와 편향을 식별하는 역량 — 이 모든 것은 '간호사가 AI를 이해하고 다루는 사람'이 되어야 한다는 전제 위에 서 있습니다.</p><p>그런데 한 가지 질문이 남습니다. 간호사가 AI를 '소비'하는 것을 넘어, 직접 무언가를 '만들어내는' 경험을 가질 수는 없을까요? 이 질문에 대한 답이 바로 <b>바이브 코딩 입문</b>입니다.</p><h4>도입 이유 다섯 가지</h4><ul><li><b>🔑 첫째 — 비판적 AI 활용 역량의 완성</b>: TRACE 검증·프롬프트 엔지니어링은 글로 배우는 것과 직접 해보는 것의 차이가 큽니다. 직접 활력징후 기록 앱을 만들어보면 'AI 결과를 그대로 믿어선 안 된다'는 추상적 원칙이 '저장 버튼이 작동하지 않는다', '비정상 수치가 빨간색으로 표시되지 않는다'는 구체적 경험으로 전환됩니다.</li><li><b>🔑 둘째 — 간호 업무의 디지털 격차 해소</b>: IT 부서에 요청하고 기다리는 대신, 간호사 스스로 자신의 워크플로우에 맞는 작은 도구(체크리스트·인수인계 양식·교육 진도 관리)를 빠르게 만들 수 있습니다.</li><li><b>🔑 셋째 — 자기주도 학습 도구로서의 가치</b>: 국가시험 퀴즈, 약물 계산 연습, 의학 용어 플래시카드처럼 개개인에게 꼭 맞는 학습 도구를 그 자리에서 즉시 만들어낼 수 있습니다.</li><li><b>🔑 넷째 — 2026년 현재의 산업 현실 반영</b>: 미국 개발자의 92%가 바이브 코딩을 활용하며, 이는 개발자만의 특수 기술이 아니라 모든 직군의 디지털 리터러시로 확장되고 있습니다.</li><li><b>🔑 다섯째 — 교재의 비전과의 정합성</b>: 임상 문제를 데이터에 기반해 정의하고 정보 시스템 개선을 제안하며 기술과 간호 실무의 간극을 메우는 인재 — 바이브 코딩은 그 '간극을 메우는' 구체적 실천 도구입니다.</li></ul><div class=\"callout info\"><b>📌 핵심 메시지</b><br>이 장은 '코딩을 가르치기 위함'이 아닙니다. AI 시대 간호사에게 필요한 비판적 사고와 실천 역량을 직접 만들어보는 경험으로 완성시키기 위함입니다. <b>AI가 코드를 작성하는 동안, 당신은 목적과 안전을 판단하십시오.</b> 이 원칙은 임상에서도, 코딩에서도 동일하게 적용됩니다.</div>"
+      },
+      {
+        "icon": "🌊",
+        "title": "1. 바이브 코딩이란 무엇인가?",
+        "html": "<p>2025년 2월 2일, 전 테슬라 AI 총괄이자 OpenAI 공동 창업자인 <b>Andrej Karpathy</b>가 X(구 트위터)에 '바이브 코딩(Vibe Coding)'이라는 개념을 처음 선보였습니다. 자연어로 원하는 것을 설명하면 AI가 코드를 자동으로 생성하는 소프트웨어 개발 방식을 일컫는 말입니다.</p><div class=\"callout info\"><b>📋 Andrej Karpathy의 원문 (2025.2.2.)</b><br>\"There's a new kind of coding I call 'vibe coding', where you fully give in to the vibes, embrace exponentials, and forget that the code even exists. I Accept All always, I don't read the diffs anymore.\"<br><br>번역: '저는 바이브 코딩이라는 새로운 코딩 방식을 실험하고 있습니다. 분위기(Vibe)에 완전히 맡기고 코드가 존재한다는 것조차 잊어버립니다. 저는 항상 모두 수락을 누르고, 변경 내용을 더 이상 읽지 않습니다.'</div><p>이 한 줄이 IT 업계에 폭발적 반향을 일으켰습니다. 2025년 3월 Merriam-Webster 사전에 등재되었고, 같은 해 말 Collins English Dictionary 올해의 단어로 선정되었습니다. 2026년 현재 미국 개발자의 92%가 어떤 형태로든 바이브 코딩을 업무에 활용하고 있으며, 관련 AI 코딩 도구 시장은 85억 달러 규모로 성장할 것으로 전망됩니다.</p><table><tr><th>연도·시기</th><th>사건</th></tr><tr><td>2025년 2월</td><td>Andrej Karpathy X 게시물 → 바이브 코딩 개념 탄생</td></tr><tr><td>2025년 3월</td><td>Merriam-Webster 사전 '슬랭 &amp; 트렌딩' 표현으로 등재</td></tr><tr><td>2025년 3월</td><td>Y Combinator: 스타트업 25%가 코드베이스의 95%를 AI로 생성</td></tr><tr><td>2025년 말</td><td>Collins English Dictionary 2025 올해의 단어 선정</td></tr><tr><td>2026년 현재</td><td>미국 개발자 92% 활용 · 시장 규모 85억 달러 전망</td></tr></table><div class=\"callout ok\"><b>🔄 바이브 코딩 4단계 루프</b><br>① <b>설명(Describe)</b>: 원하는 것을 한국어로 자세히 설명<br>② <b>생성(Generate)</b>: AI가 코드와 파일 구조를 자동 생성<br>③ <b>실행·확인(Run &amp; Observe)</b>: 생성된 결과를 직접 실행하여 확인<br>④ <b>피드백(Refine)</b>: 문제점·추가 기능을 다시 자연어로 지시<br>→ 원하는 결과가 나올 때까지 ①~④를 반복</div><h4>전통적 프로그래밍 vs. 바이브 코딩</h4><table><tr><th>구분</th><th>전통적 프로그래밍</th><th>바이브 코딩</th></tr><tr><td>진입 장벽</td><td>언어 문법 학습 필수 (수백~수천 시간)</td><td>자연어로 지시. 코딩 지식 불필요</td></tr><tr><td>주된 기술</td><td>코드 작성 능력</td><td>좋은 질문(프롬프트) 작성 능력</td></tr><tr><td>속도</td><td>기능 하나에 수 시간~수 일</td><td>아이디어에서 작동 앱까지 수 분~수 시간</td></tr><tr><td>결과물 검토</td><td>모든 코드를 직접 이해·검토</td><td>결과 동작 확인 후 피드백으로 개선</td></tr></table><h4>2026년 3대 바이브 코딩 도구</h4><table><tr><th>도구</th><th>만든 곳</th><th>출시</th><th>특징</th></tr><tr><td>Google Antigravity</td><td>Google</td><td>2025.11.18.</td><td>에이전트 우선 IDE. VS Code 기반. 자율 에이전트가 계획·코딩·테스트 자동 수행. 무료 미리보기</td></tr><tr><td>Claude Code</td><td>Anthropic</td><td>2025년</td><td>터미널 기반 대화형 에이전트. 전체 프로젝트 맥락 이해력 탁월</td></tr><tr><td>OpenAI Codex</td><td>OpenAI</td><td>2025~2026년</td><td>ChatGPT 계정 연동. 데스크톱 앱+CLI+클라우드 실행 지원</td></tr></table>"
+      },
+      {
+        "icon": "✍️",
+        "title": "2. 프롬프트 작성법 — AI에게 말 걸기",
+        "html": "<p>바이브 코딩에서 가장 중요한 기술은 프로그래밍 언어가 아닙니다. 2장에서 학습한 <b>프롬프트 엔지니어링</b> 원칙이 그대로 적용됩니다. AI에게 명확하게 지시하는 '프롬프트' 작성 능력이 결과의 품질을 결정합니다.</p><div class=\"callout ok\"><b>✍️ 좋은 프롬프트의 5원칙</b><br>① <b>역할 부여</b>: AI에게 어떤 전문가 역할을 맡길지 설명 — \"당신은 10년 경력의 웹 개발자입니다.\"<br>② <b>맥락 제공</b>: 누가 왜 사용할 앱인지 설명 — \"간호학과 학생들이 실습 때 사용할 앱입니다.\"<br>③ <b>구체적 기능</b>: 필요한 기능을 번호로 나열 — \"1. 환자 이름 입력 2. 날짜 자동 기록 3. 저장 후 목록 표시\"<br>④ <b>기술 제약</b>: 사용할 기술·금지 사항 명시 — \"HTML, CSS, JavaScript만 사용. 외부 라이브러리 불필요.\"<br>⑤ <b>출력 형식</b>: 결과물의 형태 지정 — \"단일 HTML 파일로. 모바일에서도 잘 보여야 합니다.\"</div><h4>나쁜 프롬프트 vs. 좋은 프롬프트</h4><table><tr><th>❌ 나쁜 예</th><th>✅ 좋은 예</th><th>핵심 차이</th></tr><tr><td>\"앱 만들어줘\"</td><td>\"간호학과 학생이 환자 활력징후를 기록하는 웹 앱. 단일 HTML 파일, LocalStorage 저장, 모바일 반응형.\"</td><td>목적·기능·형식 모두 명시</td></tr><tr><td>\"수정해줘\"</td><td>\"저장 버튼을 눌러도 데이터가 사라지는 버그. 새로고침 후에도 데이터가 유지되도록 localStorage로 수정해줘.\"</td><td>어떤 버그인지 구체적</td></tr><tr><td>\"예쁘게 해줘\"</td><td>\"배경 흰색, 버튼은 파란색 둥근 모서리(8px), 글씨체는 Noto Sans Korean으로 변경.\"</td><td>디자인 요소 수치 명시</td></tr></table><div class=\"callout warn\"><b>🔑 TRACE로 AI 생성 코드 검증하기</b><br><b>T</b> (신뢰성): 신뢰할 수 있는 방식으로 작성되었는가?<br><b>R</b> (최신성): 최신 기술 표준에 맞는 방식인가?<br><b>A</b> (정확성): 기능이 정확히 작동하는가? 직접 테스트해보자.<br><b>C</b> (완전성): 요청한 모든 기능이 포함되었는가?<br><b>E</b> (윤리성): 개인정보보호 등 윤리적 문제가 없는가?</div>"
+      },
+      {
+        "icon": "🪐",
+        "title": "3. Google Antigravity — 가장 쉬운 시작",
+        "html": "<p><b>Google Antigravity</b>는 2025년 11월 18일 Google이 출시한 에이전트 우선 개발 플랫폼입니다. VS Code를 기반으로 하며, 자율 에이전트가 코드 작성·실행·브라우저 테스트까지 자동 수행합니다.</p><h4>설치 — 단계별 가이드</h4><ul><li><b>STEP 1</b> 다운로드 페이지 접속: <a href=\"https://antigravity.google/\" target=\"_blank\" rel=\"noopener\">https://antigravity.google/</a> → 우측 상단 Download → Antigravity IDE 클릭 → macOS / Windows / Linux 중 선택</li><li><b>STEP 2</b> 운영체제별 설치 — macOS: .dmg 다운로드 후 Applications로 드래그 / Windows: .exe 더블클릭 / Linux: Antigravity.tar.gz 설치</li><li><b>STEP 3</b> Google 계정 로그인 — 첫 실행 시 'Sign in with Google' 클릭 → 브라우저에서 로그인 → 앱으로 복귀</li></ul><figure class=\"ch-figure\"><img src=\"assets/ch14/antigravity-download.jpg\" alt=\"Google Antigravity 다운로드 페이지\" loading=\"lazy\"><figcaption>📸 Google Antigravity 다운로드 페이지 — 운영체제에 맞는 버튼 선택</figcaption></figure><h4>화면 구성 이해</h4><table><tr><th>화면</th><th>역할</th><th>주요 기능</th></tr><tr><td>에이전트 관리자 (Agent Manager)</td><td>작업 지시 및 감독 (기본 시작 화면)</td><td>미션 입력, 진행 현황 모니터링, Artifact(결과물) 확인, 최대 5개 병렬 에이전트</td></tr><tr><td>편집기 (Editor)</td><td>생성된 코드 확인·수정</td><td>파일 탐색기, 코드 편집, 인라인 지시(코드 선택 후 AI에 개선 요청)</td></tr></table><div class=\"callout ok\"><b>🖥️ 핸즈온 실습: Antigravity로 활력징후 기록 앱 만들기</b> (소요 약 15분) — 3장 간호정보시스템 원리 적용<br><br><b>단계 1</b> 'vital-signs-app' 폴더 생성(한글명 피하기) → Antigravity에서 File → Open Folder<br><b>단계 2</b> Agent Manager에 아래 프롬프트 입력<br><b>단계 3</b> 에이전트의 구현 계획(Implementation Plan) 검토 후 '승인'<br><b>단계 4</b> 생성된 index.html을 브라우저에서 테스트 (□ 저장 □ 비정상 수치 빨간색 □ 새로고침 유지 □ CSV 다운로드)</div><div class=\"callout info\"><b>실습 프롬프트</b><br>\"간호학과 학생들이 환자의 활력징후를 기록하는 웹 앱을 만들어줘. 기능: 1. 환자 이름 입력 2. 혈압(수축기/이완기)·맥박·체온·호흡수 입력 3. 측정 시간 자동 기록 4. 저장 후 목록 표시(최신순) 5. 정상 범위를 벗어난 수치는 빨간색 표시(혈압 90-120/60-80, 맥박 60-100, 체온 36.5-37.5, 호흡 12-20) 6. CSV 다운로드. 단일 HTML 파일로, LocalStorage에 저장.\"</div><figure class=\"ch-figure\"><img src=\"assets/ch14/antigravity-mission.jpg\" alt=\"Antigravity 미션 입력\" loading=\"lazy\"><figcaption>📸 Agent Manager에 미션(프롬프트) 입력</figcaption></figure><figure class=\"ch-figure\"><img src=\"assets/ch14/vitalsigns-result.jpg\" alt=\"완성된 활력징후 기록 앱\" loading=\"lazy\"><figcaption>📸 완성된 활력징후 기록 앱 — 입력 폼, 기록 목록(비정상값 빨간색), CSV 다운로드</figcaption></figure><div class=\"callout warn\"><b>⚠️ 자주 발생하는 문제와 해결 프롬프트</b><br>· 저장 버튼이 반응 없음 → \"저장 버튼 클릭 시 아무것도 일어나지 않는 버그를 수정해줘.\"<br>· 새로고침하면 데이터가 사라짐 → \"페이지 새로고침 후에도 데이터가 유지되도록 localStorage 저장을 수정해줘.\"<br>· 모바일에서 화면이 깨짐 → \"스마트폰 화면에서 입력 폼과 테이블이 깔끔하게 보이도록 반응형 CSS를 수정해줘.\"</div>"
+      },
+      {
+        "icon": "💬",
+        "title": "4. Claude Code — 대화하듯 코딩하기",
+        "html": "<p><b>Claude Code</b>는 Anthropic이 개발한 터미널 기반 AI 코딩 에이전트입니다. 대화 형식으로 코딩 작업을 진행하며, 프로젝트 전체를 이해하고 여러 파일에 걸친 복잡한 작업을 수행합니다. 터미널·IDE·Slack·웹 등 어디서든 빌드·디버그·배포할 수 있습니다.</p><figure class=\"ch-figure\"><img src=\"assets/ch14/claudecode-download.jpg\" alt=\"Claude Code 소개 페이지\" loading=\"lazy\"><figcaption>📸 Claude Code 소개 페이지 — <a href=\"https://claude.com/ko/product/claude-code/\" target=\"_blank\" rel=\"noopener\">claude.com/ko/product/claude-code</a></figcaption></figure><h4>터미널 여는 법</h4><table><tr><th>운영체제</th><th>터미널 여는 방법</th></tr><tr><td>Windows</td><td>시작 메뉴 → 'cmd' 또는 'PowerShell' 검색 → 실행</td></tr><tr><td>macOS</td><td>Command(⌘) + Space → 'Terminal' 입력 → Enter</td></tr><tr><td>Linux</td><td>Ctrl + Alt + T</td></tr></table><h4>Node.js 및 Claude Code 설치</h4><ul><li><b>STEP 2</b> Node.js 확인 — 터미널에 <code>node --version</code>, v18.0.0 이상이면 설치됨. 오류 시 <a href=\"https://nodejs.org\" target=\"_blank\" rel=\"noopener\">nodejs.org</a>에서 LTS 설치</li><li><b>STEP 3</b> 설치 — <code>npm install -g @anthropic-ai/claude-code</code> → 확인 <code>claude --version</code></li></ul><figure class=\"ch-figure\"><img src=\"assets/ch14/claudecode-install.jpg\" alt=\"Claude Code 설치 확인\" loading=\"lazy\"><figcaption>📸 터미널에서 설치 및 버전 확인</figcaption></figure><h4>API 키 발급 및 설정</h4><ul><li><b>STEP 1</b> <a href=\"https://console.anthropic.com\" target=\"_blank\" rel=\"noopener\">console.anthropic.com</a> 로그인 → 'API 키' → '+ 키 생성' → 표시되는 키(sk-ant-...) 즉시 복사</li><li><b>STEP 2</b> 환경변수 설정 — Windows: <code>$env:ANTHROPIC_API_KEY=\"sk-ant-...\"</code> / macOS·Linux: <code>export ANTHROPIC_API_KEY=\"sk-ant-...\"</code></li></ul><div class=\"callout warn\"><b>⚠️ API 키 보안 주의</b><br>API 키는 비밀번호와 같습니다. 절대 공유하지 마세요. GitHub·메신저·이메일 등에 붙여넣기 금지.</div><div class=\"callout ok\"><b>🖥️ 핸즈온 실습: Claude Code로 주간 업무 보고서 자동화 앱 만들기</b> (소요 약 20분) — 9장 간호행정 효율화 원리 구현<br><br><b>단계 1</b> <code>mkdir weekly-report</code> → <code>cd weekly-report</code> → <code>claude</code><br><b>단계 2</b> 아래 프롬프트 입력<br><b>단계 3</b> 파일 생성 요청 시 'y' 입력하여 승인<br><b>단계 4</b> 생성된 index.html 브라우저 테스트 (□ 날짜 선택기 □ 업무 항목 추가/삭제 □ 미리보기·인쇄)</div><div class=\"callout info\"><b>실습 프롬프트</b><br>\"주간 업무 보고서를 작성하는 HTML 앱을 만들어줘. 기능: 1. 보고 기간(시작일~종료일) 2. 작성자(이름·부서) 3. 이번 주 완료 업무 목록(추가/삭제) 4. 다음 주 예정 업무 목록 5. 특이사항·건의사항 6. '미리보기' 버튼 클릭 시 인쇄용 레이아웃으로 변환. 단일 HTML 파일. 깔끔하고 전문적인 디자인.\"</div><figure class=\"ch-figure\"><img src=\"assets/ch14/claudecode-start.jpg\" alt=\"Claude Code 실행\" loading=\"lazy\"><figcaption>📸 프로젝트 폴더에서 claude 실행</figcaption></figure><figure class=\"ch-figure\"><img src=\"assets/ch14/claudecode-prompt1.jpg\" alt=\"Claude Code 프롬프트 입력\" loading=\"lazy\"><figcaption>📸 자연어 프롬프트로 앱 요청</figcaption></figure><figure class=\"ch-figure\"><img src=\"assets/ch14/report-result3.jpg\" alt=\"완성된 주간 업무 보고서 앱\" loading=\"lazy\"><figcaption>📸 완성된 주간 업무 보고서 앱 (인쇄용 미리보기 포함)</figcaption></figure><h4>유용한 명령어</h4><table><tr><th>명령어</th><th>기능</th></tr><tr><td>/plan</td><td>작업 계획만 먼저 보여줌 (코드 생성 없이 검토)</td></tr><tr><td>/clear</td><td>대화 기록 초기화. 새 주제 시작 시</td></tr><tr><td>ESC</td><td>진행 중인 작업 취소</td></tr></table>"
+      },
+      {
+        "icon": "🤖",
+        "title": "5. OpenAI Codex — ChatGPT로 코딩하기",
+        "html": "<p><b>OpenAI Codex</b>는 ChatGPT 계정으로 사용하는 AI 코딩 에이전트입니다. 데스크톱 앱과 터미널(CLI) 두 가지 방식으로 사용할 수 있습니다.</p><h4>방법 A: Codex 데스크톱 앱 (추천)</h4><ul><li><b>STEP 1</b> <a href=\"https://openai.com/codex/\" target=\"_blank\" rel=\"noopener\">openai.com/codex</a> → 'Download' → 운영체제에 맞는 버전 설치</li><li><b>STEP 2</b> Codex 앱 실행 → 'Sign in with OpenAI' → ChatGPT 계정 로그인 (Plus/Pro 구독 시 Codex 자동 포함)</li></ul><figure class=\"ch-figure\"><img src=\"assets/ch14/codex-download.jpg\" alt=\"OpenAI Codex 다운로드\" loading=\"lazy\"><figcaption>📸 OpenAI Codex 다운로드 페이지</figcaption></figure><div class=\"callout info\"><b>💻 방법 B: Codex CLI (터미널)</b><br><code>node --version</code> (Node.js 22 이상 확인) → <code>npm install -g @openai/codex</code> → <code>export OPENAI_API_KEY=\"sk-proj-...\"</code></div><h4>실행 모드 선택</h4><table><tr><th>모드</th><th>자율성</th><th>특징</th></tr><tr><td>suggest (기본)</td><td>낮음</td><td>모든 파일 수정 전 확인 요청 — 처음 사용 시 권장</td></tr><tr><td>auto-edit</td><td>중간</td><td>파일 수정 자동, 명령 실행은 확인</td></tr><tr><td>full-auto</td><td>높음</td><td>모든 작업 자동 — 신뢰할 수 있는 반복 작업에만</td></tr></table><div class=\"callout ok\"><b>🖥️ 핸즈온 실습: Codex로 학습 플래너 앱 만들기</b> (소요 약 20분) — 10장 적응형 학습 원리 구현<br><br><b>단계 1</b> <code>mkdir study-planner</code> → <code>cd study-planner</code> → <code>codex</code><br><b>단계 2</b> 아래 프롬프트 입력<br><b>단계 3</b> 파일 생성 요청 시 'y' 승인 → study-planner/index.html 브라우저 테스트</div><div class=\"callout info\"><b>실습 프롬프트</b><br>\"간호학과 학생을 위한 학습 플래너 웹 앱을 만들어줘. 기능: 1. 과목별 학습 목표 등록(과목명·목표·기한) 2. 오늘의 할 일 목록(완료 체크박스) 3. 학습 시간 타이머(뽀모도로: 25분 학습/5분 휴식) 4. 과목별 진행률 표시(퍼센트+진행 바). 단일 HTML. LocalStorage 저장. 모바일 반응형.\"</div><figure class=\"ch-figure\"><img src=\"assets/ch14/codex-prompt.jpg\" alt=\"Codex 프롬프트 입력\" loading=\"lazy\"><figcaption>📸 Codex에 학습 플래너 프롬프트 입력</figcaption></figure><figure class=\"ch-figure\"><img src=\"assets/ch14/codex-result.jpg\" alt=\"완성된 학습 플래너 앱\" loading=\"lazy\"><figcaption>📸 완성된 학습 플래너 앱 (뽀모도로 타이머·진행률)</figcaption></figure>"
+      },
+      {
+        "icon": "🎓",
+        "title": "6. 실전 활용 사례",
+        "html": "<h4>학업 능력 향상 사례</h4><div class=\"callout info\"><b>🎓 사례 1: 국가시험 기출문제 퀴즈 앱</b><br>\"간호 국가시험 스타일의 5지선다 퀴즈 앱을 만들어줘. JSON 파일에서 문제를 읽어 무작위 출제하고, 오답 노트 자동 생성, 틀린 문제만 다시 풀기 기능 포함.\"</div><div class=\"callout info\"><b>🎓 사례 2: 약물 계산 연습 도구</b><br>\"투약 용량 계산 연습 앱을 만들어줘. 체중 기반 용량, 점적 속도(gtt/min), 희석 농도 계산 문제를 단계별 풀이와 함께 설명하는 앱.\"</div><div class=\"callout info\"><b>🎓 사례 3: 의학용어 플래시카드</b><br>\"의학·간호 용어 암기 플래시카드 앱을 만들어줘. 앞면: 용어, 뒷면: 정의+예문. 카드 뒤집기 애니메이션, 암기 완료 표시. CSV로 용어 추가 기능.\"</div><h4>업무 생산성 향상 사례</h4><div class=\"callout ok\"><b>💼 사례 4: 간호 인수인계 자동화</b><br>\"입원 환자 인수인계 양식 앱을 만들어줘. 환자 기본정보·주진단·활력징후·투약 현황·특이사항을 입력하면 SBAR 형식의 인수인계 텍스트를 자동 생성.\"</div><div class=\"callout ok\"><b>💼 사례 5: 엑셀 데이터 분석 도구</b><br>\"CSV 파일을 업로드하면 자동으로 분석해주는 앱. 평균·표준편차·최대·최소값 계산과 그래프 자동 생성, 결과를 CSV로 내보내기 기능.\"</div><div class=\"callout ok\"><b>💼 사례 6: 직원 교육 진도 관리</b><br>\"부서 직원 교육 이수 현황 관리 앱을 만들어줘. 직원 목록·필수 교육 항목·이수 날짜 기록, 미이수 항목 표시, 전체 이수율 표시.\"</div>"
+      },
+      {
+        "icon": "🛡️",
+        "title": "7. 한계와 안전 사용법",
+        "html": "<h4>바이브 코딩의 실제 한계</h4><table><tr><th>한계</th><th>설명</th><th>대응 방법</th></tr><tr><td>보안 취약점</td><td>AI 생성 코드의 최대 45%가 보안 취약점 포함 (Google Cloud 연구, 2025)</td><td>개인정보 처리 코드는 전문가 검토 필수</td></tr><tr><td>환각(Hallucination)</td><td>존재하지 않는 라이브러리·잘못된 계산을 자신있게 제시</td><td>TRACE 검증 습관화. 중요 수치는 직접 확인</td></tr><tr><td>유지보수 어려움</td><td>직접 작성하지 않은 코드는 나중에 이해·수정하기 어려움</td><td>주석 강화 요청. 간단한 코드 구조 지향</td></tr></table><div class=\"callout warn\"><b>⚠️ 의료·간호 환경 특별 주의사항</b><br><b>1. 환자 개인정보 절대 주의</b> — 실제 환자 이름·주민등록번호·진단명을 AI에 입력하지 마세요. 개인정보보호법 위반이 될 수 있습니다. 항상 가상 데이터 사용.<br><b>2. 의료 계산은 반드시 직접 검증</b> — AI가 생성한 투약 계산 공식·정상 범위를 그대로 쓰지 말고 공식 처방집·표준교재로 확인.<br><b>3. 임상 의사결정에 직접 사용 금지</b> — 학습·연습·내부 효율화 도구로만. 실제 치료 결정에 쓰는 의료기기는 식약처 허가 필요(7장 참조).<br><b>4. 병원 IT 정책 먼저 확인</b> — 병원 시스템 연동 전 IT 부서 협의 및 보안 정책 확인 필수.</div><div class=\"callout ok\"><b>🔑 안전한 바이브 코딩 5원칙</b><br>원칙 1. <b>TRACE로 검증하라</b> — 모든 AI 출력을 신뢰성·최신성·정확성·완전성·윤리성으로 점검<br>원칙 2. 실제 데이터로 충분히 테스트하라<br>원칙 3. 개인정보를 AI에 입력하지 마라<br>원칙 4. 중요 계산은 직접 확인하라<br>원칙 5. AI 코드를 이해하려고 노력하라 — 실력 향상의 핵심</div><p>바이브 코딩은 '코딩을 배우지 않아도 된다'는 의미가 아니라, '코딩을 몰라도 무언가를 만들 수 있다'는 의미입니다. AI가 코드를 작성하는 동안 여러분은 '무엇을 만들 것인가'와 '이것이 올바른가'를 판단합니다. 이것이 이 교재 전체에서 강조한 <b>Human-in-the-Loop</b> 원칙과 정확히 같은 맥락입니다.</p><div class=\"callout info\"><b>🔑 핵심 정리</b><br>· <b>바이브 코딩</b>: 자연어로 AI에 지시 → AI가 코드 생성 → 테스트·피드백 반복<br>· <b>3대 도구</b>: Google Antigravity(에이전트 IDE·GUI·무료·완전 자동) / Claude Code(터미널·강력한 맥락 이해·복잡한 프로젝트) / OpenAI Codex(ChatGPT 연동·데스크톱+CLI·업무 자동화)<br>· <b>안전 원칙</b>: TRACE 검증 + 환자 정보 입력 금지 + 의료 계산 직접 확인</div>"
+      }
+    ],
+    "terms": [],
+    "quiz": {
+      "ox": [],
+      "mc": []
+    },
+    "qna": [],
+    "sources": [
+      "Karpathy, A. (2025.2.2.). X(Twitter) post on 'vibe coding'. https://x.com/karpathy",
+      "Wikipedia. (2026). Vibe coding. https://en.wikipedia.org/wiki/Vibe_coding",
+      "IBM. (2025). What is Vibe Coding? https://www.ibm.com/think/topics/vibe-coding",
+      "Google Cloud. (2025). Vibe Coding Explained: Tools and Guides. https://cloud.google.com/discover/what-is-vibe-coding",
+      "NxCode. (2026). What Is Vibe Coding? Complete Guide to AI-Assisted Development. https://www.nxcode.io",
+      "Beginners in AI. (2026). Google Antigravity: Agent-First IDE Built on VS Code. https://beginnersinai.org/google-antigravity/",
+      "Google Codelabs. (2026). Getting Started with Google Antigravity. https://codelabs.developers.google.com/getting-started-google-antigravity",
+      "OpenAI Developers. (2026). CLI – Codex. https://developers.openai.com/codex/cli",
+      "Anthropic. (2026). Claude Code Documentation. https://docs.claude.com"
     ]
   }
 ];

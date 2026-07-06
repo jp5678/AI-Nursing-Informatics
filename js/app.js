@@ -280,18 +280,20 @@
           const done = isDone(c.id);
           const best = quizBest(c.id);
           const quizCount = c.quiz ? c.quiz.ox.length + c.quiz.mc.length : 0;
-          return `<a class="chapter-card" href="#/ch/${c.id}">
+          const meta = c.special
+            ? `<span>📋 학습목표 ${c.objectives.length}</span><span>🖥️ 핸즈온 실습 3</span>`
+            : `<span>📋 목표 ${c.objectives.length}</span>
+              <span>🃏 용어 ${c.terms.length}</span>
+              <span>✍️ 퀴즈 ${quizCount}${best != null ? ` · 최고 ${best}점` : ""}</span>`;
+          return `<a class="chapter-card${c.special ? " special-ch" : ""}" href="#/ch/${c.id}">
             <div class="top">
               <span class="num">${c.id}</span>
+              ${c.special ? '<span class="special-tag">SPECIAL</span>' : ""}
               <span class="status ${done ? "" : "todo"}">${done ? "✓ 학습 완료" : "미학습"}</span>
             </div>
             <h3>${esc(c.title)}</h3>
             <div class="en">${esc(c.titleEn)}</div>
-            <div class="meta">
-              <span>📋 목표 ${c.objectives.length}</span>
-              <span>🃏 용어 ${c.terms.length}</span>
-              <span>✍️ 퀴즈 ${quizCount}${best != null ? ` · 최고 ${best}점` : ""}</span>
-            </div>
+            <div class="meta">${meta}</div>
           </a>`;
         })
         .join("");
@@ -306,7 +308,7 @@
         </div>
         <h1>${esc(COURSE.title)}</h1>
         <div class="en">${esc(COURSE.titleEn)}</div>
-        <p class="desc">AI를 두려워하지도, 맹목적으로 신뢰하지도 않는 간호사 — AI 출력을 TRACE로 검증하고, Human-in-the-Loop 원칙으로 최종 판단을 내리는 'AI 시대의 간호 전문가'를 기르는 13개 장의 여정입니다.</p>
+        <p class="desc">AI를 두려워하지도, 맹목적으로 신뢰하지도 않는 간호사 — AI 출력을 TRACE로 검증하고, Human-in-the-Loop 원칙으로 최종 판단을 내리는 'AI 시대의 간호 전문가'를 기르는 13개 장의 여정과 특별장(바이브 코딩 입문)입니다.</p>
       </section>
 
       <section class="progress-card">
@@ -377,29 +379,32 @@
     const prev = chapterById(id - 1);
     const next = chapterById(id + 1);
     const done = isDone(id);
+    const label = c.special ? "특별장" : `제${c.id}장`;
+    const hasTerms = c.terms && c.terms.length;
+    const hasQuiz = c.quiz && (c.quiz.ox.length || c.quiz.mc.length);
+    const hasQna = c.qna && c.qna.length;
 
-    const tabs = [
-      ["learn", "📖 학습"],
-      ["terms", "🃏 용어 카드"],
-      ["quiz", "✍️ 복습 퀴즈"],
-    ];
-    if (c.qna && c.qna.length) tabs.push(["qna", "❓ Q&A"]);
+    const tabs = [["learn", "📖 학습"]];
+    if (hasTerms) tabs.push(["terms", "🃏 용어 카드"]);
+    if (hasQuiz) tabs.push(["quiz", "✍️ 복습 퀴즈"]);
+    if (hasQna) tabs.push(["qna", "❓ Q&A"]);
+    if (!tabs.some(([k]) => k === tab)) tab = "learn";
 
     $("#main").innerHTML = `
       <div class="ch-header">
-        <div class="crumb"><a href="#/">홈</a> › 제${c.id}장</div>
-        <h1>제${c.id}장. ${esc(c.title)}</h1>
+        <div class="crumb"><a href="#/">홈</a> › ${label}${c.special ? ' <span class="special-tag">SPECIAL</span>' : ""}</div>
+        <h1>${label}. ${esc(c.title)}</h1>
         <div class="en">${esc(c.titleEn)}</div>
       </div>
 
       <div class="tabs">
-        ${tabs.map(([k, label]) => `<button data-tab="${k}" class="${k === tab ? "active" : ""}">${label}</button>`).join("")}
+        ${tabs.map(([k, l]) => `<button data-tab="${k}" class="${k === tab ? "active" : ""}">${l}</button>`).join("")}
       </div>
 
       <section class="panel ${tab === "learn" ? "active" : ""}" data-panel="learn">${learnPanel(c)}</section>
-      <section class="panel ${tab === "terms" ? "active" : ""}" data-panel="terms">${termsPanel(c)}</section>
-      <section class="panel ${tab === "quiz" ? "active" : ""}" data-panel="quiz" id="quizPanel"></section>
-      ${c.qna && c.qna.length ? `<section class="panel ${tab === "qna" ? "active" : ""}" data-panel="qna">${qnaPanel(c)}</section>` : ""}
+      ${hasTerms ? `<section class="panel ${tab === "terms" ? "active" : ""}" data-panel="terms">${termsPanel(c)}</section>` : ""}
+      ${hasQuiz ? `<section class="panel ${tab === "quiz" ? "active" : ""}" data-panel="quiz" id="quizPanel"></section>` : ""}
+      ${hasQna ? `<section class="panel ${tab === "qna" ? "active" : ""}" data-panel="qna">${qnaPanel(c)}</section>` : ""}
 
       <div class="complete-row">
         <button class="complete-btn ${done ? "done" : ""}" id="completeBtn">
@@ -445,7 +450,7 @@
     });
 
     /* 퀴즈 */
-    mountQuiz(c);
+    if (hasQuiz) mountQuiz(c);
   }
 
   function learnPanel(c) {
@@ -602,11 +607,13 @@
   /* ---------- 수료증 · 디지털 배지 ---------- */
   const QUIZ_PASS = 90; // 장별 복습 퀴즈 통과 기준(최고 점수)
 
+  // 수료증 대상은 정규 13개 장(특별장 제외)
+  const MAIN_CHAPTERS = CHAPTERS.filter((c) => !c.special);
   function chapterPassed(c) {
     return isDone(c.id) && (quizBest(c.id) ?? -1) >= QUIZ_PASS;
   }
   function certEligible() {
-    return CHAPTERS.every(chapterPassed);
+    return MAIN_CHAPTERS.every(chapterPassed);
   }
   function todayKorean() {
     const d = new Date();
@@ -634,7 +641,7 @@
   }
 
   function certLockedView() {
-    const rows = CHAPTERS.map((c) => {
+    const rows = MAIN_CHAPTERS.map((c) => {
       const done = isDone(c.id);
       const best = quizBest(c.id);
       const quizOk = (best ?? -1) >= QUIZ_PASS;
@@ -644,14 +651,14 @@
         <span class="req ${quizOk ? "ok" : ""}">${best != null ? `퀴즈 ${best}점` : "퀴즈 미응시"}${quizOk ? " ✓" : ` (${QUIZ_PASS}점 이상 필요)`}</span>
       </li>`;
     }).join("");
-    const passed = CHAPTERS.filter(chapterPassed).length;
-    const pct = Math.round((passed / CHAPTERS.length) * 100);
+    const passed = MAIN_CHAPTERS.filter(chapterPassed).length;
+    const pct = Math.round((passed / MAIN_CHAPTERS.length) * 100);
     return `
       <div class="card">
         <h2>🔒 발급 기준을 아직 충족하지 못했습니다</h2>
         <p>수료증과 디지털 배지는 <b>13개 전 장의 학습을 완료</b>하고, <b>장별 복습 퀴즈에서 ${QUIZ_PASS}점 이상</b>(최고 점수 기준)을 획득하면 발급할 수 있습니다.</p>
         <div class="bar-label" style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-sub);margin:14px 0 6px">
-          <span>기준 충족 현황</span><b>${passed} / ${CHAPTERS.length}장 (${pct}%)</b>
+          <span>기준 충족 현황</span><b>${passed} / ${MAIN_CHAPTERS.length}장 (${pct}%)</b>
         </div>
         <div class="bar" style="height:12px;background:#f7e4ec;border-radius:999px;overflow:hidden">
           <div style="height:100%;width:${pct}%;border-radius:999px;background:linear-gradient(90deg,var(--primary),#f06595)"></div>
