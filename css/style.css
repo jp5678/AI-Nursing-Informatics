@@ -194,7 +194,34 @@ button { font-family: inherit; cursor: pointer; }
 .chapter-card .status.todo { color: #d4b3c2; }
 .chapter-card h3 { font-size: 15px; line-height: 1.4; }
 .chapter-card .en { font-size: 11.5px; color: var(--text-sub); font-style: italic; }
-.chapter-card .meta { font-size: 12px; color: var(--text-sub); display: flex; gap: 12px; margin-top: auto; padding-top: 6px; }
+.chapter-card .meta { font-size: 12px; color: var(--text-sub); display: flex; gap: 12px; margin-top: auto; padding-top: 6px; flex-wrap: wrap; }
+
+/* 특별장 (Special Chapter) */
+.chapter-card.special-ch {
+  border-color: var(--accent);
+  background: linear-gradient(180deg, var(--accent-light) 0%, var(--surface) 45%);
+}
+.chapter-card.special-ch .num { background: var(--accent); color: #fff; }
+.special-tag {
+  display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: .05em;
+  color: #fff; background: var(--accent); border-radius: 999px;
+  padding: 2px 8px; vertical-align: middle;
+}
+.crumb .special-tag { font-size: 9px; padding: 1px 7px; }
+
+/* 챕터 본문 이미지 */
+.ch-figure { margin: 14px 0; text-align: center; }
+.ch-figure img {
+  max-width: 100%; height: auto; border-radius: 10px;
+  border: 1px solid var(--border); box-shadow: var(--shadow);
+}
+.ch-figure figcaption { font-size: 12.5px; color: var(--text-sub); margin-top: 7px; }
+.card code {
+  background: var(--primary-light); color: var(--primary-dark);
+  padding: 1px 6px; border-radius: 5px; font-size: 12.8px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  word-break: break-all;
+}
 
 /* ---------- 챕터 페이지 ---------- */
 .ch-header { margin-bottom: 18px; }
