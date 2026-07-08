@@ -222,7 +222,7 @@
             onerror="this.parentElement.classList.add('fallback'); this.remove();" /></span>
           <span class="brand-text">
             <b>${esc(COURSE.title)}</b>
-            <span>${esc(COURSE.school)}</span>
+            <span>${esc(COURSE.tagline)} <i>${esc(COURSE.taglineEn)}</i></span>
           </span>
         </a>
         <div class="spacer"></div>
@@ -926,7 +926,7 @@
   }
 
   function footer() {
-    return `<div class="footer">${esc(COURSE.school)} · ${esc(COURSE.title)} · ${esc(COURSE.professor)}</div>`;
+    return `<div class="footer">${esc(COURSE.school)} · ${esc(COURSE.professor)} · ${esc(COURSE.email)}</div>`;
   }
 
   /* ---------- 라우터 ---------- */

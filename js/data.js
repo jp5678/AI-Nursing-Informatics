@@ -8,9 +8,12 @@
 const COURSE = {
   "title": "AI융합 간호정보학",
   "titleEn": "AI-Integrated Nursing Informatics",
+  "tagline": "AI와 공존하는 시대, 간호의 나침반",
+  "taglineEn": "A Compass for Nursing in the Era of AI Coexistence",
   "school": "청암대학교 간호학과",
   "target": "간호학과 3학년",
-  "professor": "제프리 교수"
+  "professor": "정종필 교수",
+  "email": "imjp5678@scjc.ac.kr"
 };
 
 const PREFACE = {
