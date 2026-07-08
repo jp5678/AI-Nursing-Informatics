@@ -731,7 +731,7 @@
             전 과정(13개 장)을 성실히 이수하고 장별 복습퀴즈에서 ${QUIZ_PASS}점 이상을
             취득하였으므로 이 증서를 수여합니다.</p>
             <div class="cert-date">${esc(cert.date)}</div>
-            <div class="cert-issuer">청암대학교 간호학과
+            <div class="cert-issuer">AI융합 간호정보학 담당교수
               <span class="seal red-seal">AI융합<br>간호정보학<br>담당교수</span>
             </div>
             ${cert.authEmail ? `<div class="cert-auth">🔐 본인 인증: Google 계정 ${esc(cert.authName || "")} &lt;${esc(cert.authEmail)}&gt;${cert.nameMatch === false ? " (성명-계정 이름 불일치)" : ""}</div>` : ""}
@@ -779,8 +779,7 @@
       <text x="240" y="308" font-size="26" font-weight="900" text-anchor="middle" fill="#3d2230" font-family="sans-serif">수료</text>
       <text x="240" y="330" font-size="10" font-weight="700" text-anchor="middle" fill="#8a6276" font-family="sans-serif" letter-spacing="3">CERTIFIED · ${year}</text>
       <rect x="118" y="468" width="244" height="56" rx="13" fill="url(#goldGrad)" stroke="#b98a1d" stroke-width="2"/>
-      <text x="240" y="494" font-size="21" font-weight="900" text-anchor="middle" fill="#5b3d0d" font-family="sans-serif">${esc(cert.name)}</text>
-      <text x="240" y="513" font-size="11" font-weight="700" text-anchor="middle" fill="#7a5a1a" font-family="sans-serif">${esc(cert.dept)} · ${esc(cert.sid)}</text>
+      <text x="240" y="502" font-size="21" font-weight="900" text-anchor="middle" fill="#5b3d0d" font-family="sans-serif">${esc(cert.name)}</text>
     </svg>`;
   }
 
