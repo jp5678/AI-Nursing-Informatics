@@ -718,7 +718,6 @@
         <div class="cert-sheet" id="certSheet">
           <div class="cert-border">
             <div class="cert-no">제 ${esc(cert.certNo)} 호</div>
-            <div class="cert-logo"><img src="assets/logo.png" alt="" onerror="this.parentElement.style.display='none'"></div>
             <h2 class="cert-title">수료증</h2>
             <div class="cert-sub">CERTIFICATE OF COMPLETION</div>
             <table class="cert-info">
@@ -732,9 +731,8 @@
             전 과정(13개 장)을 성실히 이수하고 장별 복습퀴즈에서 ${QUIZ_PASS}점 이상을
             취득하였으므로 이 증서를 수여합니다.</p>
             <div class="cert-date">${esc(cert.date)}</div>
-            <div class="cert-issuer">청암대학교 간호학과 <b>제프리 교수</b>
-              <span class="seal-wrap"><img class="seal-img" src="assets/seal.png" alt="직인"
-                onerror="this.parentElement.classList.add('seal'); this.parentElement.innerHTML='제프리&lt;br&gt;印';"></span>
+            <div class="cert-issuer">청암대학교 간호학과
+              <span class="seal red-seal">AI융합<br>간호정보학<br>담당교수</span>
             </div>
             ${cert.authEmail ? `<div class="cert-auth">🔐 본인 인증: Google 계정 ${esc(cert.authName || "")} &lt;${esc(cert.authEmail)}&gt;${cert.nameMatch === false ? " (성명-계정 이름 불일치)" : ""}</div>` : ""}
           </div>
@@ -770,8 +768,8 @@
       <text font-size="22" font-weight="800" fill="#ffffff" font-family="sans-serif" letter-spacing="2">
         <textPath href="#arcTop" xlink:href="#arcTop" startOffset="50%" text-anchor="middle">AI융합 간호정보학</textPath>
       </text>
-      <text font-size="11" font-weight="700" fill="rgba(255,255,255,.9)" font-family="sans-serif" letter-spacing="2">
-        <textPath href="#arcBottom" xlink:href="#arcBottom" startOffset="50%" text-anchor="middle">CHEONGAM UNIVERSITY · NURSING</textPath>
+      <text font-size="10.5" font-weight="700" fill="rgba(255,255,255,.9)" font-family="sans-serif" letter-spacing=".5">
+        <textPath href="#arcBottom" xlink:href="#arcBottom" startOffset="50%" text-anchor="middle">AI-Integrated Nursing Informatics</textPath>
       </text>
       <rect x="227" y="152" width="26" height="80" rx="7" fill="url(#bgGrad)"/>
       <rect x="200" y="179" width="80" height="26" rx="7" fill="url(#bgGrad)"/>
@@ -783,7 +781,6 @@
       <rect x="118" y="468" width="244" height="56" rx="13" fill="url(#goldGrad)" stroke="#b98a1d" stroke-width="2"/>
       <text x="240" y="494" font-size="21" font-weight="900" text-anchor="middle" fill="#5b3d0d" font-family="sans-serif">${esc(cert.name)}</text>
       <text x="240" y="513" font-size="11" font-weight="700" text-anchor="middle" fill="#7a5a1a" font-family="sans-serif">${esc(cert.dept)} · ${esc(cert.sid)}</text>
-      <text x="240" y="560" font-size="12" font-weight="700" text-anchor="middle" fill="#a85c7d" font-family="sans-serif">청암대학교 간호학과 · 제프리 교수</text>
     </svg>`;
   }
 

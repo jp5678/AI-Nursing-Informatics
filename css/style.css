@@ -513,6 +513,11 @@ button { font-family: inherit; cursor: pointer; }
   font-weight: 900; font-size: 13px; line-height: 1.25; text-align: center;
   transform: rotate(-12deg); letter-spacing: 1px;
 }
+.red-seal {
+  width: 76px; height: 76px; border: 3px solid #d40000;
+  color: #d40000; font-size: 11px; line-height: 1.35; letter-spacing: 0;
+  transform: rotate(-8deg);
+}
 .seal-wrap { flex: 0 0 auto; display: flex; align-items: center; justify-content: center; }
 .seal-img {
   width: 74px; height: 74px; object-fit: contain; display: block;
