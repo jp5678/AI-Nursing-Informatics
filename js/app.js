@@ -302,10 +302,6 @@
 
     $("#main").innerHTML = `
       <section class="hero">
-        <div class="badge-row">
-          <span class="badge">${esc(COURSE.target)}</span>
-          <span class="badge">${esc(COURSE.school)}</span>
-        </div>
         <h1>${esc(COURSE.title)}</h1>
         <div class="en">${esc(COURSE.titleEn)}</div>
         <p class="desc">AI를 두려워하지도, 맹목적으로 신뢰하지도 않는 간호사 — AI 출력을 TRACE로 검증하고, Human-in-the-Loop 원칙으로 최종 판단을 내리는 'AI 시대의 간호 전문가'를 기르는 13개 장의 여정과 특별장(바이브 코딩 입문)입니다.</p>
