@@ -732,8 +732,8 @@
               <tr><th>성&nbsp;&nbsp;명</th><td>${esc(cert.name)}</td></tr>
               ${cert.email ? `<tr><th>이메일</th><td>${esc(cert.email)}</td></tr>` : ""}
             </table>
-            <p class="cert-body">위 학생은 청암대학교 간호학과 「AI융합 간호정보학」 교과목의
-            전 과정(13개 장)을 성실히 이수하고 장별 복습 퀴즈에서 ${QUIZ_PASS}점 이상을
+            <p class="cert-body">위 학생은 「AI융합 간호정보학」 교과목의
+            전 과정(13개 장)을 성실히 이수하고 장별 복습퀴즈에서 ${QUIZ_PASS}점 이상을
             취득하였으므로 이 증서를 수여합니다.</p>
             <div class="cert-date">${esc(cert.date)}</div>
             <div class="cert-issuer">청암대학교 간호학과 <b>제프리 교수</b>
