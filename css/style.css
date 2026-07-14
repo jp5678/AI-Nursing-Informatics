@@ -2,24 +2,24 @@
    AI융합 간호정보학 학습 플랫폼 — 스타일
    ========================================================= */
 :root {
-  --primary: #d6336c;
-  --primary-dark: #a61e4d;
-  --primary-light: #fdeaf1;
-  --accent: #ae3ec9;
-  --accent-light: #f9edfc;
-  --bg: #fdf6f9;
+  --primary: #1d5386;
+  --primary-dark: #143f68;
+  --primary-light: #e3f0fb;
+  --accent: #3f86c4;
+  --accent-light: #e7f1fb;
+  --bg: #eef6fd;
   --surface: #ffffff;
-  --text: #3d2230;
-  --text-sub: #8a6276;
-  --border: #f3dde7;
+  --text: #1e3547;
+  --text-sub: #5f7d97;
+  --border: #d3e4f2;
   --ok: #14946a;
   --ok-bg: #e7f7f0;
   --warn: #c2452f;
   --warn-bg: #fdeeea;
-  --info-bg: #fcecf3;
-  --info: #b03a66;
+  --info-bg: #e8f2fc;
+  --info: #2c6a9e;
   --radius: 14px;
-  --shadow: 0 2px 10px rgba(150, 50, 90, 0.08);
+  --shadow: 0 2px 10px rgba(30, 70, 120, 0.10);
   --sidebar-w: 290px;
 }
 
@@ -127,7 +127,7 @@ button { font-family: inherit; cursor: pointer; }
 
 /* ---------- 홈 ---------- */
 .hero {
-  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 55%, #f06595 100%);
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 55%, #4a9fd8 100%);
   color: #fff; border-radius: 20px;
   padding: 38px 34px;
   box-shadow: var(--shadow);
@@ -150,11 +150,11 @@ button { font-family: inherit; cursor: pointer; }
 .progress-card .bar-wrap { flex: 1 1 240px; }
 .progress-card .bar-label { font-size: 13px; color: var(--text-sub); margin-bottom: 6px; display: flex; justify-content: space-between; }
 .progress-card .bar {
-  height: 12px; background: #f7e4ec; border-radius: 999px; overflow: hidden;
+  height: 12px; background: #dce9f6; border-radius: 999px; overflow: hidden;
 }
 .progress-card .bar > div {
   height: 100%; border-radius: 999px;
-  background: linear-gradient(90deg, var(--primary), #f06595);
+  background: linear-gradient(90deg, var(--primary), #4a9fd8);
   transition: width .4s ease;
 }
 .progress-card .reset-btn {
@@ -191,7 +191,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 .chapter-card.special .num { background: var(--accent-light); color: var(--accent); }
 .chapter-card .status { margin-left: auto; font-size: 12px; font-weight: 700; color: var(--ok); }
-.chapter-card .status.todo { color: #d4b3c2; }
+.chapter-card .status.todo { color: #a9c2d8; }
 .chapter-card h3 { font-size: 15px; line-height: 1.4; }
 .chapter-card .en { font-size: 11.5px; color: var(--text-sub); font-style: italic; }
 .chapter-card .meta { font-size: 12px; color: var(--text-sub); display: flex; gap: 12px; margin-top: auto; padding-top: 6px; flex-wrap: wrap; }
@@ -297,7 +297,7 @@ button { font-family: inherit; cursor: pointer; }
   padding: 8px 10px; border: 1px solid var(--border); text-align: left; font-size: 12.8px;
 }
 .card table td { padding: 8px 10px; border: 1px solid var(--border); vertical-align: top; }
-.card table tr:nth-child(even) td { background: #fdf8fa; }
+.card table tr:nth-child(even) td { background: #f4f9fe; }
 @media (max-width: 600px) {
   .card table { display: block; overflow-x: auto; white-space: nowrap; }
 }
@@ -343,7 +343,7 @@ button { font-family: inherit; cursor: pointer; }
   text-align: center; box-shadow: var(--shadow);
 }
 .flashcard .front {
-  background: linear-gradient(135deg, var(--primary), #f06595);
+  background: linear-gradient(135deg, var(--primary), #4a9fd8);
   color: #fff; font-size: 17px; font-weight: 800;
 }
 .flashcard .front small { font-size: 11px; font-weight: 500; opacity: .8; margin-top: 8px; }
@@ -376,7 +376,7 @@ button { font-family: inherit; cursor: pointer; }
 .choices.ox { flex-direction: row; }
 .choice-btn {
   text-align: left; border: 1.5px solid var(--border);
-  background: #fffafc; border-radius: 11px;
+  background: #f8fbff; border-radius: 11px;
   padding: 11px 14px; font-size: 13.8px; color: var(--text);
   transition: border-color .12s ease, background .12s ease;
 }
@@ -470,7 +470,7 @@ button { font-family: inherit; cursor: pointer; }
 .cert-form label { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 700; color: var(--text-sub); }
 .cert-form input, .cert-form select {
   border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 12px;
-  font-size: 14.5px; font-family: inherit; background: #fffafc; color: var(--text);
+  font-size: 14.5px; font-family: inherit; background: #f8fbff; color: var(--text);
 }
 .cert-form input:focus, .cert-form select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
 .cert-form .full { grid-column: 1 / -1; }
@@ -484,7 +484,7 @@ button { font-family: inherit; cursor: pointer; }
 .cert-border {
   border: 3px double #c9a227; padding: 36px 30px 30px; text-align: center; position: relative;
   background:
-    radial-gradient(circle at top left, rgba(214, 51, 108, .05), transparent 42%),
+    radial-gradient(circle at top left, rgba(45, 106, 158, .05), transparent 42%),
     radial-gradient(circle at bottom right, rgba(201, 162, 39, .09), transparent 42%);
 }
 .cert-no { position: absolute; top: 13px; left: 17px; font-size: 11.5px; color: #8a6276; }
@@ -553,7 +553,10 @@ button { font-family: inherit; cursor: pointer; }
 /* ---------- Google 로그인 ---------- */
 .login-overlay {
   position: fixed; inset: 0; z-index: 100;
-  background: linear-gradient(135deg, #a61e4d 0%, #d6336c 55%, #f06595 100%);
+  background:
+    radial-gradient(circle at 22% 26%, rgba(255,255,255,.7), transparent 42%),
+    radial-gradient(circle at 82% 82%, rgba(120,175,220,.35), transparent 45%),
+    linear-gradient(135deg, #e8f3fc 0%, #d5e8f7 55%, #c4ddf3 100%);
   display: flex; align-items: center; justify-content: center; padding: 20px;
 }
 .login-card {
@@ -607,7 +610,7 @@ button { font-family: inherit; cursor: pointer; }
 
 .cert-auth {
   margin-top: 16px; font-size: 11.5px; color: #8a6276;
-  border-top: 1px dashed #d8bcc9; padding-top: 10px;
+  border-top: 1px dashed #cfe0ef; padding-top: 10px;
 }
 
 /* ---------- 푸터 ---------- */
