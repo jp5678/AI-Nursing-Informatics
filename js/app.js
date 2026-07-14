@@ -770,8 +770,8 @@
       <text font-size="22" font-weight="800" fill="#ffffff" font-family="sans-serif" letter-spacing="2">
         <textPath href="#arcTop" xlink:href="#arcTop" startOffset="50%" text-anchor="middle">AI융합 간호정보학</textPath>
       </text>
-      <text font-size="11" font-weight="700" fill="rgba(255,255,255,.9)" font-family="sans-serif" letter-spacing="2">
-        <textPath href="#arcBottom" xlink:href="#arcBottom" startOffset="50%" text-anchor="middle">CHEONGAM UNIVERSITY · NURSING</textPath>
+      <text font-size="10.5" font-weight="700" fill="rgba(255,255,255,.9)" font-family="sans-serif" letter-spacing="1">
+        <textPath href="#arcBottom" xlink:href="#arcBottom" startOffset="50%" text-anchor="middle">AI-INTEGRATED NURSING INFORMATICS · PROFESSOR</textPath>
       </text>
       <rect x="227" y="152" width="26" height="80" rx="7" fill="url(#bgGrad)"/>
       <rect x="200" y="179" width="80" height="26" rx="7" fill="url(#bgGrad)"/>
@@ -783,7 +783,7 @@
       <rect x="118" y="468" width="244" height="56" rx="13" fill="url(#goldGrad)" stroke="#b98a1d" stroke-width="2"/>
       <text x="240" y="494" font-size="21" font-weight="900" text-anchor="middle" fill="#5b3d0d" font-family="sans-serif">${esc(cert.name)}</text>
       <text x="240" y="513" font-size="11" font-weight="700" text-anchor="middle" fill="#7a5a1a" font-family="sans-serif">${esc(cert.dept)} · ${esc(cert.sid)}</text>
-      <text x="240" y="560" font-size="12" font-weight="700" text-anchor="middle" fill="#3f77a8" font-family="sans-serif">청암대학교 간호학과 · 제프리 교수</text>
+      <text x="240" y="560" font-size="12" font-weight="700" text-anchor="middle" fill="#3f77a8" font-family="sans-serif">AI융합 간호정보학 담당교수</text>
     </svg>`;
   }
 
