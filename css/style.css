@@ -198,7 +198,6 @@ button { font-family: inherit; cursor: pointer; }
 
 /* 특별장 (Special Chapter) */
 .chapter-card.special-ch {
-  border-color: var(--accent);
   background: linear-gradient(180deg, var(--accent-light) 0%, var(--surface) 45%);
 }
 .chapter-card.special-ch .num { background: var(--accent); color: #fff; }
