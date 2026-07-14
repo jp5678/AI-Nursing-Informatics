@@ -950,9 +950,15 @@
     }
   }
 
+  /* 새로고침 시 항상 홈 최상단에서 시작 (브라우저 스크롤 복원 방지 + 해시 초기화) */
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+  if (location.hash && location.hash !== "#/") {
+    history.replaceState(null, "", location.pathname + location.search);
+  }
   renderShell();
   window.addEventListener("hashchange", route);
   route();
+  window.scrollTo(0, 0);
   if (authEnabled() && !currentUser()) showLogin();
   else if (!store.profile) showProfileSetup();
 })();
