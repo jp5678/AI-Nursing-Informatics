@@ -732,9 +732,9 @@
             전 과정(13개 장)을 성실히 이수하고 장별 복습퀴즈에서 ${QUIZ_PASS}점 이상을
             취득하였으므로 이 증서를 수여합니다.</p>
             <div class="cert-date">${esc(cert.date)}</div>
-            <div class="cert-issuer">청암대학교 간호학과 <b>제프리 교수</b>
+            <div class="cert-issuer">AI융합 간호정보학 <b>담당교수</b>
               <span class="seal-wrap"><img class="seal-img" src="assets/seal.png" alt="직인"
-                onerror="this.parentElement.classList.add('seal'); this.parentElement.innerHTML='제프리&lt;br&gt;印';"></span>
+                onerror="this.parentElement.classList.add('seal'); this.parentElement.innerHTML='담당&lt;br&gt;印';"></span>
             </div>
             ${cert.authEmail ? `<div class="cert-auth">🔐 본인 인증: Google 계정 ${esc(cert.authName || "")} &lt;${esc(cert.authEmail)}&gt;${cert.nameMatch === false ? " (성명-계정 이름 불일치)" : ""}</div>` : ""}
           </div>
