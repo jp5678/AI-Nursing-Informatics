@@ -63,8 +63,8 @@
         <div class="login-logo"><img src="assets/logo.png" alt=""
           onerror="this.parentElement.classList.add('fallback'); this.remove();" /></div>
         <h2>${esc(COURSE.title)}</h2>
-        <p class="login-sub">${esc(COURSE.school)} · ${esc(COURSE.target)}</p>
-        <p class="login-desc">학습 기록 관리와 수료증 발급 시 본인 확인을 위해<br>학교 Google 계정으로 로그인해 주세요.</p>
+        <p class="login-sub">간호학과</p>
+        <p class="login-desc">학습 기록 관리와 수료증 발급 시 본인 확인을 위해<br>Google 계정으로 로그인해 주세요.</p>
         <div id="gBtn" class="g-btn-wrap"></div>
         <p class="login-note">로그인 정보(이름·이메일)는 이 브라우저에만 저장되며,<br>수료증 발급 시 본인 인증 표시에 사용됩니다.</p>
       </div>`;
