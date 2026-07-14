@@ -18,5 +18,5 @@ const APP_CONFIG = {
 
   /* 수료증 발급 통지를 받을 교수 메일 */
   professorEmail: "imjp5678@scjc.ac.kr",
-  professorName: "제프리 교수",
+  professorName: "담당교수",
 };

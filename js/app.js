@@ -409,8 +409,8 @@
       </div>
 
       <div class="ch-nav-row">
-        ${prev ? `<a href="#/ch/${prev.id}">← 제${prev.id}장 ${esc(prev.title)}</a>` : `<span class="disabled">← 이전 장 없음</span>`}
-        ${next ? `<a class="next" href="#/ch/${next.id}">제${next.id}장 ${esc(next.title)} →</a>` : `<a class="next" href="#/closing">맺음말 읽기 →</a>`}
+        ${prev ? `<a href="#/ch/${prev.id}">← ${prev.special ? "특별장" : `제${prev.id}장`} ${esc(prev.title)}</a>` : `<span class="disabled">← 이전 장 없음</span>`}
+        ${next ? `<a class="next" href="#/ch/${next.id}">${next.special ? "특별장" : `제${next.id}장`} ${esc(next.title)} →</a>` : `<a class="next" href="#/closing">맺음말 읽기 →</a>`}
       </div>
       ${footer()}
     `;
