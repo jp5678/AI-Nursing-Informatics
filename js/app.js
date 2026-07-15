@@ -288,7 +288,7 @@
           return `<a class="chapter-card${c.special ? " special-ch" : ""}" href="#/ch/${c.id}">
             <div class="top">
               <span class="num">${c.id}</span>
-              ${c.special ? '<span class="special-tag">SPECIAL</span>' : ""}
+              ${c.special ? '<span class="special-tag">부록 1</span>' : ""}
               <span class="status ${done ? "" : "todo"}">${done ? "✓ 학습 완료" : "미학습"}</span>
             </div>
             <h3>${esc(c.title)}</h3>
@@ -302,9 +302,13 @@
 
     $("#main").innerHTML = `
       <section class="hero">
+        <a class="news-btn" href="https://jp5678.github.io/Daily-AI-NI-News/" target="_blank" rel="noopener">
+          <span class="news-btn-ico">📰</span>
+          <span class="news-btn-txt"><b>AI융합 간호정보학</b><span>데일리 뉴스 →</span></span>
+        </a>
         <h1>${esc(COURSE.title)}</h1>
         <div class="en">${esc(COURSE.titleEn)}</div>
-        <p class="desc">AI를 두려워하지도, 맹목적으로 신뢰하지도 않는 간호사 — AI 출력을 TRACE로 검증하고, Human-in-the-Loop 원칙으로 최종 판단을 내리는 'AI 시대의 간호 전문가'를 기르는 13개 장의 여정과 특별장(바이브 코딩 입문)입니다.</p>
+        <p class="desc">AI를 두려워하지도, 맹목적으로 신뢰하지도 않는 간호사 — AI 출력을 TRACE로 검증하고, Human-in-the-Loop 원칙으로 최종 판단을 내리는 'AI 시대의 간호 전문가'를 기르는 13개 장의 여정과 부록 1(바이브 코딩 입문)입니다.</p>
       </section>
 
       <section class="progress-card">
@@ -375,7 +379,7 @@
     const prev = chapterById(id - 1);
     const next = chapterById(id + 1);
     const done = isDone(id);
-    const label = c.special ? "특별장" : `제${c.id}장`;
+    const label = c.special ? "부록 1" : `제${c.id}장`;
     const hasTerms = c.terms && c.terms.length;
     const hasQuiz = c.quiz && (c.quiz.ox.length || c.quiz.mc.length);
     const hasQna = c.qna && c.qna.length;
@@ -388,7 +392,7 @@
 
     $("#main").innerHTML = `
       <div class="ch-header">
-        <div class="crumb"><a href="#/">홈</a> › ${label}${c.special ? ' <span class="special-tag">SPECIAL</span>' : ""}</div>
+        <div class="crumb"><a href="#/">홈</a> › ${label}${c.special ? ' <span class="special-tag">부록 1</span>' : ""}</div>
         <h1>${label}. ${esc(c.title)}</h1>
         <div class="en">${esc(c.titleEn)}</div>
       </div>
@@ -409,8 +413,8 @@
       </div>
 
       <div class="ch-nav-row">
-        ${prev ? `<a href="#/ch/${prev.id}">← ${prev.special ? "특별장" : `제${prev.id}장`} ${esc(prev.title)}</a>` : `<span class="disabled">← 이전 장 없음</span>`}
-        ${next ? `<a class="next" href="#/ch/${next.id}">${next.special ? "특별장" : `제${next.id}장`} ${esc(next.title)} →</a>` : `<a class="next" href="#/closing">맺음말 읽기 →</a>`}
+        ${prev ? `<a href="#/ch/${prev.id}">← ${prev.special ? "부록 1" : `제${prev.id}장`} ${esc(prev.title)}</a>` : `<span class="disabled">← 이전 장 없음</span>`}
+        ${next ? `<a class="next" href="#/ch/${next.id}">${next.special ? "부록 1" : `제${next.id}장`} ${esc(next.title)} →</a>` : `<a class="next" href="#/closing">맺음말 읽기 →</a>`}
       </div>
       ${footer()}
     `;
@@ -603,7 +607,7 @@
   /* ---------- 수료증 · 디지털 배지 ---------- */
   const QUIZ_PASS = 90; // 장별 복습 퀴즈 통과 기준(최고 점수)
 
-  // 수료증 대상은 정규 13개 장(특별장 제외)
+  // 수료증 대상은 정규 13개 장(부록 제외)
   const MAIN_CHAPTERS = CHAPTERS.filter((c) => !c.special);
   function chapterPassed(c) {
     return isDone(c.id) && (quizBest(c.id) ?? -1) >= QUIZ_PASS;
