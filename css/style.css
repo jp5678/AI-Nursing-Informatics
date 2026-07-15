@@ -76,6 +76,20 @@ button { font-family: inherit; cursor: pointer; }
   border-radius: 999px; padding: 5px 14px;
   font-size: 12.5px; font-weight: 600; white-space: nowrap;
 }
+/* 헤더 중앙: 데일리 뉴스 pill ('학습 진도' pill과 동일 스타일) */
+.topbar .news-pill {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(255,255,255,.18);
+  border: 1px solid rgba(255,255,255,.30);
+  border-radius: 999px; padding: 5px 15px;
+  font-size: 12.5px; font-weight: 600; white-space: nowrap;
+  color: #fff; text-decoration: none;
+  transition: background .15s ease, transform .15s ease;
+}
+.topbar .news-pill:hover { background: rgba(255,255,255,.30); transform: translateY(-1px); }
+.topbar .news-pill-ico { font-size: 14px; line-height: 1; }
+.topbar .news-pill-txt b { font-weight: 800; margin-left: 2px; }
 
 /* ---------- 사이드바 ---------- */
 .sidebar {
@@ -134,54 +148,6 @@ button { font-family: inherit; cursor: pointer; }
   box-shadow: var(--shadow);
   margin-bottom: 26px;
 }
-/* ---------- 데일리 뉴스 버튼 (Liquid Glass) ---------- */
-.news-btn {
-  position: absolute; top: 24px; right: 26px; z-index: 1;
-  display: inline-flex; align-items: center; gap: 11px;
-  padding: 12px 18px; border-radius: 16px;
-  color: #fff; text-decoration: none;
-  isolation: isolate; overflow: hidden;
-  background:
-    linear-gradient(135deg, rgba(150,110,255,.30) 0%, rgba(176,60,208,.22) 100%),
-    rgba(255, 255, 255, .12);
-  -webkit-backdrop-filter: blur(14px) saturate(180%);
-  backdrop-filter: blur(14px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, .40);
-  box-shadow:
-    0 8px 24px rgba(40, 20, 90, .30),
-    inset 0 1px 1px rgba(255, 255, 255, .55),
-    inset 0 -8px 18px rgba(120, 70, 200, .18);
-  text-shadow: 0 1px 2px rgba(30, 10, 70, .35);
-  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
-}
-/* 상단 광택 스트릭 */
-.news-btn::before {
-  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit;
-  background: linear-gradient(180deg, rgba(255,255,255,.45) 0%, rgba(255,255,255,.06) 42%, transparent 60%);
-  pointer-events: none;
-}
-/* 이동하는 하이라이트 반짝임 */
-.news-btn::after {
-  content: ""; position: absolute; top: 0; left: -60%; width: 45%; height: 100%; z-index: -1;
-  background: linear-gradient(105deg, transparent, rgba(255,255,255,.35), transparent);
-  transform: skewX(-18deg); transition: left .55s ease; pointer-events: none;
-}
-.news-btn:hover {
-  transform: translateY(-2px);
-  background:
-    linear-gradient(135deg, rgba(160,120,255,.40) 0%, rgba(190,70,220,.30) 100%),
-    rgba(255, 255, 255, .18);
-  box-shadow:
-    0 12px 30px rgba(40, 20, 90, .42),
-    inset 0 1px 1px rgba(255, 255, 255, .65),
-    inset 0 -8px 18px rgba(120, 70, 200, .22);
-}
-.news-btn:hover::after { left: 120%; }
-.news-btn:active { transform: translateY(0) scale(.98); }
-.news-btn-ico { font-size: 20px; line-height: 1; filter: drop-shadow(0 1px 2px rgba(30,10,70,.4)); }
-.news-btn-txt { display: flex; flex-direction: column; line-height: 1.25; }
-.news-btn-txt b { font-size: 14px; font-weight: 800; }
-.news-btn-txt span { font-size: 11.5px; opacity: .95; }
 .hero .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
 .hero .badge {
   background: rgba(255,255,255,.16); border-radius: 999px;
@@ -677,8 +643,9 @@ button { font-family: inherit; cursor: pointer; }
   .hero { padding: 26px 22px; }
   .topbar .progress-pill { display: none; }
   .choices.ox { flex-direction: column; }
-  /* 좁은 화면: 뉴스 버튼을 제목 위 정적 배치로 전환 (겹침 방지) */
-  .news-btn { position: static; margin-bottom: 16px; }
+  /* 좁은 화면: 뉴스 pill은 아이콘만 표시(헤더 혼잡 방지) */
+  .topbar .news-pill-txt { display: none; }
+  .topbar .news-pill { padding: 6px 9px; }
 }
 
 @media (max-width: 480px) {

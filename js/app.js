@@ -226,6 +226,11 @@
           </span>
         </a>
         <div class="spacer"></div>
+        <a class="news-pill" href="https://jp5678.github.io/Daily-AI-NI-News/" target="_blank" rel="noopener">
+          <span class="news-pill-ico">📰</span>
+          <span class="news-pill-txt">AI융합 간호정보학 데일리 뉴스 <b>→</b></span>
+        </a>
+        <div class="spacer"></div>
         <div class="user-area" id="userArea"></div>
         <div class="progress-pill" id="topProgress"></div>
       </header>
@@ -302,10 +307,6 @@
 
     $("#main").innerHTML = `
       <section class="hero">
-        <a class="news-btn" href="https://jp5678.github.io/Daily-AI-NI-News/" target="_blank" rel="noopener">
-          <span class="news-btn-ico">📰</span>
-          <span class="news-btn-txt"><b>AI융합 간호정보학</b><span>데일리 뉴스 →</span></span>
-        </a>
         <h1>${esc(COURSE.title)}</h1>
         <div class="en">${esc(COURSE.titleEn)}</div>
         <p class="desc">AI를 두려워하지도, 맹목적으로 신뢰하지도 않는 간호사 — AI 출력을 TRACE로 검증하고, Human-in-the-Loop 원칙으로 최종 판단을 내리는 'AI 시대의 간호 전문가'를 기르는 13개 장의 여정과 부록 1(바이브 코딩 입문)입니다.</p>
