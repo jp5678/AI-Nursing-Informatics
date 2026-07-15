@@ -134,21 +134,54 @@ button { font-family: inherit; cursor: pointer; }
   box-shadow: var(--shadow);
   margin-bottom: 26px;
 }
+/* ---------- 데일리 뉴스 버튼 (Liquid Glass) ---------- */
 .news-btn {
-  position: absolute; top: 24px; right: 26px;
+  position: absolute; top: 24px; right: 26px; z-index: 1;
   display: inline-flex; align-items: center; gap: 11px;
-  padding: 12px 18px; border-radius: 14px;
-  background: linear-gradient(135deg, #6a3df0 0%, #8b3ce0 50%, #b03cd0 100%);
+  padding: 12px 18px; border-radius: 16px;
   color: #fff; text-decoration: none;
-  box-shadow: 0 6px 18px rgba(90, 40, 200, .38);
-  border: 1px solid rgba(255,255,255,.28);
-  transition: transform .15s ease, box-shadow .15s ease;
+  isolation: isolate; overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(150,110,255,.30) 0%, rgba(176,60,208,.22) 100%),
+    rgba(255, 255, 255, .12);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  backdrop-filter: blur(14px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, .40);
+  box-shadow:
+    0 8px 24px rgba(40, 20, 90, .30),
+    inset 0 1px 1px rgba(255, 255, 255, .55),
+    inset 0 -8px 18px rgba(120, 70, 200, .18);
+  text-shadow: 0 1px 2px rgba(30, 10, 70, .35);
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
 }
-.news-btn:hover { transform: translateY(-2px); box-shadow: 0 9px 24px rgba(90, 40, 200, .5); }
-.news-btn-ico { font-size: 20px; line-height: 1; }
+/* 상단 광택 스트릭 */
+.news-btn::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255,255,255,.45) 0%, rgba(255,255,255,.06) 42%, transparent 60%);
+  pointer-events: none;
+}
+/* 이동하는 하이라이트 반짝임 */
+.news-btn::after {
+  content: ""; position: absolute; top: 0; left: -60%; width: 45%; height: 100%; z-index: -1;
+  background: linear-gradient(105deg, transparent, rgba(255,255,255,.35), transparent);
+  transform: skewX(-18deg); transition: left .55s ease; pointer-events: none;
+}
+.news-btn:hover {
+  transform: translateY(-2px);
+  background:
+    linear-gradient(135deg, rgba(160,120,255,.40) 0%, rgba(190,70,220,.30) 100%),
+    rgba(255, 255, 255, .18);
+  box-shadow:
+    0 12px 30px rgba(40, 20, 90, .42),
+    inset 0 1px 1px rgba(255, 255, 255, .65),
+    inset 0 -8px 18px rgba(120, 70, 200, .22);
+}
+.news-btn:hover::after { left: 120%; }
+.news-btn:active { transform: translateY(0) scale(.98); }
+.news-btn-ico { font-size: 20px; line-height: 1; filter: drop-shadow(0 1px 2px rgba(30,10,70,.4)); }
 .news-btn-txt { display: flex; flex-direction: column; line-height: 1.25; }
 .news-btn-txt b { font-size: 14px; font-weight: 800; }
-.news-btn-txt span { font-size: 11.5px; opacity: .92; }
+.news-btn-txt span { font-size: 11.5px; opacity: .95; }
 .hero .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
 .hero .badge {
   background: rgba(255,255,255,.16); border-radius: 999px;
