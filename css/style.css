@@ -2,24 +2,25 @@
    AI융합 간호정보학 학습 플랫폼 — 스타일
    ========================================================= */
 :root {
-  --primary: #1d5386;
-  --primary-dark: #143f68;
-  --primary-light: #e3f0fb;
-  --accent: #3f86c4;
-  --accent-light: #e7f1fb;
-  --bg: #eef6fd;
+  --primary: #d6336c;
+  --primary-dark: #a61e4d;
+  --primary-light: #fce7f0;
+  --primary-soft: #f06595;
+  --accent: #e64980;
+  --accent-light: #fff0f6;
+  --bg: #fdf2f7;
   --surface: #ffffff;
-  --text: #1e3547;
-  --text-sub: #5f7d97;
-  --border: #d3e4f2;
+  --text: #43182b;
+  --text-sub: #96637a;
+  --border: #f3d3e1;
   --ok: #14946a;
   --ok-bg: #e7f7f0;
   --warn: #c2452f;
   --warn-bg: #fdeeea;
-  --info-bg: #e8f2fc;
-  --info: #2c6a9e;
+  --info-bg: #fcebf3;
+  --info: #b02a5c;
   --radius: 14px;
-  --shadow: 0 2px 10px rgba(30, 70, 120, 0.10);
+  --shadow: 0 2px 10px rgba(166, 30, 77, 0.10);
   --sidebar-w: 290px;
 }
 
@@ -141,12 +142,25 @@ button { font-family: inherit; cursor: pointer; }
 
 /* ---------- 홈 ---------- */
 .hero {
-  position: relative;
-  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 55%, #4a9fd8 100%);
+  position: relative; overflow: hidden;
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 55%, var(--primary-soft) 100%);
   color: #fff; border-radius: 20px;
-  padding: 38px 34px;
-  box-shadow: var(--shadow);
+  padding: clamp(24px, 4vw, 38px) clamp(20px, 4vw, 34px);
+  box-shadow: 0 10px 30px rgba(166, 30, 77, .22);
   margin-bottom: 26px;
+  animation: fadeUp .5s ease both;
+}
+.hero::after {
+  content: ""; position: absolute; top: -60%; right: -12%;
+  width: 55%; height: 220%;
+  background: linear-gradient(115deg, transparent 0%, rgba(255,255,255,.10) 45%, rgba(255,255,255,.16) 55%, transparent 100%);
+  transform: rotate(12deg);
+  pointer-events: none;
+  animation: heroSheen 7s ease-in-out infinite;
+}
+@keyframes heroSheen {
+  0%, 100% { opacity: .5; transform: rotate(12deg) translateX(0); }
+  50% { opacity: 1; transform: rotate(12deg) translateX(-6%); }
 }
 .hero .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
 .hero .badge {
@@ -161,16 +175,23 @@ button { font-family: inherit; cursor: pointer; }
   background: var(--surface); border-radius: var(--radius);
   box-shadow: var(--shadow); padding: 20px 24px; margin-bottom: 26px;
   display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+  animation: fadeUp .5s ease .08s both;
 }
 .progress-card .bar-wrap { flex: 1 1 240px; }
 .progress-card .bar-label { font-size: 13px; color: var(--text-sub); margin-bottom: 6px; display: flex; justify-content: space-between; }
 .progress-card .bar {
-  height: 12px; background: #dce9f6; border-radius: 999px; overflow: hidden;
+  height: 12px; background: #f8d9e6; border-radius: 999px; overflow: hidden;
 }
 .progress-card .bar > div {
   height: 100%; border-radius: 999px;
-  background: linear-gradient(90deg, var(--primary), #4a9fd8);
-  transition: width .4s ease;
+  background: linear-gradient(90deg, var(--primary), var(--primary-soft));
+  background-size: 200% 100%;
+  transition: width .6s cubic-bezier(.3, .8, .3, 1);
+  animation: barShimmer 2.6s linear infinite;
+}
+@keyframes barShimmer {
+  from { background-position: 0% 0; }
+  to { background-position: -200% 0; }
 }
 .progress-card .reset-btn {
   border: 1px solid var(--border); background: #fff;
@@ -193,10 +214,19 @@ button { font-family: inherit; cursor: pointer; }
   box-shadow: var(--shadow); padding: 18px;
   text-decoration: none; color: var(--text);
   border: 1.5px solid transparent;
-  transition: transform .15s ease, border-color .15s ease;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
   display: flex; flex-direction: column; gap: 8px;
+  animation: fadeUp .45s ease both;
 }
-.chapter-card:hover { transform: translateY(-3px); border-color: var(--primary); }
+.chapter-card:hover {
+  transform: translateY(-4px); border-color: var(--primary);
+  box-shadow: 0 12px 26px rgba(166, 30, 77, .16);
+}
+.chapter-grid .chapter-card:nth-child(1) { animation-delay: .05s; }
+.chapter-grid .chapter-card:nth-child(2) { animation-delay: .11s; }
+.chapter-grid .chapter-card:nth-child(3) { animation-delay: .17s; }
+.chapter-grid .chapter-card:nth-child(4) { animation-delay: .23s; }
+.chapter-grid .chapter-card:nth-child(n+5) { animation-delay: .29s; }
 .chapter-card .top { display: flex; align-items: center; gap: 10px; }
 .chapter-card .num {
   width: 34px; height: 34px; border-radius: 10px; flex: 0 0 auto;
@@ -206,7 +236,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 .chapter-card.special .num { background: var(--accent-light); color: var(--accent); }
 .chapter-card .status { margin-left: auto; font-size: 12px; font-weight: 700; color: var(--ok); }
-.chapter-card .status.todo { color: #a9c2d8; }
+.chapter-card .status.todo { color: #dcaac0; }
 .chapter-card h3 { font-size: 15px; line-height: 1.4; }
 .chapter-card .en { font-size: 11.5px; color: var(--text-sub); font-style: italic; }
 .chapter-card .meta { font-size: 12px; color: var(--text-sub); display: flex; gap: 12px; margin-top: auto; padding-top: 6px; flex-wrap: wrap; }
@@ -267,7 +297,9 @@ button { font-family: inherit; cursor: pointer; }
   padding: 9px 14px; border-radius: 9px;
   font-size: 13.5px; font-weight: 600; color: var(--text-sub);
   white-space: nowrap;
+  transition: background .18s ease, color .18s ease;
 }
+.tabs button:hover:not(.active) { background: var(--primary-light); color: var(--primary-dark); }
 .tabs button.active { background: var(--primary); color: #fff; }
 
 .panel { display: none; }
@@ -277,6 +309,7 @@ button { font-family: inherit; cursor: pointer; }
 .card {
   background: var(--surface); border-radius: var(--radius);
   box-shadow: var(--shadow); padding: 22px 24px; margin-bottom: 16px;
+  animation: fadeUp .4s ease both;
 }
 .card > h2 {
   font-size: 17px; margin-bottom: 14px;
@@ -311,7 +344,7 @@ button { font-family: inherit; cursor: pointer; }
   padding: 8px 10px; border: 1px solid var(--border); text-align: left; font-size: 12.8px;
 }
 .card table td { padding: 8px 10px; border: 1px solid var(--border); vertical-align: top; }
-.card table tr:nth-child(even) td { background: #f4f9fe; }
+.card table tr:nth-child(even) td { background: #fdf5f9; }
 @media (max-width: 600px) {
   .card table { display: block; overflow-x: auto; white-space: nowrap; }
 }
@@ -357,7 +390,7 @@ button { font-family: inherit; cursor: pointer; }
   text-align: center; box-shadow: var(--shadow);
 }
 .flashcard .front {
-  background: linear-gradient(135deg, var(--primary), #4a9fd8);
+  background: linear-gradient(135deg, var(--primary), var(--primary-soft));
   color: #fff; font-size: 17px; font-weight: 800;
 }
 .flashcard .front small { font-size: 11px; font-weight: 500; opacity: .8; margin-top: 8px; }
@@ -390,7 +423,7 @@ button { font-family: inherit; cursor: pointer; }
 .choices.ox { flex-direction: row; }
 .choice-btn {
   text-align: left; border: 1.5px solid var(--border);
-  background: #f8fbff; border-radius: 11px;
+  background: #fff7fb; border-radius: 11px;
   padding: 11px 14px; font-size: 13.8px; color: var(--text);
   transition: border-color .12s ease, background .12s ease;
 }
@@ -417,8 +450,14 @@ button { font-family: inherit; cursor: pointer; }
 .btn-primary {
   background: var(--primary); color: #fff; border: 0;
   border-radius: 11px; padding: 11px 22px; font-size: 14px; font-weight: 700;
+  transition: background .18s ease, transform .18s ease, box-shadow .18s ease;
 }
-.btn-primary:hover { background: var(--primary-dark); }
+.btn-primary:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(166, 30, 77, .28);
+}
+.btn-primary:active { transform: translateY(0); box-shadow: none; }
 .btn-ghost {
   background: #fff; color: var(--text-sub); border: 1px solid var(--border);
   border-radius: 11px; padding: 11px 22px; font-size: 14px; font-weight: 600; margin-left: 8px;
@@ -484,7 +523,7 @@ button { font-family: inherit; cursor: pointer; }
 .cert-form label { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 700; color: var(--text-sub); }
 .cert-form input, .cert-form select {
   border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 12px;
-  font-size: 14.5px; font-family: inherit; background: #f8fbff; color: var(--text);
+  font-size: 14.5px; font-family: inherit; background: #fff7fb; color: var(--text);
 }
 .cert-form input:focus, .cert-form select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
 .cert-form .full { grid-column: 1 / -1; }
@@ -498,7 +537,7 @@ button { font-family: inherit; cursor: pointer; }
 .cert-border {
   border: 3px double #c9a227; padding: 36px 30px 30px; text-align: center; position: relative;
   background:
-    radial-gradient(circle at top left, rgba(45, 106, 158, .05), transparent 42%),
+    radial-gradient(circle at top left, rgba(166, 30, 77, .05), transparent 42%),
     radial-gradient(circle at bottom right, rgba(201, 162, 39, .09), transparent 42%);
 }
 .cert-no { position: absolute; top: 13px; left: 17px; font-size: 11.5px; color: #8a6276; }
@@ -569,19 +608,27 @@ button { font-family: inherit; cursor: pointer; }
   position: fixed; inset: 0; z-index: 100;
   background:
     radial-gradient(circle at 22% 26%, rgba(255,255,255,.7), transparent 42%),
-    radial-gradient(circle at 82% 82%, rgba(120,175,220,.35), transparent 45%),
-    linear-gradient(135deg, #e8f3fc 0%, #d5e8f7 55%, #c4ddf3 100%);
+    radial-gradient(circle at 82% 82%, rgba(230, 73, 128, .28), transparent 45%),
+    linear-gradient(135deg, #fdeef5 0%, #fadbe9 55%, #f6c6dc 100%);
+  background-size: 100% 100%, 160% 160%, 100% 100%;
+  animation: loginGlow 9s ease-in-out infinite alternate;
   display: flex; align-items: center; justify-content: center; padding: 20px;
+}
+@keyframes loginGlow {
+  from { background-position: 0 0, 0% 100%, 0 0; }
+  to   { background-position: 0 0, 100% 0%, 0 0; }
 }
 .login-card {
   background: #fff; border-radius: 22px; padding: 38px 34px;
   max-width: 400px; width: 100%; text-align: center;
   box-shadow: 0 18px 50px rgba(80, 10, 40, .35);
+  animation: popIn .5s cubic-bezier(.2, .9, .3, 1.15) both;
 }
 .login-logo {
   width: 84px; height: 84px; border-radius: 50%; overflow: hidden;
   margin: 0 auto 16px; border: 3px solid var(--primary-light);
   display: flex; align-items: center; justify-content: center; background: var(--primary-light);
+  animation: badgeFloat 3.6s ease-in-out infinite;
 }
 .login-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .login-logo.fallback::after { content: "🩺"; font-size: 38px; }
@@ -615,6 +662,8 @@ button { font-family: inherit; cursor: pointer; }
 .logout-btn {
   background: rgba(255, 255, 255, .15); border: 1px solid rgba(255, 255, 255, .4);
   color: #fff; border-radius: 999px; padding: 5px 12px; font-size: 11.5px; font-weight: 600;
+  white-space: nowrap;
+  transition: background .18s ease;
 }
 .logout-btn:hover { background: rgba(255, 255, 255, .28); }
 @media (max-width: 920px) {
@@ -624,7 +673,7 @@ button { font-family: inherit; cursor: pointer; }
 
 .cert-auth {
   margin-top: 16px; font-size: 11.5px; color: #8a6276;
-  border-top: 1px dashed #cfe0ef; padding-top: 10px;
+  border-top: 1px dashed #f0cfde; padding-top: 10px;
 }
 
 /* ---------- 푸터 ---------- */
@@ -648,9 +697,48 @@ button { font-family: inherit; cursor: pointer; }
   .topbar .news-pill { padding: 6px 9px; }
 }
 
+@media (max-width: 600px) {
+  .topbar { gap: 8px; padding: 0 10px; }
+  .topbar .brand-text span { display: none; }
+  .logout-btn { padding: 5px 9px; font-size: 11px; }
+  .progress-card { padding: 16px 18px; }
+  .cert-actions { flex-direction: column; align-items: stretch; }
+  .cert-actions .btn-ghost { margin-left: 0; }
+  .ch-nav-row { flex-direction: column; }
+  .ch-nav-row .next { text-align: left; }
+  .quiz-result .score { font-size: 32px; }
+}
+
 @media (max-width: 480px) {
   .chapter-grid { grid-template-columns: 1fr; }
   .flash-grid { grid-template-columns: 1fr 1fr; }
   .card { padding: 18px 16px; }
   .tabs button { padding: 9px 10px; font-size: 12.5px; }
+  .hero h1 { font-size: 22px; }
+  .login-card { padding: 30px 22px; }
+  .main { padding: 72px 12px 44px; }
+}
+
+@media (max-width: 360px) {
+  .flash-grid { grid-template-columns: 1fr; }
+}
+
+/* ---------- 공통 애니메이션 ---------- */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes popIn {
+  from { opacity: 0; transform: translateY(18px) scale(.94); }
+  to { opacity: 1; transform: none; }
+}
+
+/* 모션 최소화 설정 존중 (접근성) */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
 }

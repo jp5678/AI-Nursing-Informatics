@@ -661,8 +661,8 @@
         <div class="bar-label" style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-sub);margin:14px 0 6px">
           <span>기준 충족 현황</span><b>${passed} / ${MAIN_CHAPTERS.length}장 (${pct}%)</b>
         </div>
-        <div class="bar" style="height:12px;background:#dce9f6;border-radius:999px;overflow:hidden">
-          <div style="height:100%;width:${pct}%;border-radius:999px;background:linear-gradient(90deg,var(--primary),#4a9fd8)"></div>
+        <div class="bar" style="height:12px;background:#f8d9e6;border-radius:999px;overflow:hidden">
+          <div style="height:100%;width:${pct}%;border-radius:999px;background:linear-gradient(90deg,var(--primary),#f06595)"></div>
         </div>
         <ul class="cert-req-list">${rows}</ul>
       </div>`;
@@ -758,7 +758,7 @@
     <svg id="badgeSvg" width="480" height="620" viewBox="0 0 480 620" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" aria-label="수료 디지털 배지">
       <defs>
         <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#143f68"/><stop offset=".55" stop-color="#1d5386"/><stop offset="1" stop-color="#4a9fd8"/>
+          <stop offset="0" stop-color="#a61e4d"/><stop offset=".55" stop-color="#d6336c"/><stop offset="1" stop-color="#f06595"/>
         </linearGradient>
         <linearGradient id="goldGrad" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stop-color="#f9d976"/><stop offset="1" stop-color="#d9a92f"/>
@@ -766,8 +766,8 @@
         <path id="arcTop" d="M 96 240 A 144 144 0 0 1 384 240"/>
         <path id="arcBottom" d="M 104 240 A 136 136 0 0 0 376 240"/>
       </defs>
-      <polygon points="178,418 246,458 198,592 152,506" fill="#143f68"/>
-      <polygon points="302,418 234,458 282,592 328,506" fill="#1d5386"/>
+      <polygon points="178,418 246,458 198,592 152,506" fill="#a61e4d"/>
+      <polygon points="302,418 234,458 282,592 328,506" fill="#d6336c"/>
       <circle cx="240" cy="240" r="170" fill="url(#bgGrad)"/>
       <circle cx="240" cy="240" r="157" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="2" stroke-dasharray="2 7"/>
       <circle cx="240" cy="240" r="141" fill="none" stroke="url(#goldGrad)" stroke-width="6"/>
@@ -782,13 +782,13 @@
       <rect x="200" y="179" width="80" height="26" rx="7" fill="url(#bgGrad)"/>
       <text x="240" y="199" font-size="17" font-weight="900" text-anchor="middle" fill="#ffffff" font-family="sans-serif">AI</text>
       <polyline points="158,262 198,262 212,240 228,284 243,248 254,262 322,262"
-        fill="none" stroke="#1d5386" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-      <text x="240" y="308" font-size="26" font-weight="900" text-anchor="middle" fill="#14406a" font-family="sans-serif">수료</text>
-      <text x="240" y="330" font-size="10" font-weight="700" text-anchor="middle" fill="#5f7d97" font-family="sans-serif" letter-spacing="3">CERTIFIED · ${year}</text>
+        fill="none" stroke="#d6336c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="240" y="308" font-size="26" font-weight="900" text-anchor="middle" fill="#a61e4d" font-family="sans-serif">수료</text>
+      <text x="240" y="330" font-size="10" font-weight="700" text-anchor="middle" fill="#96637a" font-family="sans-serif" letter-spacing="3">CERTIFIED · ${year}</text>
       <rect x="118" y="468" width="244" height="56" rx="13" fill="url(#goldGrad)" stroke="#b98a1d" stroke-width="2"/>
       <text x="240" y="494" font-size="21" font-weight="900" text-anchor="middle" fill="#5b3d0d" font-family="sans-serif">${esc(cert.name)}</text>
       <text x="240" y="513" font-size="11" font-weight="700" text-anchor="middle" fill="#7a5a1a" font-family="sans-serif">${esc(cert.dept)} · ${esc(cert.sid)}</text>
-      <text x="240" y="560" font-size="12" font-weight="700" text-anchor="middle" fill="#3f77a8" font-family="sans-serif">AI융합 간호정보학 담당교수</text>
+      <text x="240" y="560" font-size="12" font-weight="700" text-anchor="middle" fill="#c05c85" font-family="sans-serif">AI융합 간호정보학 담당교수</text>
     </svg>`;
   }
 
