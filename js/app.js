@@ -233,6 +233,9 @@
         <div class="spacer"></div>
         <div class="user-area" id="userArea"></div>
         <div class="progress-pill" id="topProgress"></div>
+        <a class="guide-pill" href="#/guide" title="자가학습 플랫폼 이용 방법 안내">
+          <span class="guide-pill-ico">📘</span><span class="guide-pill-txt">학습 가이드</span>
+        </a>
       </header>
       <nav class="sidebar" id="sidebar"></nav>
       <div class="sidebar-backdrop" id="backdrop"></div>
@@ -253,6 +256,7 @@
     $("#sidebar").innerHTML = `
       <div class="nav-group">
         ${navItem("#/", "🏠", "홈 · 학습 현황", activeRoute === "home")}
+        ${navItem("#/guide", "📘", "학습 가이드", activeRoute === "guide")}
         ${navItem("#/preface", "✉️", "머리말", activeRoute === "preface")}
       </div>
       ${groups}
@@ -369,6 +373,122 @@
       </div>
       ${footer()}
     `;
+  }
+
+  /* ---------- 학습 가이드 ---------- */
+  function renderGuide() {
+    $("#main").innerHTML = `
+      <div class="ch-header">
+        <div class="crumb"><a href="#/">홈</a> › 학습 가이드</div>
+        <h1>📘 학습 가이드</h1>
+        <div class="en">Self-Learning Platform User Guide</div>
+      </div>
+
+      <div class="card">
+        <h2>🚀 시작하기 — 4단계</h2>
+        <p>「${esc(COURSE.title)}」 자가학습 플랫폼은 아래 4단계로 이용합니다.</p>
+        <div class="guide-steps">
+          <div class="guide-step">
+            <div class="step-no">1</div>
+            <h4>Google 로그인</h4>
+            <p>첫 접속 시 로그인 화면이 표시됩니다. 학습 기록 관리와 수료증 발급 시 본인 확인을 위해 Google 계정으로 로그인합니다.</p>
+          </div>
+          <div class="guide-step">
+            <div class="step-no">2</div>
+            <h4>학습자 정보 등록</h4>
+            <p>첫 로그인 직후 자동으로 표시되는 폼에 학년·반·학번·성명·이메일을 입력합니다. 이 정보는 수료증·디지털 배지 발급에 사용됩니다.</p>
+          </div>
+          <div class="guide-step">
+            <div class="step-no">3</div>
+            <h4>장(章)별 학습</h4>
+            <p>홈 화면 또는 왼쪽 사이드바에서 장을 선택해 <b>학습 → 용어 카드 → 복습 퀴즈 → Q&amp;A</b> 순으로 학습하고, 마지막에 '학습 완료'로 표시합니다.</p>
+          </div>
+          <div class="guide-step">
+            <div class="step-no">4</div>
+            <h4>수료증 · 디지털 배지 발급</h4>
+            <p>정규 ${MAIN_CHAPTERS.length}개 장을 모두 완료하고 장별 복습 퀴즈에서 ${QUIZ_PASS}점 이상을 받으면 수료증과 디지털 배지를 발급받을 수 있습니다.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🖥️ 화면 구성</h2>
+        <table>
+          <tr><th style="width:130px">영역</th><th>설명</th></tr>
+          <tr><td><b>상단바</b></td><td>로고(홈 이동) · 📰 데일리 뉴스 · 👤 내 정보(이름 클릭 시 확인) · 로그아웃 · 학습 진도(%) · 📘 학습 가이드(현재 페이지)</td></tr>
+          <tr><td><b>사이드바</b></td><td>전체 목차입니다. 학습을 완료한 장에는 ✓ 표시가 붙습니다. 모바일에서는 왼쪽 위 ☰ 버튼으로 열고 닫습니다.</td></tr>
+          <tr><td><b>홈 · 학습 현황</b></td><td>전체 학습 진도 바, 머리말·맺음말·수료증 카드, 파트별 장 카드 목록을 한눈에 볼 수 있습니다.</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2>📖 장(章) 학습 방법</h2>
+        <p>각 장은 상단의 탭으로 구성되어 있습니다.</p>
+        <ul>
+          <li><b>📖 학습</b> — 학습목표와 본문입니다. 학습목표를 먼저 읽고 본문을 학습하세요.</li>
+          <li><b>🃏 용어 카드</b> — 핵심 용어 플래시카드입니다. 카드를 <b>클릭(터치)하면 뒤집혀</b> 뜻이 나타납니다. 용어를 보고 뜻을 먼저 떠올린 뒤 확인하는 방식을 권장합니다.</li>
+          <li><b>✍️ 복습 퀴즈</b> — O/X와 객관식 문제입니다. 선택 즉시 정답과 해설이 표시되고, 끝나면 점수가 나옵니다. <b>횟수 제한 없이 다시 풀 수 있으며 최고 점수가 자동 저장</b>됩니다. 수료증 발급에는 장별 ${QUIZ_PASS}점 이상(최고 점수 기준)이 필요합니다.</li>
+          <li><b>❓ Q&amp;A</b> — 자주 묻는 질문입니다. 질문을 클릭하면 답변이 펼쳐집니다.</li>
+        </ul>
+        <div class="callout info">✅ 학습을 마쳤으면 페이지 하단의 <b>'이 장 학습 완료로 표시'</b> 버튼을 꼭 눌러 주세요. 진도율과 수료증 발급 기준에 반영됩니다. (다시 누르면 취소됩니다)</div>
+      </div>
+
+      <div class="card">
+        <h2>📊 학습 진도 관리</h2>
+        <ul>
+          <li>상단바 오른쪽의 <b>'학습 진도 %'</b>에서 전체 진도를 항상 확인할 수 있습니다.</li>
+          <li>홈 화면의 진도 바에는 <b>완료한 장 수 / 전체 ${CHAPTERS.length}장</b>(부록 포함)이 표시됩니다.</li>
+          <li>사이드바와 홈의 장 카드에서 완료(✓)·미학습 상태를 확인할 수 있습니다.</li>
+        </ul>
+        <div class="callout warn">⚠️ 홈 화면의 <b>'진도 초기화'</b> 버튼을 누르면 학습 완료 기록과 퀴즈 최고 점수가 모두 삭제됩니다. 신중하게 사용하세요.</div>
+      </div>
+
+      <div class="card">
+        <h2>🎓 수료증 · 디지털 배지 발급</h2>
+        <h4>발급 기준</h4>
+        <ul>
+          <li>정규 ${MAIN_CHAPTERS.length}개 장(부록 제외) <b>전체 학습 완료</b></li>
+          <li>장별 복습 퀴즈 <b>${QUIZ_PASS}점 이상</b>(최고 점수 기준)</li>
+        </ul>
+        <h4>발급 절차</h4>
+        <ul class="timeline">
+          <li>사이드바 또는 홈에서 <b>'수료증 · 디지털 배지'</b> 페이지로 이동합니다. 기준 미충족 시 장별 충족 현황이 표시됩니다.</li>
+          <li>기준을 충족하면 등록된 학습자 정보를 확인하고 <b>'수료증 · 디지털 배지 발급'</b> 버튼을 누릅니다.</li>
+          <li>발급 후 <b>인쇄/PDF 저장</b>, <b>배지 PNG 다운로드</b>, <b>교수님께 발급 메일 보내기</b>를 이용할 수 있습니다.</li>
+          <li>정보를 수정해야 하면 <b>'내 정보 수정'</b> 또는 <b>'정보 수정 후 재발급'</b> 버튼을 이용합니다.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>💾 학습 기록 저장 안내</h2>
+        <p>학습 진도·퀴즈 점수·학습자 정보는 서버가 아니라 <b>지금 사용 중인 브라우저(localStorage)</b>에만 저장됩니다.</p>
+        <div class="callout warn">⚠️ 따라서 <b>같은 기기의 같은 브라우저</b>로 계속 학습해야 진도가 유지됩니다. 다른 기기·다른 브라우저·시크릿(사생활 보호) 모드에서는 진도가 이어지지 않으며, 브라우저의 '인터넷 사용 기록(사이트 데이터) 삭제' 시 학습 기록도 함께 삭제됩니다.</div>
+      </div>
+
+      <div class="card">
+        <h2>❓ 자주 묻는 질문 (FAQ)</h2>
+        <div class="qna-item"><button class="q-btn">학습 진도가 갑자기 사라졌어요.</button>
+          <div class="a-body">학습 기록은 브라우저에만 저장됩니다. 이전과 다른 기기·브라우저로 접속했는지, 브라우저 데이터(쿠키·사이트 데이터)를 삭제하지 않았는지 확인해 주세요. 안타깝지만 삭제된 기록은 복구할 수 없습니다.</div></div>
+        <div class="qna-item"><button class="q-btn">복습 퀴즈를 다시 풀 수 있나요?</button>
+          <div class="a-body">네, 횟수 제한 없이 다시 풀 수 있습니다. 최고 점수가 자동으로 저장되므로 ${QUIZ_PASS}점이 넘을 때까지 반복 학습하세요.</div></div>
+        <div class="qna-item"><button class="q-btn">학습자 정보(학번·성명 등)를 잘못 입력했어요.</button>
+          <div class="a-body">'수료증 · 디지털 배지' 페이지의 <b>'내 정보 수정'</b>(발급 전) 또는 <b>'정보 수정 후 재발급'</b>(발급 후) 버튼으로 수정할 수 있습니다. 상단바의 이름을 클릭하면 현재 등록된 정보를 확인할 수 있습니다.</div></div>
+        <div class="qna-item"><button class="q-btn">'학습 완료'를 눌렀는데 수료증이 발급되지 않아요.</button>
+          <div class="a-body">수료증은 정규 ${MAIN_CHAPTERS.length}개 장의 <b>학습 완료 + 장별 복습 퀴즈 ${QUIZ_PASS}점 이상</b>을 모두 충족해야 발급됩니다. '수료증 · 디지털 배지' 페이지에서 어떤 장이 기준에 미달하는지 확인할 수 있습니다.</div></div>
+        <div class="qna-item"><button class="q-btn">Google 로그인이 되지 않아요.</button>
+          <div class="a-body">브라우저의 팝업 차단을 해제하고, 시크릿 모드가 아닌 일반 창에서 다시 시도해 주세요. 계속 안 되면 브라우저를 최신 버전으로 업데이트하거나 다른 브라우저(Chrome 권장)를 이용해 주세요.</div></div>
+      </div>
+
+      <div class="callout info" style="text-align:center">
+        📮 그 밖의 문의: ${esc(COURSE.professor)} · ${esc(COURSE.email)}
+      </div>
+      ${footer()}
+    `;
+
+    /* FAQ 아코디언 */
+    $$(".qna-item .q-btn").forEach((btn) => {
+      btn.addEventListener("click", () => btn.parentElement.classList.toggle("open"));
+    });
   }
 
   /* ---------- 챕터 ---------- */
@@ -661,8 +781,8 @@
         <div class="bar-label" style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-sub);margin:14px 0 6px">
           <span>기준 충족 현황</span><b>${passed} / ${MAIN_CHAPTERS.length}장 (${pct}%)</b>
         </div>
-        <div class="bar" style="height:12px;background:#dce9f6;border-radius:999px;overflow:hidden">
-          <div style="height:100%;width:${pct}%;border-radius:999px;background:linear-gradient(90deg,var(--primary),#4a9fd8)"></div>
+        <div class="bar" style="height:12px;background:#f8d9e6;border-radius:999px;overflow:hidden">
+          <div style="height:100%;width:${pct}%;border-radius:999px;background:linear-gradient(90deg,var(--primary),#f06595)"></div>
         </div>
         <ul class="cert-req-list">${rows}</ul>
       </div>`;
@@ -758,7 +878,7 @@
     <svg id="badgeSvg" width="480" height="620" viewBox="0 0 480 620" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" aria-label="수료 디지털 배지">
       <defs>
         <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#143f68"/><stop offset=".55" stop-color="#1d5386"/><stop offset="1" stop-color="#4a9fd8"/>
+          <stop offset="0" stop-color="#a61e4d"/><stop offset=".55" stop-color="#d6336c"/><stop offset="1" stop-color="#f06595"/>
         </linearGradient>
         <linearGradient id="goldGrad" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stop-color="#f9d976"/><stop offset="1" stop-color="#d9a92f"/>
@@ -766,8 +886,8 @@
         <path id="arcTop" d="M 96 240 A 144 144 0 0 1 384 240"/>
         <path id="arcBottom" d="M 104 240 A 136 136 0 0 0 376 240"/>
       </defs>
-      <polygon points="178,418 246,458 198,592 152,506" fill="#143f68"/>
-      <polygon points="302,418 234,458 282,592 328,506" fill="#1d5386"/>
+      <polygon points="178,418 246,458 198,592 152,506" fill="#a61e4d"/>
+      <polygon points="302,418 234,458 282,592 328,506" fill="#d6336c"/>
       <circle cx="240" cy="240" r="170" fill="url(#bgGrad)"/>
       <circle cx="240" cy="240" r="157" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="2" stroke-dasharray="2 7"/>
       <circle cx="240" cy="240" r="141" fill="none" stroke="url(#goldGrad)" stroke-width="6"/>
@@ -782,13 +902,13 @@
       <rect x="200" y="179" width="80" height="26" rx="7" fill="url(#bgGrad)"/>
       <text x="240" y="199" font-size="17" font-weight="900" text-anchor="middle" fill="#ffffff" font-family="sans-serif">AI</text>
       <polyline points="158,262 198,262 212,240 228,284 243,248 254,262 322,262"
-        fill="none" stroke="#1d5386" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-      <text x="240" y="308" font-size="26" font-weight="900" text-anchor="middle" fill="#14406a" font-family="sans-serif">수료</text>
-      <text x="240" y="330" font-size="10" font-weight="700" text-anchor="middle" fill="#5f7d97" font-family="sans-serif" letter-spacing="3">CERTIFIED · ${year}</text>
+        fill="none" stroke="#d6336c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="240" y="308" font-size="26" font-weight="900" text-anchor="middle" fill="#a61e4d" font-family="sans-serif">수료</text>
+      <text x="240" y="330" font-size="10" font-weight="700" text-anchor="middle" fill="#96637a" font-family="sans-serif" letter-spacing="3">CERTIFIED · ${year}</text>
       <rect x="118" y="468" width="244" height="56" rx="13" fill="url(#goldGrad)" stroke="#b98a1d" stroke-width="2"/>
       <text x="240" y="494" font-size="21" font-weight="900" text-anchor="middle" fill="#5b3d0d" font-family="sans-serif">${esc(cert.name)}</text>
       <text x="240" y="513" font-size="11" font-weight="700" text-anchor="middle" fill="#7a5a1a" font-family="sans-serif">${esc(cert.dept)} · ${esc(cert.sid)}</text>
-      <text x="240" y="560" font-size="12" font-weight="700" text-anchor="middle" fill="#3f77a8" font-family="sans-serif">AI융합 간호정보학 담당교수</text>
+      <text x="240" y="560" font-size="12" font-weight="700" text-anchor="middle" fill="#c05c85" font-family="sans-serif">AI융합 간호정보학 담당교수</text>
     </svg>`;
   }
 
@@ -936,7 +1056,10 @@
     document.body.classList.remove("sidebar-open");
     window.scrollTo({ top: 0 });
 
-    if (hash === "preface") {
+    if (hash === "guide") {
+      renderSidebar("guide");
+      renderGuide();
+    } else if (hash === "preface") {
       renderSidebar("preface");
       renderProse(PREFACE, true);
     } else if (hash === "certificate") {
