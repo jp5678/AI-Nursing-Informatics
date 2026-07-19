@@ -92,20 +92,6 @@ button { font-family: inherit; cursor: pointer; }
 .topbar .news-pill-ico { font-size: 14px; line-height: 1; }
 .topbar .news-pill-txt b { font-weight: 800; margin-left: 2px; }
 
-/* 헤더 우측: 학습 가이드 pill ('학습 진도' pill 우측) */
-.topbar .guide-pill {
-  flex: 0 0 auto;
-  display: inline-flex; align-items: center; gap: 6px;
-  background: rgba(255,255,255,.18);
-  border: 1px solid rgba(255,255,255,.30);
-  border-radius: 999px; padding: 5px 14px;
-  font-size: 12.5px; font-weight: 600; white-space: nowrap;
-  color: #fff; text-decoration: none;
-  transition: background .15s ease, transform .15s ease;
-}
-.topbar .guide-pill:hover { background: rgba(255,255,255,.30); transform: translateY(-1px); }
-.topbar .guide-pill-ico { font-size: 14px; line-height: 1; }
-
 /* ---------- 사이드바 ---------- */
 .sidebar {
   position: fixed; top: 58px; bottom: 0; left: 0; z-index: 40;
@@ -732,11 +718,9 @@ button { font-family: inherit; cursor: pointer; }
   .hero { padding: 26px 22px; }
   .topbar .progress-pill { display: none; }
   .choices.ox { flex-direction: column; }
-  /* 좁은 화면: 뉴스·가이드 pill은 아이콘만 표시(헤더 혼잡 방지) */
+  /* 좁은 화면: 뉴스 pill은 아이콘만 표시(헤더 혼잡 방지) */
   .topbar .news-pill-txt { display: none; }
   .topbar .news-pill { padding: 6px 9px; }
-  .topbar .guide-pill-txt { display: none; }
-  .topbar .guide-pill { padding: 6px 9px; }
 }
 
 @media (max-width: 600px) {

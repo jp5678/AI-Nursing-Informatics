@@ -233,9 +233,6 @@
         <div class="spacer"></div>
         <div class="user-area" id="userArea"></div>
         <div class="progress-pill" id="topProgress"></div>
-        <a class="guide-pill" href="#/guide" title="자가학습 플랫폼 이용 방법 안내">
-          <span class="guide-pill-ico">📘</span><span class="guide-pill-txt">학습 가이드</span>
-        </a>
       </header>
       <nav class="sidebar" id="sidebar"></nav>
       <div class="sidebar-backdrop" id="backdrop"></div>
