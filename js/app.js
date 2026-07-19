@@ -480,7 +480,7 @@
       </div>
 
       <div class="callout info" style="text-align:center">
-        📮 그 밖의 문의: ${esc(COURSE.professor)} · <a href="mailto:${esc(COURSE.email)}">${esc(COURSE.email)}</a>
+        📮 그 밖의 문의: ${esc(COURSE.professor)} · ${esc(COURSE.email)}
       </div>
       ${footer()}
     `;
