@@ -226,6 +226,10 @@
           </span>
         </a>
         <div class="spacer"></div>
+        <a class="news-pill chatbot-pill" href="https://jp5678.github.io/AI-NI_ChatBot/" target="_blank" rel="noopener">
+          <span class="news-pill-ico">🤖</span>
+          <span class="news-pill-txt">AI-NI_ChatBot <b>→</b></span>
+        </a>
         <a class="news-pill" href="https://jp5678.github.io/Daily-AI-NI-News/" target="_blank" rel="noopener">
           <span class="news-pill-ico">📰</span>
           <span class="news-pill-txt">AI융합 간호정보학 데일리 뉴스 <b>→</b></span>
@@ -412,7 +416,7 @@
         <h2>🖥️ 화면 구성</h2>
         <table>
           <tr><th style="width:130px">영역</th><th>설명</th></tr>
-          <tr><td><b>상단바</b></td><td>로고(홈 이동) · 📰 데일리 뉴스 · 👤 내 정보(이름 클릭 시 확인) · 로그아웃 · 학습 진도(%) · 📘 학습 가이드(현재 페이지)</td></tr>
+          <tr><td><b>상단바</b></td><td>로고(홈 이동) · 🤖 AI-NI_ChatBot · 📰 데일리 뉴스 · 👤 내 정보(이름 클릭 시 확인) · 로그아웃 · 학습 진도(%) · 📘 학습 가이드(현재 페이지)</td></tr>
           <tr><td><b>사이드바</b></td><td>전체 목차입니다. 학습을 완료한 장에는 ✓ 표시가 붙습니다. 모바일에서는 왼쪽 위 ☰ 버튼으로 열고 닫습니다.</td></tr>
           <tr><td><b>홈 · 학습 현황</b></td><td>전체 학습 진도 바, 머리말·맺음말·수료증 카드, 파트별 장 카드 목록을 한눈에 볼 수 있습니다.</td></tr>
         </table>
