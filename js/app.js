@@ -226,10 +226,6 @@
           </span>
         </a>
         <div class="spacer"></div>
-        <a class="news-pill survey-pill" href="https://ai-nursinginformatics.ai.studio/" target="_blank" rel="noopener">
-          <span class="news-pill-ico">📝</span>
-          <span class="news-pill-txt">사전 역량 설문 <b>→</b></span>
-        </a>
         <a class="news-pill chatbot-pill" href="https://jp5678.github.io/AI-NI_ChatBot/" target="_blank" rel="noopener">
           <span class="news-pill-ico">🤖</span>
           <span class="news-pill-txt">AI-NI_ChatBot <b>→</b></span>
