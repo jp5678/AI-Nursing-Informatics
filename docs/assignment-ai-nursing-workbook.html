@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>과제 안내문 — 김OO 환자를 위한 AI 활용 간호 워크북</title>
+<style>
+  :root{
+    --primary:#d6336c; --primary-dark:#a61e4d; --primary-soft:#f06595;
+    --primary-light:#fce7f0; --accent-light:#fff0f6;
+    --bg:#fdf2f7; --surface:#ffffff; --text:#43182b; --text-sub:#96637a;
+    --border:#f3d3e1; --ok:#14946a; --ok-bg:#e7f7f0; --warn:#c2452f; --warn-bg:#fdeeea;
+    --info:#b02a5c; --info-bg:#fcebf3; --radius:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;
+    background:var(--bg); color:var(--text); line-height:1.65; -webkit-font-smoothing:antialiased;
+    padding:28px 16px;
+  }
+  .sheet{max-width:900px; margin:0 auto;}
+  .toolbar{max-width:900px; margin:0 auto 16px; display:flex; justify-content:flex-end; gap:8px;}
+  .toolbar button{
+    background:var(--primary); color:#fff; border:0; border-radius:10px;
+    padding:10px 18px; font-size:14px; font-weight:700; cursor:pointer;
+    box-shadow:0 3px 10px rgba(166,30,77,.25);
+  }
+  .toolbar button.ghost{background:#fff; color:var(--primary-dark); border:1px solid var(--border); box-shadow:none;}
+  .hero{
+    background:linear-gradient(135deg,var(--primary-dark) 0%,var(--primary) 55%,var(--primary-soft) 100%);
+    color:#fff; border-radius:20px; padding:34px 32px; box-shadow:0 10px 30px rgba(166,30,77,.22);
+    margin-bottom:22px; position:relative; overflow:hidden;
+  }
+  .hero::after{content:"";position:absolute;top:-60%;right:-12%;width:55%;height:220%;
+    background:linear-gradient(115deg,transparent,rgba(255,255,255,.14),transparent);transform:rotate(12deg);pointer-events:none;}
+  .hero .tag{display:inline-block;background:rgba(255,255,255,.18);border-radius:999px;padding:4px 13px;font-size:12.5px;font-weight:700;margin-bottom:14px;}
+  .hero h1{font-size:clamp(23px,3.6vw,30px);line-height:1.35;margin-bottom:8px;}
+  .hero .sub{font-size:14px;opacity:.95;}
+  .hero .meta{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px 18px;font-size:13px;opacity:.95;}
+  .hero .meta span b{font-weight:700;}
+
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    box-shadow:0 2px 10px rgba(166,30,77,.06);padding:22px 24px;margin-bottom:18px;}
+  h2{font-size:18px;color:var(--primary-dark);display:flex;align-items:center;gap:9px;margin-bottom:14px;
+    padding-bottom:10px;border-bottom:2px solid var(--primary-light);}
+  h2 .n{background:var(--primary);color:#fff;width:27px;height:27px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-size:14px;flex:0 0 auto;}
+  h3{font-size:15px;margin:14px 0 7px;color:var(--text);}
+  p{font-size:14.2px;margin:7px 0;}
+  ul,ol{margin:8px 0 8px 4px;padding-left:20px;}
+  li{font-size:14px;margin-bottom:5px;}
+  .lead{font-size:14.5px;color:var(--text-sub);}
+  .callout{border-radius:12px;padding:13px 16px;margin:12px 0;font-size:13.7px;border:1px solid transparent;}
+  .callout.info{background:var(--info-bg);border-color:#f6cddf;}
+  .callout.ok{background:var(--ok-bg);border-color:#c6ebd9;}
+  .callout.warn{background:var(--warn-bg);border-color:#f6d3ca;}
+  .callout b{display:block;margin-bottom:3px;}
+
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13.3px;}
+  th,td{border:1px solid var(--border);padding:8px 10px;vertical-align:top;text-align:left;}
+  th{background:var(--primary-light);color:var(--primary-dark);font-size:12.8px;white-space:nowrap;}
+  td small{color:var(--text-sub);}
+  tr:nth-child(even) td{background:#fdf8fb;}
+  .step{display:flex;gap:12px;padding:11px 0;border-bottom:1px dashed var(--border);}
+  .step:last-child{border-bottom:0;}
+  .step .b{flex:0 0 auto;width:30px;height:30px;border-radius:50%;background:var(--primary-light);color:var(--primary-dark);
+    font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;margin-top:2px;}
+  .step .body{flex:1;}
+  .step .body .lk{font-size:11.5px;color:var(--info);font-weight:700;}
+  .fill{border-bottom:1px solid var(--text-sub);min-width:120px;display:inline-block;}
+  .blank-line{border-bottom:1px dashed var(--border);height:26px;}
+  .grade th:first-child,.grade td:first-child{width:52%;}
+  .grade td:last-child,.grade th:last-child{text-align:center;white-space:nowrap;}
+  .foot{text-align:center;font-size:12px;color:var(--text-sub);margin:22px 0 4px;}
+  .form-field{margin:9px 0;}
+  .form-field .lb{font-size:12.5px;font-weight:700;color:var(--text-sub);display:block;margin-bottom:3px;}
+  .box{border:1px solid var(--border);border-radius:10px;min-height:64px;background:#fffdfe;}
+  .pagebreak{page-break-before:always;}
+  @media print{
+    body{background:#fff;padding:0;font-size:12px;}
+    .toolbar{display:none;}
+    .card,.hero{box-shadow:none;}
+    .hero{border-radius:0;}
+    @page{size:A4;margin:14mm;}
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button onclick="window.print()">🖨️ 인쇄 / PDF 저장</button>
+</div>
+
+<div class="sheet">
+
+  <div class="hero">
+    <span class="tag">AI융합 간호정보학 · 1~5장 통합 과제</span>
+    <h1>🩺 김OO 환자를 위한 AI 활용 간호 워크북</h1>
+    <div class="sub">생성형 AI를 직접 사용하되, 모든 출력을 <b>TRACE 프레임워크</b>로 검증하는 통합 실습 과제</div>
+    <div class="meta">
+      <span>👥 <b>개인 또는 2인 1조</b></span>
+      <span>⏱️ 권장 소요 <b>3~4시간</b></span>
+      <span>📄 제출 <b>PDF 또는 인쇄본</b></span>
+      <span>💯 배점 <b>20점</b></span>
+    </div>
+  </div>
+
+  <!-- 개요 -->
+  <div class="card">
+    <h2><span class="n">◎</span> 과제 개요</h2>
+    <p class="lead">1~5장에서 배운 <b>AI 패러다임(1장) · 3대 리터러시와 TRACE·프롬프트(2장) · 병원 디지털 인프라(3장) · 표준 간호용어(4장) · 생성형 AI 활용과 검증(5장)</b>을 하나의 환자 사례로 통합합니다. 여러분은 AI를 '소비'하는 데 그치지 않고, AI 출력을 <b>비판적으로 검증하는 간호사</b>가 되는 경험을 하게 됩니다.</p>
+    <div class="callout info">
+      <b>📌 연속 사례 — 김OO 환자</b>
+      72세 남성. 복강경 담낭절제술 후 <b>패혈증</b> 반응으로 일반 병동에서 집중 관찰 중. 당뇨 병력 10년, 곧 퇴원 예정. <span style="color:var(--text-sub)">(교재 3~5장 연속 사례를 그대로 사용합니다. 실제 환자가 아닌 가상 사례입니다.)</span>
+    </div>
+    <h3>🎯 학습 목표</h3>
+    <ul>
+      <li>임상 문제를 <b>DIKW·4P 의학</b> 관점에서 정의할 수 있다. (1장)</li>
+      <li><b>좋은 프롬프트 5원칙</b>을 적용해 AI에게 효과적으로 지시할 수 있다. (2장)</li>
+      <li>AI가 제안한 간호진단을 <b>NANDA-I·NIC·NOC</b> 표준용어로 연결할 수 있다. (3·4장)</li>
+      <li>생성형 AI 출력물을 <b>TRACE 5단계</b>로 검증하고 환자 교육자료를 완성할 수 있다. (5장)</li>
+    </ul>
+  </div>
+
+  <!-- 수행 단계 -->
+  <div class="card">
+    <h2><span class="n">1</span> 수행 단계 (4단계)</h2>
+
+    <div class="step"><div class="b">①</div><div class="body">
+      <h3 style="margin-top:0">문제 정의 — DIKW와 4P <span class="lk">· 1장</span></h3>
+      <p>김OO 환자의 상태를 <b>자료(Data) → 정보(Information) → 지식(Knowledge) → 지혜(Wisdom)</b> 4단계로 분해하고, "이 환자에게 AI가 기여할 수 있는 지점"을 <b>4P 의학</b>(예측·예방·맞춤·참여) 중 하나 이상과 연결해 3~5문장으로 서술합니다.</p>
+    </div></div>
+
+    <div class="step"><div class="b">②</div><div class="body">
+      <h3 style="margin-top:0">프롬프트 설계 — 나쁜 예 vs 좋은 예 <span class="lk">· 2장</span></h3>
+      <p>동일 주제로 <b>나쁜 프롬프트</b> 1개와 <b>좋은 프롬프트</b> 1개(역할·맥락·형식·제약 4요소 포함)를 각각 작성해 AI에 입력하고, 두 결과의 품질 차이를 비교합니다.</p>
+      <div class="callout ok" style="margin:8px 0 0">
+        <b>좋은 프롬프트 5원칙</b>① 역할 부여 · ② 맥락(환자 특성) · ③ 구체적 기능/요구 · ④ 기술·범위 제약 · ⑤ 출력 형식 지정
+      </div>
+    </div></div>
+
+    <div class="step"><div class="b">③</div><div class="body">
+      <h3 style="margin-top:0">표준 간호기록 — NNN 연결 <span class="lk">· 3·4장</span></h3>
+      <p>AI가 제안한 간호진단 중 <b>최우선 1개</b>를 골라 <b>NANDA-I(진단) → NIC(중재) → NOC(성과)</b>로 연결하고, 활력징후를 표준(예: FHIR Observation + LOINC 개념)으로 기록해야 하는 이유를 <b>GIGO 원칙</b>과 함께 2~3문장으로 설명합니다.</p>
+    </div></div>
+
+    <div class="step"><div class="b">④</div><div class="body">
+      <h3 style="margin-top:0">환자 교육자료 생성 + TRACE 검증 <span class="lk">· 5장</span></h3>
+      <p>김OO 환자의 <b>퇴원 교육자료</b>(예: 수술 후 감염·발열 관리, 또는 당뇨 자가관리) 초안을 AI로 생성한 뒤, <b>TRACE 5항목</b>으로 검증·수정하여 <b>A4 1장</b> 최종본을 완성합니다.</p>
+    </div></div>
+  </div>
+
+  <!-- 제출물 -->
+  <div class="card">
+    <h2><span class="n">2</span> 제출물 (4가지)</h2>
+    <table>
+      <tr><th style="width:34px">#</th><th>항목</th><th>형식</th></tr>
+      <tr><td>1</td><td>입력한 <b>프롬프트 전문</b> + AI 출력 원본 (나쁜 예·좋은 예 각 1)</td><td>캡처 또는 붙여넣기</td></tr>
+      <tr><td>2</td><td><b>TRACE 검증표</b> (아래 템플릿 사용)</td><td>표 작성</td></tr>
+      <tr><td>3</td><td><b>최종 환자 교육자료</b></td><td>A4 1장</td></tr>
+      <tr><td>4</td><td><b>성찰문</b> — "AI를 그대로 믿었다면 생겼을 위험 1가지 + Human-in-the-Loop이 필요한 이유"</td><td>5~7줄</td></tr>
+    </table>
+    <div class="callout warn">
+      <b>⚠️ 개인정보·윤리 필수 규칙 (개인정보보호법 제23조)</b>
+      실제 환자의 이름·주민번호·병록번호 등 <b>식별정보를 AI에 절대 입력하지 마세요.</b> 반드시 가상 사례(김OO)와 일반화된 정보만 사용합니다. 위반 시 감점됩니다.
+    </div>
+  </div>
+
+  <!-- 채점 -->
+  <div class="card">
+    <h2><span class="n">3</span> 채점 기준 (20점)</h2>
+    <table class="grade">
+      <tr><th>평가 항목</th><th>배점</th></tr>
+      <tr><td><b>프롬프트 품질</b> — 역할·맥락·형식·제약 4요소 포함, 나쁜 예와의 대비 명확</td><td>4</td></tr>
+      <tr><td><b>TRACE 검증의 충실성</b> — 실제 오류·환각·누락을 찾아 수정했는가 (핵심)</td><td>6</td></tr>
+      <tr><td><b>NNN·표준용어 연결의 정확성</b> — 진단-중재-성과 연결과 근거</td><td>4</td></tr>
+      <tr><td><b>최종 교육자료</b> — 임상적 정확성 · 대상자 눈높이 가독성 · 완전성(금기·응급 대처 포함)</td><td>4</td></tr>
+      <tr><td><b>성찰의 깊이</b> — 윤리·책임(Human-in-the-Loop) 인식</td><td>2</td></tr>
+      <tr><td style="text-align:right;font-weight:800">합계</td><td style="font-weight:800">20</td></tr>
+    </table>
+  </div>
+
+  <!-- ===== 페이지 2: 제출 양식 ===== -->
+  <div class="pagebreak"></div>
+
+  <div class="card">
+    <h2><span class="n">✎</span> 제출 양식 — 표지</h2>
+    <table>
+      <tr><th style="width:120px">학과 / 학년·반</th><td>간호학과 &nbsp; <span class="fill">&nbsp;</span> 학년 &nbsp; <span class="fill">&nbsp;</span> 반</td></tr>
+      <tr><th>학번 / 성명</th><td><span class="fill">&nbsp;</span> &nbsp;&nbsp; / &nbsp;&nbsp; <span class="fill">&nbsp;</span> &nbsp; <small>(2인 1조는 두 명 모두 기재)</small></td></tr>
+      <tr><th>사용한 AI 도구</th><td>☐ ChatGPT &nbsp; ☐ Gemini &nbsp; ☐ Claude &nbsp; ☐ 기타 <span class="fill">&nbsp;</span></td></tr>
+      <tr><th>제출일</th><td><span class="fill">&nbsp;</span> 년 <span class="fill">&nbsp;</span> 월 <span class="fill">&nbsp;</span> 일</td></tr>
+    </table>
+
+    <h3>① 문제 정의 (DIKW · 4P)</h3>
+    <div class="box"></div>
+
+    <h3>② 프롬프트 비교</h3>
+    <div class="form-field"><span class="lb">❌ 나쁜 프롬프트</span><div class="box" style="min-height:42px"></div></div>
+    <div class="form-field"><span class="lb">✅ 좋은 프롬프트 (역할·맥락·형식·제약 포함)</span><div class="box"></div></div>
+    <div class="form-field"><span class="lb">두 결과의 차이 요약 (3~5줄)</span><div class="box"></div></div>
+
+    <h3>③ 표준 간호기록 (NNN 연결)</h3>
+    <table>
+      <tr><th style="width:33%">NANDA-I (간호진단 · 코드)</th><th style="width:33%">NIC (간호중재)</th><th>NOC (간호성과 · 척도)</th></tr>
+      <tr><td style="height:52px"></td><td></td><td></td></tr>
+    </table>
+    <div class="form-field"><span class="lb">표준용어·GIGO가 중요한 이유 (2~3줄)</span><div class="box" style="min-height:46px"></div></div>
+  </div>
+
+  <!-- TRACE 검증표 -->
+  <div class="card">
+    <h2><span class="n">✓</span> ④ TRACE 검증표</h2>
+    <p class="lead">AI가 생성한 교육자료 초안을 아래 5항목으로 점검하세요. 각 항목에 <b>확인한 내용 / 발견한 오류·누락 / 수정 사항</b>을 적습니다.</p>
+    <table>
+      <tr>
+        <th style="width:30px">단계</th><th style="width:150px">핵심 질문</th>
+        <th>확인 내용 · 발견한 오류 · 수정 사항</th>
+      </tr>
+      <tr><td><b>T</b><br><small>신뢰성</small></td><td>출처·근거가 실재하는가? 인용한 가이드라인·수치가 진짜인가?</td><td style="height:56px"></td></tr>
+      <tr><td><b>R</b><br><small>최신성</small></td><td>최신 기준인가? 학습 데이터 시점 이후 바뀐 내용은 없는가?</td><td style="height:56px"></td></tr>
+      <tr><td><b>A</b><br><small>정확성</small></td><td>핵심 수치·사실이 공식 자료(처방집·가이드라인)와 일치하는가?</td><td style="height:56px"></td></tr>
+      <tr><td><b>C</b><br><small>완전성</small></td><td>금기·부작용·응급 상황(발열·저혈당 등) 대처가 빠지지 않았는가?</td><td style="height:56px"></td></tr>
+      <tr><td><b>E</b><br><small>윤리성</small></td><td>개인정보 침해·편향이 없는가? 환자 눈높이·자율성을 존중하는가?</td><td style="height:56px"></td></tr>
+    </table>
+    <div class="callout ok"><b>TRACE 종합 판정</b> ☐ 그대로 사용 가능 &nbsp;&nbsp; ☐ 수정 후 사용 &nbsp;&nbsp; ☐ 사용 부적합(사유: <span class="fill" style="min-width:220px">&nbsp;</span>)</div>
+  </div>
+
+  <!-- 최종 자료 + 성찰 -->
+  <div class="card">
+    <h2><span class="n">★</span> 최종 교육자료 & 성찰</h2>
+    <h3>최종 환자 교육자료 (검증·수정 완료본, A4 1장 · 별지 첨부 가능)</h3>
+    <div class="box" style="min-height:150px"></div>
+    <h3>성찰문 (5~7줄)</h3>
+    <p class="lead" style="margin-top:0">AI를 그대로 믿었다면 생겼을 위험 1가지와, 최종 판단에 <b>인간 간호사(Human-in-the-Loop)</b>가 필요한 이유를 쓰세요.</p>
+    <div class="box" style="min-height:110px"></div>
+  </div>
+
+  <div class="foot">
+    AI융합 간호정보학 · 청암대학교 간호학과 · 정종필 교수 · imjp5678@scjc.ac.kr<br>
+    ※ 이 과제는 학습 목적의 가상 사례를 사용하며, 실제 환자 정보 입력을 금지합니다.
+  </div>
+
+</div>
+</body>
+</html>
