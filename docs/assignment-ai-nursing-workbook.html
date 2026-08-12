@@ -229,8 +229,8 @@
   <!-- 최종 자료 + 성찰 -->
   <div class="card">
     <h2><span class="n">★</span> 최종 교육자료 & 성찰</h2>
-    <h3>최종 환자 교육자료 (검증·수정 완료본, A4 1장 · 별지 첨부 가능)</h3>
-    <div class="box" style="min-height:150px"></div>
+    <h3>최종 환자 교육자료 (검증·수정 완료본, A4 1장 분량)</h3>
+    <div class="box" style="min-height:920px"></div>
     <h3>성찰문 (5~7줄)</h3>
     <p class="lead" style="margin-top:0">AI를 그대로 믿었다면 생겼을 위험 1가지와, 최종 판단에 <b>인간 간호사(Human-in-the-Loop)</b>가 필요한 이유를 쓰세요.</p>
     <div class="box" style="min-height:110px"></div>
@@ -243,9 +243,17 @@
 
 </div>
 
-<!-- HTML → Word 변환 라이브러리 (온라인 시 로드; 실패하면 .doc로 폴백) -->
+<!-- HTML → Word 변환 라이브러리 (완성 .docx가 없을 때만 폴백으로 사용) -->
 <script src="https://cdn.jsdelivr.net/npm/html-docx-js@0.3.1/dist/html-docx.js"></script>
 <script>
+  var DOCX_NAME = "과제안내문_AI활용간호워크북";
+  function triggerDownload(blob, filename){
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); }, 800);
+  }
   function currentStyles(){
     return Array.from(document.querySelectorAll('style')).map(function(s){return s.innerHTML;}).join('\n');
   }
@@ -256,27 +264,31 @@
            ' body{padding:0;} .toolbar{display:none;} .pagebreak{page-break-before:always;}</style>' +
            '</head><body>' + content + '</body></html>';
   }
-  function triggerDownload(blob, filename){
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement('a');
-    a.href = url; a.download = filename;
-    document.body.appendChild(a); a.click();
-    setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); }, 800);
-  }
-  function saveDocx(){
-    var name = '과제안내문_AI활용간호워크북';
+  // 폴백: 이 페이지를 Word 문서로 변환 (완성 .docx를 못 받았을 때만)
+  function convertFallback(){
     var html = buildDocHtml();
     try{
       if (window.htmlDocx && typeof htmlDocx.asBlob === 'function'){
-        triggerDownload(htmlDocx.asBlob(html), name + '.docx');
-        return;
+        triggerDownload(htmlDocx.asBlob(html), DOCX_NAME + '.docx'); return;
       }
-    }catch(e){ /* 아래 폴백으로 진행 */ }
+    }catch(e){}
     var mso = '<html xmlns:o="urn:schemas-microsoft-com:office:office" ' +
               'xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">' +
               html.replace(/^<!doctype html>/i,'').replace(/^<html[^>]*>/i,'');
-    triggerDownload(new Blob(['﻿'+mso], {type:'application/msword'}), name + '.doc');
-    alert('DOCX 변환 라이브러리를 불러오지 못해 Word 호환 문서(.doc)로 저장했습니다.\n인터넷 연결 후 다시 시도하면 .docx로 저장됩니다. (.doc도 Word·구글 문서에서 그대로 편집 가능합니다.)');
+    triggerDownload(new Blob(['﻿'+mso], {type:'application/msword'}), DOCX_NAME + '.doc');
+    alert('완성 Word 문서를 불러오지 못해, 이 페이지를 변환한 Word 파일로 저장했습니다.\n(이 HTML 파일과 같은 폴더에 "' + DOCX_NAME + '.docx"가 있으면 완성본이 저장됩니다.)');
+  }
+  // 편집 가능한 '완성 .docx'를 같은 폴더에서 받아 저장 (없으면 변환 폴백)
+  function saveDocx(){
+    var url = encodeURIComponent(DOCX_NAME) + '.docx';
+    fetch(url).then(function(res){
+      if(!res.ok) throw new Error('not found');
+      return res.blob();
+    }).then(function(blob){
+      triggerDownload(blob, DOCX_NAME + '.docx');
+    }).catch(function(){
+      convertFallback();
+    });
   }
 </script>
 </body>
