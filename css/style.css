@@ -536,10 +536,9 @@ button { font-family: inherit; cursor: pointer; }
 .cert-sheet { background: #fffdf6; border-radius: 8px; box-shadow: var(--shadow); padding: 13px; }
 .cert-border {
   border: 3px double #c9a227; padding: 36px 30px 30px; text-align: center; position: relative;
-  /* 반투명(rgba·transparent) 그라데이션은 일부 PDF 뷰어·프린터 드라이버에서
-     알파값이 무시되어 '진한 원 + 검은 배경'으로 깨지므로 불투명 색상만 사용 */
-  background-color: #fffdf6;
-  background-image: linear-gradient(135deg, #fbf1f3 0%, #fffdf6 32%, #fffdf6 68%, #fcf5e1 100%);
+  /* 그라데이션 배경은 일부 PDF 뷰어·프린터 드라이버에서 알파값이 무시되어
+     '진한 원 + 검은 배경'으로 깨지므로 단색 배경만 사용 */
+  background: #fffdf6;
 }
 .cert-no { position: absolute; top: 13px; left: 17px; font-size: 11.5px; color: #8a6276; }
 .cert-logo {
