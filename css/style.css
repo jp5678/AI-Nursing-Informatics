@@ -536,9 +536,10 @@ button { font-family: inherit; cursor: pointer; }
 .cert-sheet { background: #fffdf6; border-radius: 8px; box-shadow: var(--shadow); padding: 13px; }
 .cert-border {
   border: 3px double #c9a227; padding: 36px 30px 30px; text-align: center; position: relative;
-  background:
-    radial-gradient(circle at top left, rgba(166, 30, 77, .05), transparent 42%),
-    radial-gradient(circle at bottom right, rgba(201, 162, 39, .09), transparent 42%);
+  /* 반투명(rgba·transparent) 그라데이션은 일부 PDF 뷰어·프린터 드라이버에서
+     알파값이 무시되어 '진한 원 + 검은 배경'으로 깨지므로 불투명 색상만 사용 */
+  background-color: #fffdf6;
+  background-image: linear-gradient(135deg, #fbf1f3 0%, #fffdf6 32%, #fffdf6 68%, #fcf5e1 100%);
 }
 .cert-no { position: absolute; top: 13px; left: 17px; font-size: 11.5px; color: #8a6276; }
 .cert-logo {
@@ -599,7 +600,9 @@ button { font-family: inherit; cursor: pointer; }
   .cert-sheet {
     position: fixed; left: 0; top: 0; width: 100%;
     margin: 0; box-shadow: none; border-radius: 0; background: #fffdf6;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
   }
+  .seal-img { mix-blend-mode: normal; }
   @page { size: A4 landscape; margin: 10mm; }
 }
 
